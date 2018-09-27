@@ -1,0 +1,34 @@
+﻿PAPR Social Contract
+
+
+
+
+Each group should discuss and provide an answer for the following questions
+
+
+* What does this group do when two or more members disagree (ex. on a technical approach, a technology choice, etc)?
+   * We will have a group discussion and have a review on it from a fellow or an instructor
+
+
+* What does this group do when a member is frustrated?
+   * If someone isn’t pulling their weight, we will have a group discussion and notify the fellow to resolve the issue. If it is due to differences in an approach, we will draw it out to demonstrate the pros and cons of that technical approach.
+
+
+* What does this group do when we merge our work together?
+   * We will review the work before merging in order to avoid conflicts. Someone must review it at all times. 
+
+
+* When does this group ask for help?
+   * We will ask for help after 30 minutes. We will ask other members in our group to take a look at the problem first before approaching an instructor or fellow for help.
+
+
+* How do we pair? What do we do when two group members pair with each other?
+   * We pair based on how the tasks were split up for that day. We will switch partners once we approach a new task
+
+
+* How does this group approach work "after hours" (i.e. after normal class hours and weekends)?
+   * Any task that an individual volunteered or is assigned can be done after hours. If an individual wants to work on a task that may coincide with someone else, we will notify the rest of the team in the slack channel. Any major portions will be done together on a Saturday at Full Stack. 
+
+
+* What time does this group have daily stand up?
+   * We will have a daily stand up every morning before we start coding and once in the afternoon to keep tabs on the progress of each other.
