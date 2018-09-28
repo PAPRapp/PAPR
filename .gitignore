@@ -1,3 +1,7 @@
 node_modules
+public/bundle.js
+public/bundle.js.map
 secrets.js
-package-lock.json
+.DS_Store
+npm-debug.log
+yarn-error.log
