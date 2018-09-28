@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getHistory} from '../store/chart'
 
-class Test extends Component {
+class Room extends Component {
   constructor() {
     super()
     this.state = {
@@ -55,6 +55,7 @@ class Test extends Component {
   render() {
     return (
       <div>
+        {/* <Cart props={this.props.history}/> */}
         <select onChange={this.handleChange} value={this.state.ticker}>
           <option value="ibm">IBM</option>
           <option value="aapl">Apple</option>
@@ -79,4 +80,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Test)
+export default connect(mapState, mapDispatch)(Room)
