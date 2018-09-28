@@ -17,6 +17,7 @@ class Room extends Component {
   async setIntervalFunc() {
     let company = this.state.ticker
     let history = this.props.getHistory
+    history(company)
     let callBack = function(ticker, func) {
       func(ticker)
     }
