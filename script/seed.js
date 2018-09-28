@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Room, Portfolio, Transaction} = require('../server/db/models')
+const {User, Room, Portfolio} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -12,7 +12,7 @@ async function seed() {
     User.create({name: 'Matt', email: 'matt@email.com', password: '123'}),
     User.create({name: 'Joe', email: 'joe@email.com', password: '123'}),
     User.create({name: 'Aaron', email: 'aaron@email.com', password: '123'}),
-    Room.create({name: 'Test', tickerQuery:['ibm','aapl','tsla','wmt'], exp: })
+    Room.create({name: 'Test', tickerQuery:['ibm','aapl','tsla','wmt'], exp: new Date(2018, 10, 3, 10), users:[1,2,3,4]}),
   ])
 
   console.log(`seeded ${dbSeed.length}, Lines in db`)

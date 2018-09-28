@@ -118,6 +118,230 @@ exports.default = _default;
 
 /***/ }),
 
+/***/ "./client/components/Room.js":
+/*!***********************************!*\
+  !*** ./client/components/Room.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _chart = __webpack_require__(/*! ../store/chart */ "./client/store/chart.js");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var Room =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Room, _Component);
+
+  function Room() {
+    var _this;
+
+    _classCallCheck(this, Room);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Room).call(this));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function () {
+      console.log(_this.props.history);
+    });
+
+    _this.state = {
+      ticker: '',
+      intervalId: null
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.show = _this.show.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.setIntervalFunc = _this.setIntervalFunc.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
+  }
+
+  _createClass(Room, [{
+    key: "setIntervalFunc",
+    value: function () {
+      var _setIntervalFunc = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee() {
+        var company, history, callBack, intervalId;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                company = this.state.ticker;
+                history = this.props.getHistory;
+
+                callBack = function callBack(ticker, func) {
+                  func(ticker);
+                };
+
+                intervalId = setInterval(function () {
+                  callBack(company, history);
+                }, 5000);
+                _context.next = 6;
+                return this.setState({
+                  intervalId: intervalId
+                });
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      return function setIntervalFunc() {
+        return _setIntervalFunc.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "handleChange",
+    value: function () {
+      var _handleChange = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee2(event) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.setState({
+                  ticker: event.target.value
+                });
+
+              case 2:
+                clearInterval(this.state.intervalId);
+                this.setIntervalFunc();
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function handleChange(_x) {
+        return _handleChange.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "componentDidMount",
+    value: function () {
+      var _componentDidMount = _asyncToGenerator(
+      /*#__PURE__*/
+      regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (this.state.intervalId) {
+                  _context3.next = 3;
+                  break;
+                }
+
+                _context3.next = 3;
+                return this.setState({
+                  ticker: this.props.companies[0]
+                });
+
+              case 3:
+                this.setIntervalFunc();
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      return function componentDidMount() {
+        return _componentDidMount.apply(this, arguments);
+      };
+    }()
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.state.intervalId);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react.default.createElement("div", null, _react.default.createElement("select", {
+        onChange: this.handleChange,
+        value: this.state.ticker
+      }, _react.default.createElement("option", {
+        value: "ibm"
+      }, "IBM"), _react.default.createElement("option", {
+        value: "aapl"
+      }, "Apple"), _react.default.createElement("option", {
+        value: "tsla"
+      }, "Tesla")), _react.default.createElement("button", {
+        onClick: this.show
+      }, "Clickme"));
+    }
+  }]);
+
+  return Room;
+}(_react.Component);
+
+var mapState = function mapState(state) {
+  return {
+    history: state.chart.history,
+    companies: state.chart.companies
+  };
+};
+
+var mapDispatch = function mapDispatch(dispatch) {
+  return {
+    getHistory: function getHistory(ticker) {
+      return dispatch((0, _chart.getHistory)(ticker));
+    }
+  };
+};
+
+var _default = (0, _reactRedux.connect)(mapState, mapDispatch)(Room);
+
+exports.default = _default;
+
+/***/ }),
+
 /***/ "./client/components/auth-form.js":
 /*!****************************************!*\
   !*** ./client/components/auth-form.js ***!
@@ -307,13 +531,15 @@ var Navbar = function Navbar(_ref) {
   }, "Home"), _react.default.createElement("a", {
     href: "#",
     onClick: handleClick
-  }, "Logout")) : _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
+  }, "Logout"), _react.default.createElement(_reactRouterDom.Link, {
+    to: "/Room"
+  }, "Room")) : _react.default.createElement("div", null, _react.default.createElement(_reactRouterDom.Link, {
     to: "/login"
   }, "Login"), _react.default.createElement(_reactRouterDom.Link, {
     to: "/signup"
   }, "Sign Up"), _react.default.createElement(_reactRouterDom.Link, {
-    to: "/test"
-  }, "TEST"))), _react.default.createElement("hr", null));
+    to: "/Room"
+  }, "Room"))), _react.default.createElement("hr", null));
 };
 /**
  * CONTAINER
@@ -345,230 +571,6 @@ Navbar.propTypes = {
   handleClick: _propTypes.default.func.isRequired,
   isLoggedIn: _propTypes.default.bool.isRequired
 };
-
-/***/ }),
-
-/***/ "./client/components/test.js":
-/*!***********************************!*\
-  !*** ./client/components/test.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-
-var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-
-var _chart = __webpack_require__(/*! ../store/chart */ "./client/store/chart.js");
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var Test =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Test, _Component);
-
-  function Test() {
-    var _this;
-
-    _classCallCheck(this, Test);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
-
-    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function () {
-      console.log(_this.props.history);
-    });
-
-    _this.state = {
-      ticker: '',
-      intervalId: null
-    };
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.show = _this.show.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.setIntervalFunc = _this.setIntervalFunc.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    return _this;
-  }
-
-  _createClass(Test, [{
-    key: "setIntervalFunc",
-    value: function () {
-      var _setIntervalFunc = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee() {
-        var company, history, callBack, intervalId;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                company = this.state.ticker;
-                history = this.props.getHistory;
-
-                callBack = function callBack(ticker, func) {
-                  func(ticker);
-                };
-
-                intervalId = setInterval(function () {
-                  callBack(company, history);
-                }, 5000);
-                _context.next = 6;
-                return this.setState({
-                  intervalId: intervalId
-                });
-
-              case 6:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      return function setIntervalFunc() {
-        return _setIntervalFunc.apply(this, arguments);
-      };
-    }()
-  }, {
-    key: "handleChange",
-    value: function () {
-      var _handleChange = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2(event) {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return this.setState({
-                  ticker: event.target.value
-                });
-
-              case 2:
-                clearInterval(this.state.intervalId);
-                this.setIntervalFunc();
-
-              case 4:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      return function handleChange(_x) {
-        return _handleChange.apply(this, arguments);
-      };
-    }()
-  }, {
-    key: "componentDidMount",
-    value: function () {
-      var _componentDidMount = _asyncToGenerator(
-      /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (this.state.intervalId) {
-                  _context3.next = 3;
-                  break;
-                }
-
-                _context3.next = 3;
-                return this.setState({
-                  ticker: this.props.companies[0]
-                });
-
-              case 3:
-                this.setIntervalFunc();
-
-              case 4:
-              case "end":
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      }));
-
-      return function componentDidMount() {
-        return _componentDidMount.apply(this, arguments);
-      };
-    }()
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      clearInterval(this.state.intervalId);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return _react.default.createElement("div", null, _react.default.createElement("select", {
-        onChange: this.handleChange,
-        value: this.state.ticker
-      }, _react.default.createElement("option", {
-        value: "ibm"
-      }, "IBM"), _react.default.createElement("option", {
-        value: "aapl"
-      }, "Apple"), _react.default.createElement("option", {
-        value: "tsla"
-      }, "Tesla")), _react.default.createElement("button", {
-        onClick: this.show
-      }, "Clickme"));
-    }
-  }]);
-
-  return Test;
-}(_react.Component);
-
-var mapState = function mapState(state) {
-  return {
-    history: state.chart.history,
-    companies: state.chart.companies
-  };
-};
-
-var mapDispatch = function mapDispatch(dispatch) {
-  return {
-    getHistory: function getHistory(ticker) {
-      return dispatch((0, _chart.getHistory)(ticker));
-    }
-  };
-};
-
-var _default = (0, _reactRedux.connect)(mapState, mapDispatch)(Test);
-
-exports.default = _default;
 
 /***/ }),
 
@@ -717,7 +719,7 @@ var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ ".
 
 var _components = __webpack_require__(/*! ./components */ "./client/components/index.js");
 
-var _test = _interopRequireDefault(__webpack_require__(/*! ./components/test */ "./client/components/test.js"));
+var _Room = _interopRequireDefault(__webpack_require__(/*! ./components/Room */ "./client/components/Room.js"));
 
 var _store = __webpack_require__(/*! ./store */ "./client/store/index.js");
 
@@ -773,11 +775,14 @@ function (_Component) {
         path: "/signup",
         component: _components.Signup
       }), _react.default.createElement(_reactRouterDom.Route, {
-        path: "/test",
-        component: _test.default
+        path: "/Room",
+        component: _Room.default
       }), isLoggedIn && _react.default.createElement(_reactRouterDom.Switch, null, _react.default.createElement(_reactRouterDom.Route, {
         path: "/home",
         component: _components.UserHome
+      }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/Room",
+        component: _Room.default
       })), _react.default.createElement(_reactRouterDom.Route, {
         component: _components.Login
       }));
