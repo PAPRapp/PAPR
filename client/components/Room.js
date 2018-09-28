@@ -1,8 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getHistory} from '../store/chart'
+import Graph from './graph'
+import Chart from './static'
 
 class Room extends Component {
+
   constructor() {
     super()
     this.state = {
@@ -18,12 +21,14 @@ class Room extends Component {
     let company = this.state.ticker
     let history = this.props.getHistory
     history(company)
+
     let callBack = function(ticker, func) {
       func(ticker)
     }
     let intervalId = setInterval(function() {
       callBack(company, history)
-    }, 5000)
+    }, 60000)
+    
     await this.setState({
       intervalId: intervalId
     })
@@ -54,15 +59,21 @@ class Room extends Component {
   }
 
   render() {
+    const { history } = this.props
+    return history.data ? (
+      <div>
     return (
       <div>
-        {/* <Cart props={this.props.history}/> */}
         <select onChange={this.handleChange} value={this.state.ticker}>
           <option value="ibm">IBM</option>
           <option value="aapl">Apple</option>
           <option value="tsla">Tesla</option>
         </select>
         <button onClick={this.show}>Clickme</button>
+        <Chart val={history}/>
+      </div>
+    ) : <div>loading</div>
+
       </div>
     )
   }
@@ -80,5 +91,6 @@ const mapDispatch = dispatch => {
     getHistory: ticker => dispatch(getHistory(ticker))
   }
 }
+
 
 export default connect(mapState, mapDispatch)(Room)
