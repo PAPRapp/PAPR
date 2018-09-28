@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getHistory} from '../store/chart'
+import Graph from './graph'
+import Chart from './static'
 
 class Test extends Component {
   constructor() {
@@ -17,12 +19,13 @@ class Test extends Component {
   async setIntervalFunc() {
     let company = this.state.ticker
     let history = this.props.getHistory
+    this.props.getHistory(company)
     let callBack = function(ticker, func) {
       func(ticker)
     }
     let intervalId = setInterval(function() {
       callBack(company, history)
-    }, 5000)
+    }, 60000)
     await this.setState({
       intervalId: intervalId
     })
@@ -36,7 +39,7 @@ class Test extends Component {
     this.setIntervalFunc()
   }
   show = () => {
-    console.log(this.props.history)
+    console.log(this.props.history.data)
   }
 
   async componentDidMount() {
@@ -53,7 +56,8 @@ class Test extends Component {
   }
 
   render() {
-    return (
+    const { history } = this.props
+    return history.data ? (
       <div>
         <select onChange={this.handleChange} value={this.state.ticker}>
           <option value="ibm">IBM</option>
@@ -61,8 +65,10 @@ class Test extends Component {
           <option value="tsla">Tesla</option>
         </select>
         <button onClick={this.show}>Clickme</button>
+        {/* <Graph val={history}/> */}
+        <Chart val={history}/>
       </div>
-    )
+    ) : <div>loading</div>
   }
 }
 
