@@ -408,7 +408,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Test).call(this));
 
     _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "show", function () {
-      console.log(_this.state);
+      console.log(_this.props.history);
     });
 
     _this.state = {
@@ -441,7 +441,7 @@ function (_Component) {
 
                 intervalId = setInterval(function () {
                   callBack(company, history);
-                }, 1000);
+                }, 5000);
                 _context.next = 6;
                 return this.setState({
                   intervalId: intervalId
@@ -895,7 +895,6 @@ var defaultHistory = {
 
 var getHistory = function getHistory(ticker) {
   var company = ticker;
-  console.log("this is the store comapny:", company);
   return (
     /*#__PURE__*/
     function () {

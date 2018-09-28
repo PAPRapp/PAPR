@@ -22,7 +22,7 @@ class Test extends Component {
     }
     let intervalId = setInterval(function() {
       callBack(company, history)
-    }, 1000)
+    }, 5000)
     await this.setState({
       intervalId: intervalId
     })
@@ -36,7 +36,7 @@ class Test extends Component {
     this.setIntervalFunc()
   }
   show = () => {
-    console.log(this.state)
+    console.log(this.props.history)
   }
 
   async componentDidMount() {

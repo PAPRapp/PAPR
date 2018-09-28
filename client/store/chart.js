@@ -11,7 +11,6 @@ const defaultHistory = {
 
 export const getHistory = (ticker) => {
   let company = ticker
-  console.log("this is the store comapny:", company)
   return async dispatch => {
     try {
       const res = await axios.get(
