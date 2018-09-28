@@ -21,14 +21,13 @@ class Room extends Component {
     let company = this.state.ticker
     let history = this.props.getHistory
     history(company)
-
     let callBack = function(ticker, func) {
       func(ticker)
     }
     let intervalId = setInterval(function() {
       callBack(company, history)
     }, 60000)
-    
+
     await this.setState({
       intervalId: intervalId
     })
@@ -62,8 +61,6 @@ class Room extends Component {
     const { history } = this.props
     return history.data ? (
       <div>
-    return (
-      <div>
         <select onChange={this.handleChange} value={this.state.ticker}>
           <option value="ibm">IBM</option>
           <option value="aapl">Apple</option>
@@ -74,8 +71,6 @@ class Room extends Component {
       </div>
     ) : <div>loading</div>
 
-      </div>
-    )
   }
 }
 
