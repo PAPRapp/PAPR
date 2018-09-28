@@ -4,7 +4,8 @@ import {getHistory} from '../store/chart'
 import Graph from './graph'
 import Chart from './static'
 
-class Test extends Component {
+class Room extends Component {
+
   constructor() {
     super()
     this.state = {
@@ -19,13 +20,15 @@ class Test extends Component {
   async setIntervalFunc() {
     let company = this.state.ticker
     let history = this.props.getHistory
-    this.props.getHistory(company)
+    history(company)
+
     let callBack = function(ticker, func) {
       func(ticker)
     }
     let intervalId = setInterval(function() {
       callBack(company, history)
     }, 60000)
+    
     await this.setState({
       intervalId: intervalId
     })
@@ -39,7 +42,7 @@ class Test extends Component {
     this.setIntervalFunc()
   }
   show = () => {
-    console.log(this.props.history.data)
+    console.log(this.props.history)
   }
 
   async componentDidMount() {
@@ -59,16 +62,20 @@ class Test extends Component {
     const { history } = this.props
     return history.data ? (
       <div>
+    return (
+      <div>
         <select onChange={this.handleChange} value={this.state.ticker}>
           <option value="ibm">IBM</option>
           <option value="aapl">Apple</option>
           <option value="tsla">Tesla</option>
         </select>
         <button onClick={this.show}>Clickme</button>
-        {/* <Graph val={history}/> */}
         <Chart val={history}/>
       </div>
     ) : <div>loading</div>
+
+      </div>
+    )
   }
 }
 
@@ -85,4 +92,5 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Test)
+
+export default connect(mapState, mapDispatch)(Room)
