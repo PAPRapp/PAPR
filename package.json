@@ -67,13 +67,8 @@
     "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
     "sequelize": "^4.38.0",
-<<<<<<< HEAD
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.1.1"
-=======
-    "socket.io": "^2.1.1",
-    "style-loader": "^0.23.0"
->>>>>>> 039500b394a5c534f53a8530bbd879e40a79d039
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.55",
@@ -116,8 +111,6 @@
     "supertest": "^3.1.0",
     "webpack": "^4.16.4",
     "webpack-cli": "^3.1.0",
-    "sass-loader": "^7.1.0",
-    "node-sass": "^4.9.3",
-    "css-loader": "^1.0.0"
+    "node-sass": "^4.9.3"
   }
 }
