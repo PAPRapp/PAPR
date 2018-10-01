@@ -1,10 +1,10 @@
 import axios from 'axios'
 
 const GET_HISTORY = 'GET_HISTORY'
-const GET_ROOM = "GET_ROOM"
+const GET_TICKER = "GET_TICKER"
 
 const gotHistory = history => ({type: GET_HISTORY, history})
-const gotTicker = companies => ({type: GET_ROOM, companies})
+const gotTicker = companies => ({type: GET_TICKER, companies})
 
 const defaultHistory = {
   history:{},
@@ -26,11 +26,10 @@ export const getHistory = (ticker) => {
   }
 }
 
-export const getRooms = (id) => {
-  let userid = id
+export const getTicker = (id) => {
   return async dispatch =>{
     try {
-      const res = await axios.get(`/rooms/${userid}`)
+      const res = await axios.get(`/rooms/${id}`)
       dispatch(gotTicker(res.data.tickerQuery))
     } catch (error) {
       console.error(err)
@@ -42,7 +41,7 @@ export default function(state = defaultHistory, action) {
   switch (action.type) {
     case GET_HISTORY:
       return {...state, history: action.history}
-    case GET_ROOM:
+    case GET_TICKER:
       return {...state, companies: action.companies}
     default:
       return state
