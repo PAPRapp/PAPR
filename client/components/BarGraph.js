@@ -56,8 +56,8 @@ export default class BarGraph extends Component {
               },
             ]}
           />
-          <VerticalGridLines />
-          <HorizontalGridLines />
+          {/* <VerticalGridLines />
+          <HorizontalGridLines /> */}
           <XAxis />
           <YAxis />
           <BarSeries
