@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getHistory} from '../store/chart'
-import Graph from './graph'
-import Chart from './static'
+// import Graph from './graph'
+// import Chart from './static'
+import LineGraph from './LineGraph'
+import BarGraph from './BarGraph'
+import CandleChart from './CandleChart'
 
 class Room extends Component {
-
   constructor() {
     super()
     this.state = {
@@ -26,7 +28,7 @@ class Room extends Component {
     }
     let intervalId = setInterval(function() {
       callBack(company, history)
-    }, 60000)
+    }, 10000)
 
     await this.setState({
       intervalId: intervalId
@@ -58,19 +60,37 @@ class Room extends Component {
   }
 
   render() {
-    const { history } = this.props
-    return history.data ? (
-      <div>
-        <select onChange={this.handleChange} value={this.state.ticker}>
-          <option value="ibm">IBM</option>
-          <option value="aapl">Apple</option>
-          <option value="tsla">Tesla</option>
-        </select>
-        <button onClick={this.show}>Clickme</button>
-        <Chart val={history}/>
-      </div>
-    ) : <div>loading</div>
+    const {history} = this.props
 
+    if (history.data) {
+      const historyFilter = history.data.filter(
+        data =>
+          data.high &&
+          data.open &&
+          data.close &&
+          data.marketClose &&
+          data.volume &&
+          data.label &&
+          data.low
+      )
+
+      return (
+        <div>
+          <select onChange={this.handleChange} value={this.state.ticker}>
+            <option value="ibm">IBM</option>
+            <option value="aapl">Apple</option>
+            <option value="tsla">Tesla</option>
+          </select>
+          <button onClick={this.show}>Clickme</button>
+          {/* <Chart val={history}/> */}
+          <LineGraph info={historyFilter} />
+          <BarGraph info={historyFilter} />
+          <CandleChart info={historyFilter} />
+        </div>
+      )
+    } else {
+      return <div>loading</div>
+    }
   }
 }
 
@@ -86,6 +106,5 @@ const mapDispatch = dispatch => {
     getHistory: ticker => dispatch(getHistory(ticker))
   }
 }
-
 
 export default connect(mapState, mapDispatch)(Room)
