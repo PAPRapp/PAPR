@@ -67,7 +67,7 @@ class Room extends Component {
           <option value="tsla">Tesla</option>
         </select>
         <button onClick={this.show}>Clickme</button>
-        <Chart val={history}/>
+        {/* <Chart val={history}/> */}
       </div>
     ) : <div>loading</div>
 

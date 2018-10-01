@@ -1,12 +1,14 @@
 import axios from 'axios'
 
 const GET_HISTORY = 'GET_HISTORY'
+const GET_ROOM = "GET_ROOM"
 
-const gottHistory = history => ({type: GET_HISTORY, history})
+const gotHistory = history => ({type: GET_HISTORY, history})
+const gotTicker = companies => ({type: GET_ROOM, companies})
 
 const defaultHistory = {
   history:{},
-  companies:['ibm','appl','tsla'],
+  companies:['ibm'],
 }
 
 export const getHistory = (ticker) => {
@@ -16,9 +18,21 @@ export const getHistory = (ticker) => {
       const res = await axios.get(
         `https://api.iextrading.com/1.0/stock/${company}/chart/dynamic`
       )
-      dispatch(gottHistory(res.data))
+      dispatch(gotHistory(res.data))
       return res
     } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+export const getRooms = (id) => {
+  let userid = id
+  return async dispatch =>{
+    try {
+      const res = await axios.get(`/rooms/${userid}`)
+      dispatch(gotTicker(res.data.tickerQuery))
+    } catch (error) {
       console.error(err)
     }
   }
@@ -28,6 +42,8 @@ export default function(state = defaultHistory, action) {
   switch (action.type) {
     case GET_HISTORY:
       return {...state, history: action.history}
+    case GET_ROOM:
+      return {...state, companies: action.companies}
     default:
       return state
   }
