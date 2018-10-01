@@ -4,20 +4,6 @@ import {connect} from 'react-redux'
 import {signOut} from '../store'
 import {withRouter} from 'react-router-dom'
 
-<<<<<<< HEAD
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>PAPR</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-          <Link to="/Room">Room</Link>
-=======
 class NavBar extends React.Component {
   constructor(props) {
     super(props)
@@ -46,7 +32,6 @@ class NavBar extends React.Component {
           <button className="nav-button" onClick={this.handleSignOut}>
             LOG OUT
           </button>
->>>>>>> 129d2852de52a03279b4114cfd7af931a402e05f
         </div>
         <div id="nav-logo">
           <div>

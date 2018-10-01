@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getHistory, getTicker} from '../store/chart'
-// import LineGraph from './LineGraph'
-// import BarGraph from './BarGraph'
-// import CandleChart from './CandleChart'
+import LineGraph from './LineGraph'
+import BarGraph from './BarGraph'
+import CandleChart from './CandleChart'
 
 class Room extends Component {
   constructor() {
@@ -80,9 +80,9 @@ class Room extends Component {
             <option value="tsla">Tesla</option>
           </select>
           <button onClick={this.show}>Clickme</button>
-          {/* <LineGraph info={historyFilter} />
+          <LineGraph info={historyFilter} />
           <BarGraph info={historyFilter} />
-          <CandleChart info={historyFilter} /> */}
+          <CandleChart info={historyFilter} />
         </div>
       )
     } else {
