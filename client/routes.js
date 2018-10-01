@@ -2,10 +2,12 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {UserHome} from './components'
+import SignUp from './components/SignUp'
 import Room from './components/Room'
 import {me} from './store'
-
+import LandingPage from './components/LandingPage'
+import fire from './firebase'
 /**
  * COMPONENT
  */
@@ -15,23 +17,12 @@ class Routes extends Component {
   }
 
   render() {
-    const {isLoggedIn} = this.props
-
+    // const {isLoggedIn} = this.props
     return (
       <Switch>
-        {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={Signup} />
+        <Route exact path="/" component={LandingPage} />
+        <Route path="/home" component={UserHome} />
         <Route path="/Room" component={Room} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-            <Route path="/Room" component={Room} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        <Route component={Login} />
       </Switch>
     )
   }
