@@ -40,9 +40,9 @@ export default class LineGraph extends Component {
     const dataPoints = graphStock(info);
     return dataPoints ? (
       <XYPlot width={1000} height={300} xType="ordinal">
-        <VerticalGridLines />
-        <HorizontalGridLines />
-        <XAxis />
+        {/* <VerticalGridLines />
+        <HorizontalGridLines /> */}
+        <XAxis tickeLabelAngle={-70}/>
         <YAxis />
         <LineMarkSeries
           style={{
@@ -53,12 +53,13 @@ export default class LineGraph extends Component {
           data={dataPoints}
           onValueMouseOver={this.getValue}
           onValueMouseOut={this.removeValue}
+          size={0}
         />
         {value ? (
           <Hint
             value={value}
             style={{
-              fontSize: 14,
+              fontSize: 20,
               text: {
                 display: 'none',
               },

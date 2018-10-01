@@ -56,8 +56,8 @@ export default class CandleChart extends Component {
           width={1000}
           xType="ordinal"
         >
-          <VerticalGridLines />
-          <HorizontalGridLines />
+          {/* <VerticalGridLines />
+          <HorizontalGridLines /> */}
           <XAxis />
           <YAxis />
           <CandleStick
