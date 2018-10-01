@@ -2,6 +2,7 @@ import React from 'react'
 import fire from '../firebase'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import axios from 'axios'
 
 const INITIAL_STATE = {
   email: '',
@@ -30,7 +31,8 @@ class SignUp extends React.Component {
     fire
       .auth()
       .createUserWithEmailAndPassword(email, passwordOne)
-      .then(u => {
+      .then(async u => {
+        await axios.post('/api/users', {email})
         this.setState(INITIAL_STATE)
         fire
           .auth()
