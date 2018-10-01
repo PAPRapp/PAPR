@@ -5,8 +5,9 @@ import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
 import App from './app'
-
-// establishes socket connection
+import './style.scss'
+import particleConfig from './particle'
+import Particles from 'react-particles-js'
 import './socket'
 
 ReactDOM.render(
