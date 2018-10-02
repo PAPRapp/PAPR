@@ -1,17 +1,17 @@
 import axios from 'axios'
 
 const GET_HISTORY = 'GET_HISTORY'
-const GET_TICKER = "GET_TICKER"
+const GET_TICKER = 'GET_TICKER'
 
 const gotHistory = history => ({type: GET_HISTORY, history})
 const gotTicker = companies => ({type: GET_TICKER, companies})
 
 const defaultHistory = {
-  history:{},
-  companies:['ibm'],
+  history: {},
+  companies: ['ibm']
 }
 
-export const getHistory = (ticker) => {
+export const getHistory = ticker => {
   let company = ticker
   return async dispatch => {
     try {
@@ -26,13 +26,14 @@ export const getHistory = (ticker) => {
   }
 }
 
-export const getTicker = (id) => {
-  return async dispatch =>{
+export const getTicker = id => {
+  return async dispatch => {
     try {
-      const res = await axios.get(`/rooms/${id}`)
+      const res = await axios.get(`/api/rooms/${id}`)
+      console.log(res.data)
       dispatch(gotTicker(res.data.tickerQuery))
     } catch (error) {
-      console.error(err)
+      console.error(error)
     }
   }
 }
