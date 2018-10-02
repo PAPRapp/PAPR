@@ -5,7 +5,7 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: [
     '@babel/polyfill', // enables async-await
-    './client/index.js',
+    './client/index.js'
   ],
   output: {
     path: __dirname,
@@ -23,7 +23,18 @@ module.exports = {
         test: /\.s?css$/,
         loader: ['style-loader', 'css-loader', 'sass-loader']
       },
-      {test: /\.json$/, loader: ['json-loader']}
+      {test: /\.json$/, loader: ['json-loader']},
+      {
+        test: /\.ttf$/,
+        use: [
+          {
+            loader: 'ttf-loader',
+            options: {
+              name: './font/[hash].[ext]'
+            }
+          }
+        ]
+      }
     ]
   }
 }

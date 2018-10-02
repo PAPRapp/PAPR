@@ -4,13 +4,9 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import chart from './chart'
-import rooms from './rooms'
 import liveFeed from './liveFeed'
 
-
-const reducer = combineReducers({user, chart, rooms, liveFeed})
-
-
+const reducer = combineReducers({user, chart, liveFeed})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )

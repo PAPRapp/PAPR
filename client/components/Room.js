@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getHistory, getTicker} from '../store/chart'
-import LineGraph from './LineGraph'
-import BarGraph from './BarGraph'
-import CandleChart from './CandleChart'
+import Charts from './Charts'
+import LivePrices from './LivePrices'
 
 class Room extends Component {
   constructor() {
@@ -59,35 +58,21 @@ class Room extends Component {
   }
 
   render() {
-    const {history} = this.props
-
-    if (history.data) {
-      const historyFilter = history.data.filter(
-        data =>
-          data.high &&
-          data.open &&
-          data.close &&
-          data.marketClose &&
-          data.volume &&
-          data.label &&
-          data.low
-      )
-      return (
-        <div>
+    return (
+      <div style={{display: 'flex', flexDirection: 'column'}}>
+        <div style={{marginBottom: '15px'}}>
           <select onChange={this.handleChange} value={this.state.ticker}>
             <option value="ibm">IBM</option>
             <option value="aapl">Apple</option>
             <option value="tsla">Tesla</option>
-          </select>
-          <button onClick={this.show}>Clickme</button>
-          <LineGraph info={historyFilter} />
-          <BarGraph info={historyFilter} />
-          <CandleChart info={historyFilter} />
+           </select>
         </div>
-      )
-    } else {
-      return <div>loading</div>
-    }
+        <div id="room" style={{fontFamily: 'Helvetica Neue', display: 'flex'}}>
+          <Charts style={{flex: 3}} />
+          <LivePrices style={{flex: 1}} />
+        </div>
+      </div>
+    )
   }
 }
 
