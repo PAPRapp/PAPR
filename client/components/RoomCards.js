@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Axios from 'axios'
-import {getRoomData} from '../store/room'
+import {getRoomData, gotRoomData} from '../store/room'
 import {connect} from 'react-redux'
 
 class RoomCards extends Component {
@@ -13,39 +13,30 @@ class RoomCards extends Component {
     evt.preventDefault()
     const userId = this.props.user.currentUser
     const roomId = evt.target.value
-    console.log(userId, roomId)
-    getRoomData({userId, roomId})
+    console.log({userId, roomId})
+    this.props.getRoomData({userId, roomId})
   }
 
   render() {
-    return this.props.rooms[0] ? (
+    return this.props.rooms ? (
       <div className="roomGallery">
         {this.props.rooms.map(room => {
           let exp = new Date(room.exp).getDate()
           let currentDate = new Date().getDate()
           return (
-            <div
-              className="roomCard"
-              key={room.id}
-              onClick={e => {
-                e.preventDefault()
-                this.props.nav(e, 'room')
-              }}
-            >
+            <div className="roomCard" key={room.id}>
               <div className="cardTitle"> {room.name} </div>
               <div className="experation"> {exp - currentDate} Days Left </div>
-              <div className="activeRoom">
-                {' '}
-                Active: {room.active.toString()}{' '}
-              </div>
+              <div className="activeRoom">Active: {room.active.toString()}</div>
               <button
                 className="enterRoom"
-                value={room.id}
+                value={JSON.stringify(room)}
                 onClick={evt => {
-                  this.handleChange(evt)
+                  console.log(evt.target.value)
+                  this.props.gotRoomData(JSON.parse(evt.target.value))
+                  this.props.nav(evt, 'room')
                 }}
               >
-                {' '}
                 Enter Room
               </button>
             </div>
@@ -62,6 +53,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getRoomData: content => {
       dispatch(getRoomData(content))
+    },
+    gotRoomData: (room) => {
+      dispatch(gotRoomData(room))
     }
   }
 }

@@ -14,7 +14,7 @@ router.get('/:userId', async (req, res, next) => {
   //otherwise do nothing
   const userId = req.params.userId
   try {
-    const Rooms = await Room.findOne({
+    const Rooms = await Room.findAll({
       where: {
         users: {
           [Op.contains]: [userId]
@@ -35,7 +35,7 @@ router.post('/room', async (req, res, next) => {
   //otherwise do nothing
   const userId = req.body.userId
   const roomId = req.body.roomId
-
+  console.log(req.body)
   try {
     const Rooms = await Room.findOne({
       where: {

@@ -7,8 +7,9 @@ import chart from './chart'
 import rooms from './rooms'
 import liveFeed from './liveFeed'
 import portfolio from './portfolio'
+import room from './room'
 
-const reducer = combineReducers({user, chart, rooms, liveFeed, portfolio})
+const reducer = combineReducers({user, chart, rooms, liveFeed, portfolio, room})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
