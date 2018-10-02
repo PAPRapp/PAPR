@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react'
 import '../../node_modules/react-vis/dist/style.css'
-import { volumeDate, dynamicBar, maxVol } from './utils';
+import {volumeDate, dynamicBar, maxVol} from './utils'
 import {
   XYPlot,
   XAxis,
@@ -8,53 +8,59 @@ import {
   VerticalBarSeries,
   VerticalBarSeriesCanvas,
   DiscreteColorLegend,
-  Hint,
-} from 'react-vis';
+  Hint
+} from 'react-vis'
 
 export default class BarGraph extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       value: null,
-      useCanvas: false,
-    };
-    this.getValue = this.getValue.bind(this);
-    this.removeValue = this.removeValue.bind(this);
+      useCanvas: false
+    }
+    this.getValue = this.getValue.bind(this)
+    this.removeValue = this.removeValue.bind(this)
   }
 
   getValue(value) {
     this.setState({
-      value,
-    });
+      value
+    })
   }
 
   removeValue() {
     this.setState({
-      value: null,
-    });
+      value: null
+    })
   }
   render() {
-    const { useCanvas, value } = this.state;
-    const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
-    const { info } = this.props;
-    const volumePoints = volumeDate(info);
+    const {useCanvas, value} = this.state
+    const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries
+    const {info} = this.props
+    const volumePoints = volumeDate(info)
     const minMax = dynamicBar(info)
     const high = maxVol(minMax)
-    const { vol } = high
-
+    const {vol} = high
+    //test data
     return (
       <div>
-        <XYPlot xType="ordinal" stackBy="y" width={1000} height={300} animation yDomain={[0, vol]}>
+        <XYPlot
+          xType="ordinal"
+          stackBy="y"
+          width={1000}
+          height={300}
+          animation
+          yDomain={[0, vol]}
+        >
           <DiscreteColorLegend
-            style={{ position: 'absolute', left: '40px', top: '0px' }}
+            style={{position: 'absolute', left: '40px', top: '0px'}}
             orientation="horizontal"
             items={[
               {
                 title: 'Stock',
-                color: '#228B22',
-
-              },
+                color: '#228B22'
+              }
             ]}
           />
           <XAxis />
@@ -73,6 +79,6 @@ export default class BarGraph extends Component {
           ) : null}
         </XYPlot>
       </div>
-    );
+    )
   }
 }

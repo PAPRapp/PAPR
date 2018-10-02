@@ -33,7 +33,7 @@ export default class LineGraph extends Component {
     const minMax = dynamicLine(info)
     const low = minPrice(minMax)
     const high = maxPrice(minMax)
-
+    console.log("HOOVER", dataPoints)
     return dataPoints ? (
       <XYPlot
         animation
