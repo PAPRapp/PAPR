@@ -1,30 +1,32 @@
 import axios from 'axios'
 
-const GET_ROOMS = "GET_ROOMS"
+ const GET_ROOM_DATA = 'GET_ROOM_DATA'
 
-const gotRooms = (rooms) => ({type: GET_ROOMS, rooms})
+ const gotRoomData = (roomData) => ({type:GET_ROOM_DATA, roomData })
 
-const defaultRooms = {
-  id:[],
-  name:[],
-  active: [],
-}
+ const defaultRoom = {}
 
-export const getRooms = (userId) => {
-  let id = userId
+ export const getRoomData = (content) => {
+  console.log(content)
   return async dispatch => {
     try {
-      const res = await axios.get(`/rooms/${id}`)
-      dispatch(gotRooms(res.data))
-    } catch (error) {
+      const res = await axios.post(
+        `/api/rooms/room`, content
+      )
+      console.log(res.data)
+      dispatch(gotRoomData(res.data))
+      return res
+    } catch (err) {
       console.error(err)
     }
   }
 }
 
-export default function(state = defaultRooms, action) {
-  switch(action.type){
-    case GET_ROOMS:
-      return {...state, id: action.map(data => data.id), name: action.map(data => data.name), active: action.map(data => data.active) }
+export default function(state = defaultRoom, action) {
+  switch (action.type) {
+    case GET_ROOM_DATA:
+      return action.roomData
+    default:
+      return state
   }
 }

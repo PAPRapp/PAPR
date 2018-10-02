@@ -6,17 +6,21 @@ import fire from '../firebase'
  */
 const GOT_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const CURRENT_USER = 'CURRENT_USER'
 
 /**
  * INITIAL STATE
  */
-const defaultUser = null
+const defaultUser = {
+  currentUser: ''
+}
 
 /**
  * ACTION CREATORS
  */
 const gotUser = user => ({type: GOT_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const getCurrent = (id) => ({type: CURRENT_USER, id})
 
 /**
  * THUNK CREATORS
@@ -31,6 +35,14 @@ export const getUser = () => {
   }
 }
 
+export const currentUser =  (email) => {
+  let useremail = email
+  return async dispatch => {
+    const userId = await axios.get(`/api/users?email=${useremail}`)
+    dispatch(getCurrent(userId.data.id))
+  }
+}
+
 export const signOut = () => {
   return dispatch => {
     fire
@@ -42,41 +54,14 @@ export const signOut = () => {
   }
 }
 
-export const auth = (email, password, method) => async dispatch => {
-  let res
-  try {
-    res = await axios.post(`/auth/${method}`, {email, password})
-  } catch (authError) {
-    return dispatch(gotUser({error: authError}))
-  }
-
-  try {
-    dispatch(gotUser(res.data))
-    history.push('/home')
-  } catch (dispatchOrHistoryErr) {
-    console.error(dispatchOrHistoryErr)
-  }
-}
-
-// export const logout = () => async dispatch => {
-//   try {
-//     await axios.post('/auth/logout')
-//     dispatch(removeUser())
-//     history.push('/login')
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
-
-/**
- * REDUCER
- */
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GOT_USER:
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case CURRENT_USER:
+      return {...state, currentUser: action.id}
     default:
       return state
   }

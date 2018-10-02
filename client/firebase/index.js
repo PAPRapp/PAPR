@@ -9,4 +9,8 @@ const config = {
   messagingSenderId: '864699920304'
 }
 
-export default firebase.initializeApp(config)
+const fire = firebase.initializeApp(config)
+
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+
+export default fire

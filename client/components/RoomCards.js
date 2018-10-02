@@ -1,24 +1,49 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import Axios from 'axios';
+import {getRoomData} from '../store/room'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {Button, Card, Elevation} from '@blueprintjs/core'
 
-const RoomCards = (props) => {
-  const {id} = this.props
-  return (
-    <div >
-      <Card interactive={true} elevation={Elevation.FOUR}>
-        <h5>
-          <a href="#">Room Name</a>
-        </h5>
-        <p>Room Summary</p>
-        <Link to={`room/${id}`}>
-          <Button>Enter Room</Button>
-        </Link>
-      </Card>
+class RoomCards extends Component {
+ constructor(){
+   super()
+   this.handleChange = this.handleChange.bind(this)
+ }
+
+ handleChange(evt){
+  evt.preventDefault()
+  const userId = this.props.user.currentUser
+  const roomId = evt.target.value
+  console.log(userId, roomId)
+  getRoomData({userId, roomId})
+ }
+
+ render(){
+
+  return this.props.rooms[0] ? (
+    <div className="roomGallery">
+      {this.props.rooms.map(room => {
+        let exp = new Date(room.exp).getDate()
+        let currentDate = new Date().getDate()
+        return(
+          <div className="roomCard" key={room.id} >
+            <div className="cardTitle">  {room.name} </div>
+            <div className="experation">  {exp - currentDate} Days Left </div>
+            <div className="activeRoom">  Active: {room.active.toString()} </div>
+            <button className="enterRoom" value={room.id} onClick={(evt) => {this.handleChange(evt)}}> Enter Room</button>
+          </div>
+        )})}
     </div>
-  )
+
+  ) : <div> Loading </div>
+}
 }
 
-export default RoomCards
+const mapDispatchToProps = dispatch => {
+  return {
+    getRoomData: (content) => {
+      dispatch(getRoomData(content))
+    }
+  }
+}
+
+export default connect(null,mapDispatchToProps)(RoomCards)
