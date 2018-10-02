@@ -8,11 +8,13 @@ async function seed() {
   console.log('db synced!')
 
   const dbSeed = await Promise.all([
-    User.create({name: 'Kevin',email: 'kevin@email.com', password: '123'}),
-    User.create({name: 'Matt', email: 'matt@email.com', password: '123'}),
-    User.create({name: 'Joe', email: 'joe@email.com', password: '123'}),
-    User.create({name: 'Aaron', email: 'aaron@email.com', password: '123'}),
-    Room.create({name: 'Test', tickerQuery:['ibm','aapl','tsla','wmt'], exp: new Date(2018, 10, 3, 10), users:[1,2,3,4]}),
+    User.create({email: 'kevin@email.com'}),
+    User.create({email: 'matt@email.com'}),
+    User.create({email: 'joe@email.com'}),
+    User.create({email: 'aaron@email.com'}),
+    Room.create({name: 'Test', tickerQuery:['ibm','aapl','tsla','wmt'], exp: new Date('October 10, 2018'), users:['1','2','3','4']}),
+    Room.create({name: 'Test2', tickerQuery:['ge','bac','f','snap'], exp: new Date('October 10, 2018'), users:['1','2']}),
+    Portfolio.create({cash: 100000, userId: 1, roomId: 1}),
   ])
 
   console.log(`seeded ${dbSeed.length}, Lines in db`)
