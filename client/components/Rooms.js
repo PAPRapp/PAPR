@@ -6,6 +6,7 @@ import {getRooms} from '../store/rooms'
 class Rooms extends Component {
   async componentDidMount() {
     const userId = this.props.user.currentUser
+
     await this.props.fetchRooms(userId)
   }
 
