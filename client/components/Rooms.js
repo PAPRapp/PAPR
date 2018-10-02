@@ -1,12 +1,34 @@
-import React from 'react'
-import Room from './Room'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import RoomCards from './RoomCards'
+import {getRooms} from '../store/rooms'
 
-export default class Rooms extends React.Component {
+class Rooms extends Component {
+  async componentDidMount() {
+    const userId = this.props.user.currentUser
+    await this.props.fetchRooms(userId)
+  }
+
   render() {
     return (
-      <div id="view-container">
-        <Room />
+      <div>
+        <RoomCards rooms={this.props.rooms} user={this.props.user} />
       </div>
     )
   }
 }
+
+const mapState = state => {
+  return {
+    user: state.user,
+    rooms: state.rooms
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    fetchRooms: userId => dispatch(getRooms(userId))
+  }
+}
+
+export default connect(mapState, mapDispatch)(Rooms)

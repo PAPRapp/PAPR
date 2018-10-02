@@ -44,6 +44,7 @@ class Room extends Component {
   }
 
   async componentDidMount() {
+    await this.props.getTicker(this.props.user.id)
     if (!this.state.intervalId) {
       await this.setState({
         ticker: this.props.companies[0]
@@ -64,7 +65,7 @@ class Room extends Component {
             <option value="ibm">IBM</option>
             <option value="aapl">Apple</option>
             <option value="tsla">Tesla</option>
-          </select>
+           </select>
         </div>
         <div id="room" style={{fontFamily: 'Helvetica Neue', display: 'flex'}}>
           <Charts style={{flex: 3}} />
@@ -78,13 +79,13 @@ class Room extends Component {
 const mapState = state => {
   return {
     history: state.chart.history,
-    companies: state.chart.companies
+    companies: state.chart.companies,
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getHistory: ticker => dispatch(getHistory(ticker))
+    getHistory: ticker => dispatch(getHistory(ticker)),
   }
 }
 

@@ -7,6 +7,8 @@ import {withRouter} from 'react-router-dom'
 import particleConfig from '../particle'
 import Particles from 'react-particles-js'
 import Rooms from './Rooms'
+import Room from './Room'
+
 /**
  * COMPONENT
  */
@@ -16,26 +18,12 @@ class NavigationPage extends React.Component {
     this.state = {
       page: 'profile'
     }
-    this.navToProfile = this.navToProfile.bind(this)
-    this.navToSettings = this.navToSettings.bind(this)
-    this.navToRooms = this.navToRooms.bind(this)
+    this.nav = this.nav.bind(this)
   }
 
-  navToProfile() {
+  nav(e, str) {
     this.setState({
-      page: 'profile'
-    })
-  }
-
-  navToSettings() {
-    this.setState({
-      page: 'settings'
-    })
-  }
-
-  navToRooms() {
-    this.setState({
-      page: 'rooms'
+      page: str
     })
   }
 
@@ -43,12 +31,11 @@ class NavigationPage extends React.Component {
     return (
       <div id="user-home">
         <NavBar
-          navToRooms={this.navToRooms}
-          navToSettings={this.navToSettings}
-          navToProfile={this.navToProfile}
+          nav={this.nav}
         />
         <Particles className="particles-js" params={particleConfig} />
         {this.state.page === 'rooms' ? <Rooms /> : null}
+        {this.state.page === 'room' ? <Room />: null}
       </div>
     )
   }
