@@ -30,12 +30,10 @@ class NavigationPage extends React.Component {
   render() {
     return (
       <div id="user-home">
-        <NavBar
-          nav={this.nav}
-        />
+        <NavBar nav={this.nav} />
         <Particles className="particles-js" params={particleConfig} />
-        {this.state.page === 'rooms' ? <Rooms /> : null}
-        {this.state.page === 'room' ? <Room />: null}
+        {/* {this.state.page === 'rooms' ? <Rooms /> : null} */}
+        {this.state.page === 'rooms' ? <Room /> : null}
       </div>
     )
   }
