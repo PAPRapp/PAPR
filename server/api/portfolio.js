@@ -12,6 +12,7 @@ router.get('/:roomId/:userId', async (req, res, next) => {
       where: {portfolioId: portfolio.id}
     })
     const portfolioTotal = {}
+    portfolioTotal.cash = portfolio.cash
     transactions.map(element => {
       if (!portfolioTotal[element.ticker]) {
         portfolioTotal[element.ticker] =
@@ -26,5 +27,18 @@ router.get('/:roomId/:userId', async (req, res, next) => {
     res.json(portfolioTotal)
   } catch (err) {
     next(err)
+  }
+})
+
+router.put(`/:roomId/:userId`, async (req, res, next) => {
+  try {
+    const balance = req.body
+    const newPortfolio = await Portfolio.update(
+      {cash: balance},
+      {where: {userId: req.params.userId, roomId: req.params.roomId}}
+    )
+    res.json(newPortfolio)
+  } catch (error) {
+    next(error)
   }
 })

@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {getHistory, getTicker} from '../store/chart'
 import Charts from './Charts'
 import LivePrices from './LivePrices'
+import Trade from './Trade'
 
 class Room extends Component {
   constructor() {
@@ -68,7 +69,10 @@ class Room extends Component {
         </div>
         <div id="room" style={{fontFamily: 'Helvetica Neue', display: 'flex'}}>
           <Charts style={{flex: 3}} />
-          <LivePrices style={{flex: 1}} />
+          <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
+            <LivePrices />
+            <Trade props={this.state} style={{marginTop: '10px'}} />
+          </div>
         </div>
       </div>
     )
