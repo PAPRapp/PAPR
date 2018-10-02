@@ -1,12 +1,14 @@
 import axios from 'axios'
 
 const GET_PORTFOLIO = 'GET_PORTFOLIO'
+const PUT_PORTFOLIO = 'PUT_PORTFOLIO'
 
 const getPortfolio = portfolio => ({type: GET_PORTFOLIO, portfolio})
+const putPortfolio = portfolio => ({type: PUT_PORTFOLIO, portfolio})
 
 const defaultPortfolio = {portfolio: {}}
 
-export const fetchPortfolio = (userId, roomId) => {
+export const fetchPortfolio = (roomId, userId) => {
   return async dispatch => {
     try {
       const portfolio = await axios.get(`/portfolio/${roomId}/${userId}`)
@@ -17,9 +19,22 @@ export const fetchPortfolio = (userId, roomId) => {
   }
 }
 
+export const updatePortfolio = (roomId, userId) => {
+  return async dispatch => {
+    try {
+      const portfolio = await axios.put(`/portfolio/${roomId}/${userId}`)
+      dispatch(putPortfolio(portfolio.data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export default function(state = defaultPortfolio, action) {
   switch (action.type) {
     case GET_PORTFOLIO:
+      return {...state, portfolio: action.portfolio}
+    case PUT_PORTFOLIO:
       return {...state, portfolio: action.portfolio}
     default:
       return state
