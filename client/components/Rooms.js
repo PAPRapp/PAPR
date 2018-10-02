@@ -12,7 +12,11 @@ class Rooms extends Component {
   render() {
     return (
       <div>
-        <RoomCards rooms={this.props.rooms} user={this.props.user} />
+        <RoomCards
+          rooms={this.props.rooms}
+          user={this.props.user}
+          nav={this.props.nav}
+        />
       </div>
     )
   }
