@@ -26,14 +26,13 @@ class App extends React.Component {
         <Switch>
           <Route path="/" component={UserHome} />
           <Route path="/home" component={UserHome} />
-          <Route exact path="/rooms" component={Rooms} />
-          <Route exact path="/room/:id" component={Room} />
           <Route
             path="/:anything"
             render={() => (
               <Particles className="particles-js" params={particleConfig} />
             )}
           />
+          <Route path="/rooms" component={Room} />
         </Switch>
       )
     }

@@ -23,6 +23,10 @@ const mapState = state => {
   return {
     user: state.user,
     rooms: state.rooms
+      <div id="view-container">
+        <Room />
+      </div>
+    )
   }
 }
 
