@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getHistory} from '../store/chart'
+import {getHistory, getTicker} from '../store/chart'
 import LineGraph from './LineGraph'
 import BarGraph from './BarGraph'
 import CandleChart from './CandleChart'
@@ -45,6 +45,7 @@ class Room extends Component {
   }
 
   async componentDidMount() {
+    await this.props.getTicker(this.props.user.id)
     if (!this.state.intervalId) {
       await this.setState({
         ticker: this.props.companies[0]
@@ -71,7 +72,6 @@ class Room extends Component {
           data.label &&
           data.low
       )
-
       return (
         <div>
           <select onChange={this.handleChange} value={this.state.ticker}>
@@ -80,11 +80,9 @@ class Room extends Component {
             <option value="tsla">Tesla</option>
           </select>
           <button onClick={this.show}>Clickme</button>
-          <div>
-            <LineGraph info={historyFilter} />
-            <BarGraph info={historyFilter} />
-            <CandleChart info={historyFilter} />
-          </div>
+          <LineGraph info={historyFilter} />
+          <BarGraph info={historyFilter} />
+          <CandleChart info={historyFilter} />
         </div>
       )
     } else {
@@ -96,13 +94,13 @@ class Room extends Component {
 const mapState = state => {
   return {
     history: state.chart.history,
-    companies: state.chart.companies
+    companies: state.chart.companies,
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    getHistory: ticker => dispatch(getHistory(ticker))
+    getHistory: ticker => dispatch(getHistory(ticker)),
   }
 }
 

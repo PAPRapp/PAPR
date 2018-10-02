@@ -20,13 +20,22 @@ class NavBar extends React.Component {
     return (
       <nav>
         <div id="nav-buttons">
-          <button className="nav-button" onClick={this.props.navToRooms}>
+          <button className="nav-button" onClick={(e) => {
+            e.preventDefault()
+            this.props.nav(e, 'rooms')
+          }}>
             ROOMS
           </button>
-          <button className="nav-button" onClick={this.props.navToProfile}>
+          <button className="nav-button" onClick={(e) => {
+            e.preventDefault()
+            this.props.nav(e, 'profile')
+          }}>
             PROFILE
           </button>
-          <button className="nav-button" onClick={this.props.navToSettings}>
+          <button className="nav-button" onClick={(e) => {
+            e.preventDefault()
+            this.props.nav(e, 'settings')
+          }}>
             SETTINGS
           </button>
           <button className="nav-button" onClick={this.handleSignOut}>

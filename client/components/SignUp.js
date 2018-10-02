@@ -3,6 +3,7 @@ import fire from '../firebase'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import axios from 'axios'
+import {currentUser} from '../store/user'
 
 const INITIAL_STATE = {
   email: '',
@@ -34,18 +35,17 @@ class SignUp extends React.Component {
       .then(async u => {
         await axios.post('/api/users', {email})
         this.setState(INITIAL_STATE)
-        fire
-          .auth()
-          .signInWithEmailAndPassword(email, passwordOne)
-          .then(() => {
-            this.props.history.push('/home')
-          })
-          .catch(err => {
-            this.setState({
-              error: err
+            fire.auth().signInWithEmailAndPassword(email, passwordOne)
+            .then(() => {
+              this.props.currentUser(email)
+              this.props.history.push('/home')
+            })
+            .catch(err => {
+              this.setState({
+                error: err
+              })
             })
           })
-      })
       .catch(error => {
         this.setState({
           error: error
@@ -108,4 +108,10 @@ class SignUp extends React.Component {
   }
 }
 
-export default withRouter(connect()(SignUp))
+
+const mapDispatch = dispatch => {
+  return {
+    currentUser: (email) => dispatch(currentUser(email))
+  }
+}
+export default withRouter(connect(null, mapDispatch)(SignUp))

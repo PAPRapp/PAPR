@@ -2,7 +2,7 @@ import React from 'react'
 import fire from '../firebase'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {getUser} from '../store/user'
+import {getUser, currentUser} from '../store/user'
 
 const INITIAL_STATE = {
   email: '',
@@ -21,17 +21,16 @@ class SignIn extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     const {email, password} = this.state
-    fire
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.props.history.push('/home')
+    fire.auth().signInWithEmailAndPassword(email, password)
+    .then(() => {
+      this.props.currentUser(email)
+      this.props.history.push('/home')
+    })
+    .catch(err => {
+      this.setState({
+        error: err
       })
-      .catch(err => {
-        this.setState({
-          error: err
-        })
-      })
+    })
   }
 
   handleChange(e) {
@@ -86,7 +85,8 @@ class SignIn extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUser: () => dispatch(getUser())
+    getUser: () => dispatch(getUser()),
+    currentUser: (email) => dispatch(currentUser(email))
   }
 }
 
