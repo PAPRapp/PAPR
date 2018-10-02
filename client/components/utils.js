@@ -11,17 +11,60 @@ export const monthlyQuad = tickerInfo => {
         yLow: ticker.low,
         color:
           i > 1
-            ? ticker.close > tickerInfo[i - 1].close
-              ? '#1EC851'
-              : '#9a1f11'
+            ? ticker.close > tickerInfo[i - 1].close ? '#1EC851' : '#9a1f11'
             : '#1EC851'
       }
     }
   })
 }
 
-// x, y coordinates util function
+//price points util function for line graph
+export const dynamicLine = tickerInfo => {
+  return tickerInfo.map(ticker => {
+    return {
+      dollar: ticker.marketClose
+    }
+  })
+}
 
+//max price util function for line graph
+export const maxPrice = tickerPoints => {
+  return tickerPoints.reduce((prev, curr) => {
+    return prev.dollar > curr.dollar ? prev : curr
+  })
+}
+
+//min price util function for line graph
+export const minPrice = tickerPoints => {
+  return tickerPoints.reduce((prev, curr) => {
+    return prev.dollar < curr.dollar ? prev : curr
+  })
+}
+
+//volume points util function for bar graph
+export const dynamicBar = tickerInfo => {
+  return tickerInfo.map(ticker => {
+    return {
+      vol: ticker.volume
+    }
+  })
+}
+
+//min volume util function for bar graph
+export const minVol = tickerPoints => {
+  return tickerPoints.reduce((prev, curr) => {
+    return prev.vol < curr.vol ? prev : curr
+  })
+}
+
+//max volume util function for bar graph
+export const maxVol = tickerPoints => {
+  return tickerPoints.reduce((prev, curr) => {
+    return prev.vol > curr.vol ? prev : curr
+  })
+}
+
+// x, y coordinates util function for candle stick chart
 export const dynamic = tickerInfo => {
   return tickerInfo.map(ticker => {
     if (ticker.low && ticker.high) {
@@ -33,14 +76,14 @@ export const dynamic = tickerInfo => {
   })
 }
 
-//min val util function
+//min val util function for ydomain candle chart
 export const minPoint = tickerPoints => {
   return tickerPoints.reduce((prev, curr) => {
     return prev.a < curr.a ? prev : curr
   })
 }
 
-//max val util function
+//max val util function for ydomain candle chart
 export const maxPoint = tickerPoints => {
   return tickerPoints.reduce((prev, curr) => {
     return prev.b > curr.b ? prev : curr
@@ -60,7 +103,6 @@ export const graphIso = tickerInfo => {
 
 export const graphInfo = tickerInfo => {
   return tickerInfo.data.map(ticker => {
-
     return {
       x: ticker.label,
       y: ticker.marketClose
@@ -68,6 +110,7 @@ export const graphInfo = tickerInfo => {
   })
 }
 
+//line graph utility function for plotting data
 export const graphStock = tickerInfo => {
   // let d = new Date();
   return tickerInfo.map(ticker => {
@@ -90,9 +133,7 @@ export const volumeDate = tickerInfo => {
         y: ticker.volume,
         color:
           i > 1
-            ? ticker.volume > tickerInfo[i - 1].volume
-              ? '#1EC851'
-              : '#9a1f11'
+            ? ticker.volume > tickerInfo[i - 1].volume ? '#1EC851' : '#9a1f11'
             : '#228B22'
       }
     }
