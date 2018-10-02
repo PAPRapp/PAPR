@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getHistory} from '../store/chart'
-// import Graph from './graph'
-// import Chart from './static'
 import LineGraph from './LineGraph'
 import BarGraph from './BarGraph'
 import CandleChart from './CandleChart'
@@ -82,10 +80,11 @@ class Room extends Component {
             <option value="tsla">Tesla</option>
           </select>
           <button onClick={this.show}>Clickme</button>
-          {/* <Chart val={history}/> */}
-          <LineGraph info={historyFilter} />
-          <BarGraph info={historyFilter} />
-          <CandleChart info={historyFilter} />
+          <div>
+            <LineGraph info={historyFilter} />
+            <BarGraph info={historyFilter} />
+            <CandleChart info={historyFilter} />
+          </div>
         </div>
       )
     } else {

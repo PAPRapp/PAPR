@@ -5,8 +5,6 @@ import {
   XYPlot,
   XAxis,
   YAxis,
-  VerticalGridLines,
-  HorizontalGridLines,
   FlexibleWidthXYPlot,
   FlexibleXYPlot,
   LineSeries,
@@ -51,13 +49,11 @@ export default class CandleChart extends Component {
       <div className="chart">
         <FlexibleWidthXYPlot
           animation
-          yDomain={[a * 0.97, b]}
+          yDomain={[a * .99, b]}
           height={400}
           width={1000}
           xType="ordinal"
         >
-          {/* <VerticalGridLines />
-          <HorizontalGridLines /> */}
           <XAxis />
           <YAxis />
           <CandleStick

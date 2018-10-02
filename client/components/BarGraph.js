@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import '../../node_modules/react-vis/dist/style.css'
-import { volumeDate } from './utils';
+import { volumeDate, dynamicBar, maxVol } from './utils';
 import {
   XYPlot,
   XAxis,
   YAxis,
-  VerticalGridLines,
-  HorizontalGridLines,
   VerticalBarSeries,
   VerticalBarSeriesCanvas,
   DiscreteColorLegend,
@@ -41,10 +39,13 @@ export default class BarGraph extends Component {
     const BarSeries = useCanvas ? VerticalBarSeriesCanvas : VerticalBarSeries;
     const { info } = this.props;
     const volumePoints = volumeDate(info);
+    const minMax = dynamicBar(info)
+    const high = maxVol(minMax)
+    const { vol } = high
 
     return (
       <div>
-        <XYPlot xType="ordinal" stackBy="y" width={1000} height={300} margin={{left: 80}}>
+        <XYPlot xType="ordinal" stackBy="y" width={1000} height={300} animation yDomain={[0, vol]}>
           <DiscreteColorLegend
             style={{ position: 'absolute', left: '40px', top: '0px' }}
             orientation="horizontal"
@@ -56,8 +57,6 @@ export default class BarGraph extends Component {
               },
             ]}
           />
-          {/* <VerticalGridLines />
-          <HorizontalGridLines /> */}
           <XAxis />
           <YAxis />
           <BarSeries
