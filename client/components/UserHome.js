@@ -8,6 +8,7 @@ import particleConfig from '../particle'
 import Particles from 'react-particles-js'
 import Rooms from './Rooms'
 import Room from './Room'
+import Createroom from './Createroom'
 
 /**
  * COMPONENT
@@ -34,6 +35,7 @@ class NavigationPage extends React.Component {
         <Particles className="particles-js" params={particleConfig} />
         {this.state.page === 'rooms' ? <Rooms nav={this.nav} /> : null}
         {this.state.page === 'room' ? <Room /> : null}
+        {this.state.page === 'createroom' ? <Createroom /> : null}
       </div>
     )
   }

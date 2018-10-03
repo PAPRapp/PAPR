@@ -32,12 +32,21 @@ class NavBar extends React.Component {
           }}>
             PROFILE
           </button>
+
           <button className="nav-button" onClick={(e) => {
             e.preventDefault()
             this.props.nav(e, 'settings')
           }}>
             SETTINGS
           </button>
+
+          <button className="nav-button" onClick={(e) => {
+             e.preventDefault()
+            this.props.nav(e, 'createroom')
+                }}>
+                Create Room
+                </button>
+
           <button className="nav-button" onClick={this.handleSignOut}>
             LOG OUT
           </button>

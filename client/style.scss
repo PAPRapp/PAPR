@@ -132,6 +132,47 @@ button:active {
   width: 50%;
 }
 
+.CreatrRoomDiv{
+ background-color: #0e111192;
+ border-radius: 25px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ transition: all 0.2s ease-in-out;
+ transform: scale(0.95);
+ width: 30vw;
+ height: 80vh;
+ animation: fadein 3s forwards;
+ opacity: 0.98;
+ background-image: url('https://www.transparenttextures.com/patterns/absurdity.png');
+}
+.fourmCard{
+  background-color: white;
+  position: absolute;
+  display: flex;
+  left: 11%;
+  border-radius: 25px;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0.95);
+  width: 24vw;
+  height: 76vh;
+  animation: fadein 3s forwards;
+}
+.fourm{
+  display: flex;
+  color: black;
+  text-align: center;
+  justify-content: space-around;
+  width: 300px;
+  height: 300px;
+  left: 80px;
+  flex-direction: column;
+  position: relative;
+}
+.inputStyle{
+  box-shadow: 0px 6px 22px 2px rgba(140, 140, 140, 0.99);
+}
 .card-contents {
   display: flex;
   flex-direction: column;
@@ -148,7 +189,6 @@ button:active {
   width: 100%;
   margin-top: 40px;
 }
-
 .card-input {
   margin-top: 4px;
   border: none;
