@@ -11,7 +11,8 @@ class Trade extends Component {
       qty: 0,
       price: 0,
       company: '',
-      ticker: ''
+      ticker: '',
+      cash: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -30,41 +31,65 @@ class Trade extends Component {
   async handleSubmit() {
     try {
       await this.props.createTransaction(this.state)
-      await this.props.updatePortfolio(this.props.roomId, this.props.userId)
+      await this.props.updatePortfolio(
+        this.props.roomId,
+        this.props.userId,
+        this.state
+      )
     } catch (error) {
       console.log(error)
     }
   }
 
   async componentDidMount() {
-    await this.setState({
-      price: this.props.props.price,
-      company: this.props.props.company,
-      ticker: this.props.props.ticker
-    })
-    await fetchPortfolio()
+    try {
+      const portfolio = await this.props.fetchPortfolio(
+        this.props.roomId,
+        this.props.userId
+      )
+      await this.setState({
+        price: this.props.liveFeed.prices[this.props.ticker.toUpperCase()],
+        ticker: this.props.ticker,
+        cash: portfolio.cash
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
+    console.log(this.state.company, this.state.ticker)
     return (
       <div>
-        <h3>{this.state.company}</h3>
-        <p>{this.state.ticker}</p>
-        <h4>{this.state.price}</h4>
+        <p>{this.props.ticker.toUpperCase()}</p>
+        <h4>
+          {this.props.liveFeed.prices[this.props.ticker.toUpperCase()]
+            ? this.props.liveFeed.prices[
+                this.props.ticker.toUpperCase()
+              ].toFixed(2)
+            : null}
+        </h4>
         <p>Transaction Type:</p>
         <select name="type" onChange={this.handleChange}>
           <option value="buy">BUY</option>
           <option value="sell">SELL</option>
         </select>
         <p>Quantity:</p>
-        <input />
+        <select name="qty" onChange={this.handleChange}>
+          {/* {if(for(let i = 1; i <= this.state.)} */}
+          <option value="sell">SELL</option>
+        </select>
         <button onClick={this.handleSubmit}>CONFIRM</button>
       </div>
     )
   }
 }
 const mapState = state => {
-  return {}
+  return {
+    userId: state.user.currentUser,
+    roomId: state.room.id,
+    liveFeed: state.liveFeed
+  }
 }
 
 const mapDispatch = dispatch => {
@@ -72,8 +97,8 @@ const mapDispatch = dispatch => {
     createTransaction: trade => dispatch(createTransaction(trade)),
     fetchPortfolio: (roomId, userId) =>
       dispatch(fetchPortfolio(roomId, userId)),
-    updatePortfolio: (roomId, userId) =>
-      dispatch(updatePortfolio(roomId, userId))
+    updatePortfolio: (roomId, userId, state) =>
+      dispatch(updatePortfolio(roomId, userId, state))
   }
 }
 

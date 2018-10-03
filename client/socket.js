@@ -4,31 +4,13 @@ import {updatePrice} from './store/liveFeed'
 //import store and action creators that you need
 
 const socket = io(window.location.origin)
-const iex = io('https://ws-api.iextrading.com/1.0/tops')
-const iexOfficialPrices = io('https://ws-api.iextrading.com/1.0/deep')
+export const iex = io('https://ws-api.iextrading.com/1.0/tops')
 
-const {liveFeed} = store.getState()
+const {room} = store.getState()
 
 iex.on('connect', () => {
   console.log('connected')
-  const symbols = liveFeed.symbols.join(',')
-  iex.emit('subscribe', symbols)
 })
-
-// iexOfficialPrices.on('connect', () => {
-//   console.log('connected')
-//   iexOfficialPrices.emit(
-//     'subscribe',
-//     JSON.stringify({
-//       symbols: liveFeed.symbols,
-//       channels: ['officialprice']
-//     })
-//   )
-// })
-
-// iexOfficialPrices.on('message', message => {
-//   console.log(message)
-// })
 
 iex.on('message', message => {
   console.log(message)

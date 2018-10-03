@@ -19,10 +19,10 @@ export const fetchPortfolio = (roomId, userId) => {
   }
 }
 
-export const updatePortfolio = (roomId, userId) => {
+export const updatePortfolio = (roomId, userId, state) => {
   return async dispatch => {
     try {
-      const portfolio = await axios.put(`/portfolio/${roomId}/${userId}`)
+      const portfolio = await axios.put(`/portfolio/${roomId}/${userId}`, state)
       dispatch(putPortfolio(portfolio.data))
     } catch (error) {
       console.log(error)

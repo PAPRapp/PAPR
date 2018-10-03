@@ -5,6 +5,7 @@ import Charts from './Charts'
 import LivePrices from './LivePrices'
 import {getRoomData} from '../store/room'
 import Trade from './Trade'
+import {iex} from '../socket.js'
 
 class Room extends Component {
   constructor() {
@@ -46,15 +47,21 @@ class Room extends Component {
   }
 
   async componentDidMount() {
+    const symbols = this.props.room.tickerQuery.join(',')
+    iex.emit('subscribe', symbols)
     if (!this.state.intervalId) {
       await this.setState({
-       ticker: this.props.room.tickerQuery ? this.props.room.tickerQuery[0] : ""
+        ticker: this.props.room.tickerQuery
+          ? this.props.room.tickerQuery[0]
+          : ''
       })
     }
     this.setIntervalFunc()
   }
 
   componentWillUnmount() {
+    const symbols = this.props.room.tickerQuery.join(',')
+    iex.emit('unsubscribe', symbols)
     clearInterval(this.state.intervalId)
   }
 
@@ -64,9 +71,15 @@ class Room extends Component {
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <div style={{marginBottom: '15px'}}>
             <select onChange={this.handleChange} value={this.state.ticker}>
-              {this.props.room.tickerQuery ? this.props.room.tickerQuery.map(ticker => {
-                return <option key={ticker} value={ticker}>{ticker}</option>
-              }): null}
+              {this.props.room.tickerQuery
+                ? this.props.room.tickerQuery.map(ticker => {
+                    return (
+                      <option key={ticker} value={ticker}>
+                        {ticker}
+                      </option>
+                    )
+                  })
+                : null}
             </select>
           </div>
           <div
@@ -76,7 +89,7 @@ class Room extends Component {
             <Charts style={{flex: 3}} />
             <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
               <LivePrices />
-              <Trade props={this.state} style={{marginTop: '10px'}} />
+              <Trade ticker={this.state.ticker} style={{marginTop: '10px'}} />
             </div>
           </div>
         </div>

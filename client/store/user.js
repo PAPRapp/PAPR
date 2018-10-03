@@ -20,7 +20,7 @@ const defaultUser = {
  */
 const gotUser = user => ({type: GOT_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
-const getCurrent = (id) => ({type: CURRENT_USER, id})
+const getCurrent = id => ({type: CURRENT_USER, id})
 
 /**
  * THUNK CREATORS
@@ -35,10 +35,11 @@ export const getUser = () => {
   }
 }
 
-export const currentUser =  (email) => {
+export const currentUser = email => {
   let useremail = email
   return async dispatch => {
     const userId = await axios.get(`/api/users?email=${useremail}`)
+    console.log(userId)
     dispatch(getCurrent(userId.data.id))
   }
 }
