@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Axios from 'axios'
 import {getRoomData, gotRoomData} from '../store/room'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 class RoomCards extends Component {
   constructor() {
@@ -26,19 +27,20 @@ class RoomCards extends Component {
           return (
             <div className="roomCard" key={room.id}>
               <div className="cardTitle"> {room.name} </div>
-              <div className="experation"> {exp - currentDate} Days Left </div>
+              <div className="expiration"> {exp - currentDate} Days Left </div>
               <div className="activeRoom">Active: {room.active.toString()}</div>
-              <button
-                className="enterRoom"
-                value={JSON.stringify(room)}
-                onClick={evt => {
-                  console.log(evt.target.value)
-                  this.props.gotRoomData(JSON.parse(evt.target.value))
-                  this.props.nav(evt, 'room')
-                }}
-              >
-                Enter Room
-              </button>
+              <Link to="" refresh="true">
+                <button
+                  className="enterRoom"
+                  value={JSON.stringify(room)}
+                  onClick={evt => {
+                    this.props.gotRoomData(JSON.parse(evt.target.value))
+                    this.props.nav(evt, 'room')
+                  }}
+                >
+                  Enter Room
+                </button>
+              </Link>
             </div>
           )
         })}
@@ -54,7 +56,7 @@ const mapDispatchToProps = dispatch => {
     getRoomData: content => {
       dispatch(getRoomData(content))
     },
-    gotRoomData: (room) => {
+    gotRoomData: room => {
       dispatch(gotRoomData(room))
     }
   }
