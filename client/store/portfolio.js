@@ -11,7 +11,7 @@ const defaultPortfolio = {portfolio: {}}
 export const fetchPortfolio = (roomId, userId) => {
   return async dispatch => {
     try {
-      const portfolio = await axios.get(`/portfolio/${roomId}/${userId}`)
+      const portfolio = await axios.get(`/api/portfolio/${roomId}/${userId}`)
       dispatch(getPortfolio(portfolio.data))
     } catch (error) {
       console.log(error)
@@ -22,7 +22,10 @@ export const fetchPortfolio = (roomId, userId) => {
 export const updatePortfolio = (roomId, userId, state) => {
   return async dispatch => {
     try {
-      const portfolio = await axios.put(`/portfolio/${roomId}/${userId}`, state)
+      const portfolio = await axios.put(
+        `api/portfolio/${roomId}/${userId}`,
+        state
+      )
       dispatch(putPortfolio(portfolio.data))
     } catch (error) {
       console.log(error)

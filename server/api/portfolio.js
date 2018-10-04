@@ -37,16 +37,18 @@ router.put(`/:roomId/:userId`, async (req, res, next) => {
     const portfolio = await Portfolio.findOne({
       where: {userId: req.params.userId, roomId: req.params.roomId}
     })
-    console.log('============> ', type)
     if (type.toString() === 'buy') {
       balance = portfolio.cash - qty * price
     } else {
       balance = portfolio.cash + qty * price
     }
-    const newPortfolio = await Portfolio.update(
+    await Portfolio.update(
       {cash: balance},
       {where: {userId: req.params.userId, roomId: req.params.roomId}}
     )
+    const newPortfolio = await Portfolio.findOne({
+      where: {userId: req.params.userId, roomId: req.params.roomId}
+    })
     res.json(newPortfolio)
   } catch (error) {
     next(error)

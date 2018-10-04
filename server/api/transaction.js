@@ -4,14 +4,15 @@ module.exports = router
 
 router.post('/', async (req, res, next) => {
   try {
-    const {type, company, ticker, qty, price, portfolioId} = req.body
+    console.log(req.body)
+    const {type, company, ticker, qty, price, portfolio} = req.body
     const transaction = await Transaction.create({
       type: type,
       company: company,
       ticker: ticker,
       qty: qty,
       price: price,
-      portfolioId: portfolioId
+      portfolioId: portfolio.id
     })
     res.json(transaction)
   } catch (err) {

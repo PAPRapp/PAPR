@@ -1,5 +1,5 @@
 const initialState = {
-  symbols: ['ibm', 'snap', 'fb'],
+  symbols: [],
   prices: {},
   lastPrices: {},
   historicalPrices: {},
@@ -9,6 +9,13 @@ const initialState = {
 }
 
 const UPDATE_PRICE = 'UPDATE_PRICE'
+const CLEAR_PRICES = 'CLEAR_PRICES'
+
+export const clearPrices = () => {
+  return {
+    type: CLEAR_PRICES
+  }
+}
 
 export const updatePrice = priceObj => {
   return {
@@ -44,6 +51,8 @@ export default (state = initialState, action) => {
         lastPrices: {...state.prices},
         historicalPrices: historicalPrices
       }
+    case CLEAR_PRICES:
+      return initialState
     default:
       return {...state}
   }
