@@ -11,23 +11,40 @@ const defaultState = {
 }
 
 
+const getTicker = tickers => ({type: GET_TICKER, tickers});
+
 export const getSectors = () => {
   return async dispatch => {
     try {
       const res = await axios.get(`https://api.iextrading.com/1.0/stock/market/sector-performance`)
-      // const data = res.data.filter(info => info.name)
-      console.log("this is the API call", res.data)
-      dispatch(gotSectors(res.data))
+      const filterData = res.data.map(info => info.name)
+      dispatch(gotSectors(filterData))
     } catch (error) {
       console.error(error)
     }
   }
 }
 
+export const getTickers = (sector) =>{
+  const params = sector
+  console.log(params)
+  return async dispatch =>{
+   try {
+     const res = await axios.get(`https://api.iextrading.com/1.0/stock/market/collection/sector?collectionName=${params}`)
+     dispatch(getTicker(res.data));
+   } catch (error) {
+    console.log(error)
+   }
+}
+}
+
+
 export default function(state = defaultState, action) {
   switch(action.type){
     case GET_SECTORS:
-      return {...state, sectors: [action.sectors]}
+      return {...state, sectors: action.sectors}
+    case GET_TICKER:
+      return {...state, tickers: action.tickers}
     default:
       return state
   }
