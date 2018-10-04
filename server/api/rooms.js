@@ -57,4 +57,18 @@ router.post('/room', async (req, res, next) => {
   }
 })
 
-router.use('/', async (req, res, next) => {})
+router.post('/create', async (req, res, next) => {
+  const tickerQuery = req.body.tickers
+  const exp = req.body.exp
+  const name = req.body.name
+  try {
+    const createdRoom = await Room.create({
+      name,
+      tickerQuery,
+      exp
+    })
+    res.json(createdRoom)
+  } catch (error) {
+    next(error)
+  }
+})
