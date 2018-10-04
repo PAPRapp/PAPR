@@ -6,6 +6,7 @@ import LivePrices from './LivePrices'
 import {getRoomData} from '../store/room'
 import Trade from './Trade'
 import {iex} from '../socket.js'
+import {clearPrices} from '../store/liveFeed'
 
 class Room extends Component {
   constructor() {
@@ -62,6 +63,7 @@ class Room extends Component {
   componentWillUnmount() {
     const symbols = this.props.room.tickerQuery.join(',')
     iex.emit('unsubscribe', symbols)
+    this.props.clearPrices()
     clearInterval(this.state.intervalId)
   }
 
@@ -110,7 +112,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getHistory: ticker => dispatch(getHistory(ticker)),
-    getRoomData: () => dispatch(getRoomData())
+    getRoomData: () => dispatch(getRoomData()),
+    clearPrices: () => dispatch(clearPrices())
   }
 }
 

@@ -9,7 +9,7 @@ const defaultStore = {transactions: {}}
 export const createTransaction = state => {
   return async dispatch => {
     try {
-      const transaction = await axios.post('/transaction', state)
+      const transaction = await axios.post('/api/transaction', state)
       dispatch(postTransaction(transaction.data))
     } catch (error) {
       console.log(error)
