@@ -1,15 +1,7 @@
 import React, {Component} from 'react'
 import '../../../../node_modules/react-vis/dist/style.css'
-import {CandleStick} from './utils/CandleFunc'
-import {
-  XYPlot,
-  XAxis,
-  YAxis,
-  FlexibleWidthXYPlot,
-  FlexibleXYPlot,
-  LineSeries,
-  Hint
-} from 'react-vis'
+import CandleStick from './utils/CandleFunc'
+import {XAxis, YAxis, FlexibleWidthXYPlot, Hint} from 'react-vis'
 import {monthlyQuad, dynamic, minPoint, maxPoint} from './utils/utils'
 
 export default class CandleChart extends Component {
