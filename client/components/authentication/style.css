@@ -1,0 +1,75 @@
+.card {
+  background-color: #0e111192;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0.95);
+  width: 30vw;
+  height: 80vh;
+  animation: fadein 3s forwards;
+  opacity: 0.98;
+  background-image: url('https://www.transparenttextures.com/patterns/absurdity.png');
+}
+
+.card-contents {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  width: 80%;
+}
+
+.card-buttons {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 113%;
+  height: 20%;
+  size: 18px;
+}
+
+.card-button {
+  width: 45%;
+  height: 100%;
+  border: none;
+  margin-top: 4px;
+  background-color: rgb(61, 67, 68);
+  color: #edf0f2;
+  font-size: 13px;
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.card-input {
+  margin-top: 4px;
+  border: none;
+  height: 5vh;
+  width: 50%;
+  font-size: 14px;
+  padding-left: 10px;
+  background-color: rgb(61, 67, 68);
+  color: #edf0f2;
+}
+
+.error-message {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 60%;
+}
+
+#card-logo {
+  width: 50%;
+}

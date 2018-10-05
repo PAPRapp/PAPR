@@ -1,20 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
-import LandingPage from './components/LandingPage'
-import {getUser} from './store/user'
-import UserHome from './components/UserHome'
-import Rooms from './components/Rooms'
-import Room from './components/Room'
-// import {Redirect} from 'react-router'
+import {withRouter, Route, Switch} from 'react-router-dom'
+import {getUser} from './store/'
 import particleConfig from './particle'
 import Particles from 'react-particles-js'
-import NavBar from './components/NavBar'
+import {Room, UserHome, LandingPage} from './components/'
 
 class App extends React.Component {
-
   render() {
-    if (!this.props.user.currentUser) {
+    if (!this.props.user) {
       return (
         <React.Fragment>
           <Particles className="particles-js" params={particleConfig} />
@@ -41,7 +35,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.user.currentUser
   }
 }
 

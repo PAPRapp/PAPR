@@ -1,0 +1,49 @@
+.roomCard {
+  background-color: white;
+  color: black;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0.95);
+  width: 30vw;
+  height: 80vh;
+  animation: fadein 3s forwards;
+  opacity: 0.9;
+  background-image: url('https://www.transparenttextures.com/patterns/absurdity.png');
+}
+
+.cardTitle {
+  position: absolute;
+  top: 10px;
+  font-size: 50px;
+}
+
+.experation {
+  position: absolute;
+  left: 10px;
+  bottom: 30px;
+  font-size: 20px;
+}
+
+.activeRoom {
+  position: absolute;
+  right: 20px;
+  bottom: 30px;
+  font-size: 20px;
+}
+
+.enterRoom {
+  position: absolute;
+  bottom: 30px;
+}
+
+.roomGallery {
+  min-width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  left: 100px;
+  display: flex;
+}
