@@ -1,0 +1,12 @@
+#view-container {
+  margin-left: 2.25%;
+  width: 90vw;
+  height: 95vh;
+  background-color: #0e111192;
+  opacity: 0.98;
+  align-self: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}

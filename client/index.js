@@ -2,12 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
 import {Router} from 'react-router-dom'
-import history from './history'
 import store from './store'
 import App from './app'
 import './style.scss'
-import particleConfig from './particle'
-import Particles from 'react-particles-js'
 import './socket'
 
 ReactDOM.render(
