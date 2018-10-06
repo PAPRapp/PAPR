@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Charts, LivePrices, Trade} from '../'
+import {Charts, LivePrices, Trade, TradeModal} from '../'
 import {iex} from '../../socket.js'
 import {getHoldings} from './modals/utils/'
 import {
@@ -8,7 +8,8 @@ import {
   getRoomData,
   getHistory,
   getTicker,
-  setHoldings
+  setHoldings,
+  setSymbol
 } from '../../store/'
 import './style.css'
 
@@ -16,7 +17,6 @@ class Room extends Component {
   constructor() {
     super()
     this.state = {
-      ticker: '',
       intervalId: null
     }
     this.handleChange = this.handleChange.bind(this)
@@ -25,7 +25,7 @@ class Room extends Component {
   }
 
   async setIntervalFunc() {
-    let company = this.state.ticker
+    let company = this.props.symbol
     let history = this.props.getHistory
     history(company)
     let callBack = function(ticker, func) {
@@ -41,9 +41,7 @@ class Room extends Component {
   }
 
   async handleChange(event) {
-    await this.setState({
-      ticker: event.target.value
-    })
+    this.setSymbol(event.target.value)
     clearInterval(this.state.intervalId)
     this.setIntervalFunc()
   }
@@ -97,7 +95,7 @@ class Room extends Component {
             <Charts style={{flex: 3}} />
             <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
               <LivePrices />
-              <Trade ticker={this.state.ticker} style={{marginTop: '10px'}} />
+              <TradeModal />
             </div>
           </div>
         </div>
@@ -113,7 +111,8 @@ const mapStateToProps = state => {
     room: state.room.currentRoom,
     user: state.user,
     portfolio: state.room.portfolio,
-    transactions: state.transaction.transactions
+    transactions: state.transaction.transactions,
+    symbol: state.liveFeed.symbol
   }
 }
 
@@ -122,7 +121,8 @@ const mapDispatchToProps = dispatch => {
     getHistory: ticker => dispatch(getHistory(ticker)),
     getRoomData: () => dispatch(getRoomData()),
     clearPrices: () => dispatch(clearPrices()),
-    setHoldings: holdings => dispatch(setHoldings(holdings))
+    setHoldings: holdings => dispatch(setHoldings(holdings)),
+    setSymbol: symbol => dispatch(setSymbol(symbol))
   }
 }
 

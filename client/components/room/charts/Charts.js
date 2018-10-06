@@ -29,7 +29,7 @@ class Charts extends React.Component {
             data.high &&
             data.open &&
             data.close &&
-            data.marketClose &&
+            (data.marketClose || data.close) &&
             data.volume &&
             data.label &&
             data.low

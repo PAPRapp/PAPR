@@ -22,7 +22,7 @@ export const monthlyQuad = tickerInfo => {
 export const dynamicLine = tickerInfo => {
   return tickerInfo.map(ticker => {
     return {
-      dollar: ticker.marketClose
+      dollar: ticker.marketClose || ticker.close
     }
   })
 }
@@ -105,7 +105,7 @@ export const graphInfo = tickerInfo => {
   return tickerInfo.data.map(ticker => {
     return {
       x: ticker.label,
-      y: ticker.marketClose
+      y: ticker.marketClose || ticker.close
     }
   })
 }
