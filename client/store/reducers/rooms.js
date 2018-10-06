@@ -1,4 +1,5 @@
 import axios from 'axios'
+import fire from '../../firebase'
 
 const GET_ROOMS = 'GET_ROOMS'
 const POST_ROOM = 'POST_ROOM'
@@ -14,8 +15,21 @@ const defaultRooms = {
 export const getRooms = userId => {
   return async dispatch => {
     try {
-      const res = await axios.get(`/api/rooms/${userId}`)
-      dispatch(gotRooms(res.data))
+      await fire
+        .auth()
+        .currentUser.getIdToken(/* forceRefresh */ true)
+        .then(async idToken => {
+          console.log(idToken)
+          const payload = {
+            userId,
+            idToken
+          }
+          const res = await axios.post(`/api/rooms/`, payload)
+          dispatch(gotRooms(res.data))
+        })
+        .catch(function(error) {
+          console.log(error)
+        })
     } catch (error) {
       console.error(error)
     }

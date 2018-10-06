@@ -4,11 +4,6 @@ import {RoomCards} from '../'
 import {getRooms} from '../../store'
 
 class Rooms extends Component {
-  async componentDidMount() {
-    const userId = this.props.userId
-    await this.props.fetchRooms(userId)
-  }
-
   render() {
     return (
       <div>

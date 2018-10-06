@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {signOut, getUser} from '../../store/'
+import {signOut, getUser, joinRoom} from '../../store/'
 import {Rooms, Room, CreateRoom, Navbar} from '../'
 import {withRouter} from 'react-router-dom'
 import particleConfig from '../../particle'
@@ -10,7 +10,15 @@ import './style.scss'
 /**
  * COMPONENT
  */
-class NavigationPage extends React.Component {
+class UserHome extends React.Component {
+  async componentDidMount() {
+    console.log(this.props.hash)
+    if (this.props.hash) {
+      console.log(this.props.hash)
+      await this.props.joinRoom(this.props.hash, this.props.userId)
+    }
+  }
+
   render() {
     return (
       <div id="user-home">
@@ -30,7 +38,8 @@ class NavigationPage extends React.Component {
 const mapStateToProps = state => {
   return {
     userId: state.user.currentUser,
-    currentPage: state.currentPage
+    currentPage: state.currentPage,
+    hash: state.hash
   }
 }
 
@@ -41,11 +50,14 @@ const mapDispatchToProps = dispatch => {
     },
     signOut: () => {
       dispatch(signOut())
+    },
+    joinRoom: async (hash, userId) => {
+      await dispatch(joinRoom(hash, userId))
     }
   }
 }
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NavigationPage)
+  connect(mapStateToProps, mapDispatchToProps)(UserHome)
 )
 
 /**

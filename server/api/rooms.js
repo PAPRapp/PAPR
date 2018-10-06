@@ -5,14 +5,15 @@ const User = require('../db/models/user')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 module.exports = router
+const admin = require('firebase-admin')
 
-router.get('/:userId', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   //validate token
   //send token to google firebase
   //success or failure
   //if valid run the rest of the code
   //otherwise do nothing
-  const userId = req.params.userId
+  const userId = req.body.userId
   try {
     const Rooms = await Room.findAll({
       where: {

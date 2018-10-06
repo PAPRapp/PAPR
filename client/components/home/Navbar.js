@@ -65,19 +65,19 @@ class NavBar extends React.Component {
             <img
               className="box"
               id="top-box"
-              src="images/logo_top_box.svg"
+              src="/images/logo_top_box.svg"
               alt="PAPR Top Box"
             />
             <img
               className="box"
               id="middle-box"
-              src="images/logo_middle_box.svg"
+              src="/images/logo_middle_box.svg"
               alt="PAPR Middle Box"
             />
             <img
               className="box"
               id="bottom-box"
-              src="images/logo_bottom_box.svg"
+              src="/images/logo_bottom_box.svg"
               alt="PAPR Bottom Box"
             />
           </div>

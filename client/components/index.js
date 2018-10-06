@@ -7,6 +7,7 @@ export {default as SignUp} from './authentication/SignUp'
 //Components viewed in UserHome after login
 export {default as Navbar} from './home/Navbar'
 export {default as UserHome} from './home/UserHome'
+export {default as Join} from './join/Join'
 
 //Components that Room deals with
 export {default as Room} from './room/Room'
