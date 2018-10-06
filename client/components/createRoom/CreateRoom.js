@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getSectors, getTickers} from '../../store/'
+import {getSectors, getTickers, postRoom} from '../../store/'
 import Autocomplete from 'react-autocomplete'
 import './style.css'
 
@@ -10,14 +10,15 @@ class CreateRoom extends Component {
     this.state = {
       name: '',
       tickers: '',
-      users: '',
       cash: '',
       sector: '',
+      exp: '',
       sectorTickers: []
     }
     this.handleChange = this.handleChange.bind(this)
     this.addToSectorTicker = this.addToSectorTicker.bind(this)
     this.removeTicker = this.removeTicker.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
   async componentDidMount() {
     await this.props.getSectors()
@@ -40,13 +41,21 @@ class CreateRoom extends Component {
     this.props.getTickers(event.target.value)
   }
 
+  handleSubmit = evt => {
+    evt.preventDefault()
+    let name = this.state.name
+    let cash = this.state.name
+    let tickers = this.state.sectorTickers
+    let exp = this.state.exp
+    this.props.postRoom({name, cash, tickers, exp})
+  }
+
   addToSectorTicker(evt) {
     evt.preventDefault()
     let ticker = evt.target.value.toUpperCase()
     let check = this.props.sectors.tickers.find(symbol => {
       return symbol.symbol === ticker
     })
-    console.log(check)
     if (check) {
       let removeDup = this.state.sectorTickers.filter(
         tickers => tickers !== ticker
@@ -70,7 +79,6 @@ class CreateRoom extends Component {
   }
 
   render() {
-    console.log(this.state)
     const sectors = this.props.sectors.sectors
     const menuStyle = {
       borderRadius: '3px',
@@ -94,6 +102,24 @@ class CreateRoom extends Component {
               type="text"
               name="name"
               id="name"
+            />
+            <span>Starting Cash</span>
+            <input
+              className="inputStyle"
+              type="number"
+              placeholder="Min: 0"
+              name="cash"
+              id="cash"
+              onChange={this.handleChange('cash')}
+              value={this.state.cash}
+            />
+            <span>Expiration Date</span>
+            <input
+              type="date"
+              id="exp"
+              name="exp"
+              onChange={this.handleChange('exp')}
+              value={this.state.exp}
             />
             <span> Market Sectors </span>
             <select
@@ -167,9 +193,12 @@ class CreateRoom extends Component {
                 </div>
               )
             })}
-            <span>Starting Cash</span>
-            <input className="inputStyle" type="text" name="cash" value="" />
-            {/* <input className="inputStyle" type="submit" value="Submit" /> */}
+            <button
+              className="inputStyle"
+              type="submit"
+              value="Submit"
+              name="submit"
+            />
           </form>
         </div>
       </div>
@@ -179,14 +208,16 @@ class CreateRoom extends Component {
 
 const mapStateToProps = state => {
   return {
-    sectors: state.sectors
+    sectors: state.sectors,
+    userId: state.user.currentUser.id
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getSectors: () => dispatch(getSectors()),
-    getTickers: sector => dispatch(getTickers(sector))
+    getTickers: sector => dispatch(getTickers(sector)),
+    postRoom: data => dispatch(postRoom(data))
   }
 }
 

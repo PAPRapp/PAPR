@@ -2,11 +2,19 @@ import axios from 'axios'
 
 const GET_PORTFOLIO = 'GET_PORTFOLIO'
 const PUT_PORTFOLIO = 'PUT_PORTFOLIO'
+const SET_HOLDINGS = 'SET_HOLDINGS'
 
 const getPortfolio = portfolio => ({type: GET_PORTFOLIO, portfolio})
 const putPortfolio = portfolio => ({type: PUT_PORTFOLIO, portfolio})
 
-const defaultPortfolio = {portfolio: {}}
+const defaultPortfolio = {portfolio: {}, holdings: {}}
+
+export const setHoldings = holdings => {
+  return {
+    type: SET_HOLDINGS,
+    holdings
+  }
+}
 
 export const fetchPortfolio = (roomId, userId) => {
   return async dispatch => {
@@ -39,6 +47,8 @@ export default function(state = defaultPortfolio, action) {
       return {...state, portfolio: action.portfolio}
     case PUT_PORTFOLIO:
       return {...state, portfolio: action.portfolio}
+    case SET_HOLDINGS:
+      return {...state, holdings: action.holdings}
     default:
       return state
   }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {getRoomData, gotRoomData, setPage} from '../../store/'
+import {getRoomData, gotRoomData, setPage, getTransactions} from '../../store/'
 import {connect} from 'react-redux'
 import './style.css'
 
@@ -18,8 +18,10 @@ class RoomCards extends React.Component {
               <button
                 className="enterRoom"
                 value={JSON.stringify(room)}
-                onClick={evt => {
-                  this.props.gotRoomData(JSON.parse(evt.target.value))
+                onClick={async evt => {
+                  const roomId = JSON.parse(evt.target.value).id
+                  await this.props.getRoomData(this.props.userId, roomId)
+                  await this.props.getTransactions(this.props.portfolio.id)
                   this.props.setPage('room')
                 }}
               >
@@ -42,13 +44,21 @@ const mapDispatchToProps = dispatch => {
     },
     setPage: page => {
       dispatch(setPage(page))
+    },
+    getRoomData: async (userId, roomId) => {
+      await dispatch(getRoomData(userId, roomId))
+    },
+    getTransactions: async portfolioId => {
+      await dispatch(getTransactions(portfolioId))
     }
   }
 }
 
 const mapStateToProps = state => {
   return {
-    rooms: state.rooms
+    rooms: state.rooms.rooms,
+    userId: state.user.currentUser,
+    portfolio: state.room.portfolio
   }
 }
 

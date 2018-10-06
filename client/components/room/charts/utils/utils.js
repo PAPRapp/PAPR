@@ -134,7 +134,7 @@ export const volumeDate = tickerInfo => {
         color:
           i > 1
             ? ticker.volume > tickerInfo[i - 1].volume ? '#1EC851' : '#9a1f11'
-            : '#228B22'
+            : '#1EC851'
       }
     }
   })

@@ -23,3 +23,5 @@ const mapStateToProps = state => {
     userId: state.user.userId
   }
 }
+
+export default connect(mapStateToProps)(Buy)

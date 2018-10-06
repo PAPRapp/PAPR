@@ -12,6 +12,7 @@ class NavBar extends React.Component {
 
   handleSignOut() {
     this.props.signOut()
+    this.props.setPage('landing')
     setTimeout(() => this.props.history.push('/'), 100)
   }
 
@@ -52,7 +53,7 @@ class NavBar extends React.Component {
               this.props.setPage('createroom')
             }}
           >
-            Create Room
+            CREATE ROOM
           </button>
 
           <button className="nav-button" onClick={this.handleSignOut}>

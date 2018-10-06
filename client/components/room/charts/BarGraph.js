@@ -49,7 +49,7 @@ export default class BarGraph extends Component {
           xType="ordinal"
           stackBy="y"
           width={1000}
-          height={300}
+          height={250}
           animation
           yDomain={[0, vol]}
         >

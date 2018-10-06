@@ -57,17 +57,27 @@ router.post('/room', async (req, res, next) => {
   }
 })
 
+//create a room & porfolio and make association together along with user
 router.post('/create', async (req, res, next) => {
+  const user = req.body.userId
+  const cash = req.body.startingCash
   const tickerQuery = req.body.tickers
   const exp = req.body.exp
   const name = req.body.name
   try {
+    const findUser = await User.findById(user)
+    const createPortfolio = await Portfolio.create({
+      cash
+    })
     const createdRoom = await Room.create({
       name,
       tickerQuery,
       exp
     })
-    res.json(createdRoom)
+    createPortfolio.setRoom(createdRoom)
+    createPortfolio.setUser(findUser)
+    const getSlug = await Room.findById(createdRoom.id)
+    res.json(getSlug.slug)
   } catch (error) {
     next(error)
   }

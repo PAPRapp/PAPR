@@ -19,7 +19,6 @@ export {default as LineGraph} from './room/charts/LineGraph'
 export {default as CandleChart} from './room/charts/CandleChart'
 export {default as LivePrices} from './room/charts/LivePrices'
 export {default as Charts} from './room/charts/Charts'
-export {default as utils} from './room/charts/utils/utils'
 export {default as CandleFunc} from './room/charts/utils/CandleFunc'
 
 //Components that reside on/in the createRoom component

@@ -1,11 +1,14 @@
 import axios from 'axios'
 
 const GET_ROOMS = 'GET_ROOMS'
+const POST_ROOM = 'POST_ROOM'
 
 const gotRooms = rooms => ({type: GET_ROOMS, rooms})
+const postedRoom = slug => ({type: POST_ROOM, slug})
 
 const defaultRooms = {
-  allRooms: []
+  rooms: [],
+  slug: ''
 }
 
 export const getRooms = userId => {
@@ -19,10 +22,26 @@ export const getRooms = userId => {
   }
 }
 
-export default function(state = defaultRooms, action) {
+export const postRoom = data => {
+  let content = data
+  console.log(content)
+  return async dispatch => {
+    try {
+      const res = await axios.post('/api/rooms/create', content)
+      console.log(res.data)
+      dispatch(postedRoom(res.data))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+export default (state = defaultRooms, action) => {
   switch (action.type) {
     case GET_ROOMS:
-      return action.rooms
+      return {...state, rooms: action.rooms}
+    case POST_ROOM:
+      return {...state, slug: action.slug}
     default:
       return state
   }
