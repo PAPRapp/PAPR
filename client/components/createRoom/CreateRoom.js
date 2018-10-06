@@ -41,13 +41,17 @@ class CreateRoom extends Component {
     this.props.getTickers(event.target.value)
   }
 
-  handleSubmit = evt => {
+  handleSubmit = async evt => {
     evt.preventDefault()
     let name = this.state.name
     let cash = this.state.name
     let tickers = this.state.sectorTickers
     let exp = this.state.exp
-    this.props.postRoom({name, cash, tickers, exp})
+    await this.props.postRoom({name, cash, tickers, exp})
+    let slice = window.location.href.slice(0,-4)
+    let invite = slice + "join" + this.props.slug
+    alert("Send out this link to invite users:\n"  + invite)
+
   }
 
   addToSectorTicker(evt) {
@@ -80,32 +84,21 @@ class CreateRoom extends Component {
 
   render() {
     const sectors = this.props.sectors.sectors
-    const menuStyle = {
-      borderRadius: '3px',
-      boxShadow: '0 2px 12px rgba(0, 0, 0, 0.1)',
-      background: 'rgba(255, 255, 255, 0.9)',
-      padding: '2px 0',
-      fontSize: '90%',
-      position: 'fixed',
-      overflow: 'auto',
-      maxHeight: '50%'
-    }
     return (
       <div className="CreatrRoomDiv">
         <div className="fourmCard">
           <form className="fourm" onSubmit={this.handleSubmit}>
-            <span>Room Name</span>
+          <div className="fourmdivide">
+          <span>Room Name</span>
             <input
               onChange={this.handleChange('name')}
               value={this.state.name}
-              className="inputStyle"
               type="text"
               name="name"
               id="name"
             />
             <span>Starting Cash</span>
             <input
-              className="inputStyle"
               type="number"
               placeholder="Min: 0"
               name="cash"
@@ -121,7 +114,9 @@ class CreateRoom extends Component {
               onChange={this.handleChange('exp')}
               value={this.state.exp}
             />
-            <span> Market Sectors </span>
+          </div >
+          <div className="fourmdivide">
+          <span> Market Sectors </span>
             <select
               onChange={this.handleChangeSelecter('sector')}
               value={this.state.sector}
@@ -145,6 +140,8 @@ class CreateRoom extends Component {
                 padding: '2px 0',
                 fontSize: '10px',
                 position: 'fixed',
+                top: "30%",
+                left: "35vw",
                 overflow: 'auto',
                 maxHeight: '50%'
               }}
@@ -177,9 +174,10 @@ class CreateRoom extends Component {
             >
               ADD
             </button>
+            <div className="tickerBoxs">
             {this.state.sectorTickers.map(ticker => {
               return (
-                <div key={ticker}>
+                <div key={ticker} className="tickerBox">
                   <div key={ticker}>{ticker}</div>
                   <button
                     type="submit"
@@ -193,12 +191,14 @@ class CreateRoom extends Component {
                 </div>
               )
             })}
+            </div>
+          </div>
             <button
-              className="inputStyle"
+              className="submitButton"
               type="submit"
               value="Submit"
               name="submit"
-            />
+            > Submit </button>
           </form>
         </div>
       </div>
@@ -209,7 +209,8 @@ class CreateRoom extends Component {
 const mapStateToProps = state => {
   return {
     sectors: state.sectors,
-    userId: state.user.currentUser.id
+    userId: state.user.currentUser.id,
+    slug: state.rooms.slug
   }
 }
 
