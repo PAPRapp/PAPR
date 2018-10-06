@@ -17,3 +17,5 @@ class TradeModal extends React.Component {
   handleChange() {}
   render() {}
 }
+
+export default connect()(TradeModal)

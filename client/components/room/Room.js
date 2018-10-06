@@ -2,7 +2,14 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Charts, LivePrices, Trade} from '../'
 import {iex} from '../../socket.js'
-import {clearPrices, getRoomData, getHistory, getTicker} from '../../store/'
+import {getHoldings} from './modals/utils/'
+import {
+  clearPrices,
+  getRoomData,
+  getHistory,
+  getTicker,
+  setHoldings
+} from '../../store/'
 import './style.css'
 
 class Room extends Component {
@@ -54,6 +61,8 @@ class Room extends Component {
           : ''
       })
     }
+    const holdings = getHoldings(this.props.portfolio, this.props.transactions)
+    this.props.setHoldings(holdings)
     this.setIntervalFunc()
   }
 
@@ -101,8 +110,10 @@ const mapStateToProps = state => {
   return {
     history: state.chart.history,
     companies: state.chart.companies,
-    room: state.room,
-    user: state.user
+    room: state.room.currentRoom,
+    user: state.user,
+    portfolio: state.room.portfolio,
+    transactions: state.transaction.transactions
   }
 }
 
@@ -110,7 +121,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getHistory: ticker => dispatch(getHistory(ticker)),
     getRoomData: () => dispatch(getRoomData()),
-    clearPrices: () => dispatch(clearPrices())
+    clearPrices: () => dispatch(clearPrices()),
+    setHoldings: holdings => dispatch(setHoldings(holdings))
   }
 }
 

@@ -65,29 +65,26 @@ class SunBurst extends Component {
   }
 
   async componentDidMount() {
-
     try {
       await this.props.fetchPortfolio(this.props.roomId, this.props.userId)
       await this.setState({
         portfolio: this.props.portfolio
       })
-
     } catch (error) {
       console.error(error)
     }
   }
 
-
   render() {
     const {clicked, data, initialValue} = this.state
     const portfolio = pieValue(sampleData, initialValue)
-    const { tickers } = this.props
-    console.log("THESE ARE TICKERS", tickers)
+    const {tickers} = this.props
+    console.log('THESE ARE TICKERS', tickers)
     const labelValue = piePriceFilter(portfolio)
-    const { price } = labelValue
-    console.log("THIS IS PRICE", price)
+    const {price} = labelValue
+    console.log('THIS IS PRICE', price)
     const portfolioShares = this.state.portfolio
-    console.log("THIS IS THE PORTFOLIO", portfolioShares)
+    console.log('THIS IS THE PORTFOLIO', portfolioShares)
     return (
       <div>
         <Sunburst
@@ -153,7 +150,7 @@ const mapStateToProps = state => {
   return {
     tickers: state.liveFeed.prices,
     userId: state.user.currentUser,
-    roomId: state.room.id,
+    roomId: state.room.currentRoom.id,
     portfolio: state.portfolio.portfolio
   }
 }

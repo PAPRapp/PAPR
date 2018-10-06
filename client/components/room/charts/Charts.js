@@ -47,23 +47,21 @@ class Charts extends React.Component {
             </button>
             <button
               className="chart-button"
-              onClick={e => this.changeChart(e, 'bar')}
-            >
-              Bar
-            </button>
-            <button
-              className="chart-button"
               onClick={e => this.changeChart(e, 'candle')}
             >
               Candle
             </button>
           </div>
           {chart === 'line' ? (
-            <LineGraph info={historyFilter} />
-          ) : chart === 'bar' ? (
-            <BarGraph info={historyFilter} />
+            <div>
+              <LineGraph info={historyFilter} />
+              <BarGraph info={historyFilter} />
+            </div>
           ) : chart === 'candle' ? (
-            <CandleChart info={historyFilter} />
+            <div>
+              <CandleChart info={historyFilter} />
+              <BarGraph info={historyFilter} />
+            </div>
           ) : null}
         </div>
       )

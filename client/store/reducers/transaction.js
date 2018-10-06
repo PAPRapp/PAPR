@@ -1,6 +1,8 @@
 import axios from 'axios'
+import portfolio from './portfolio'
 
 const POST_TRANSACTION = 'POST_TRANSACTION'
+const SET_TRANSACTIONS = 'SET_TRANSACTIONS'
 
 const postTransaction = transactionResponse => {
   return {
@@ -9,8 +11,16 @@ const postTransaction = transactionResponse => {
   }
 }
 
+const setTransactions = transactions => {
+  return {
+    type: SET_TRANSACTIONS,
+    transactions
+  }
+}
+
 const defaultStore = {
-  message: ''
+  message: '',
+  transactions: []
 }
 
 export const createTransaction = transaction => {
@@ -23,11 +33,23 @@ export const createTransaction = transaction => {
     }
   }
 }
+export const getTransactions = portfolioId => {
+  return async dispatch => {
+    try {
+      const res = await axios.get(`/api/transaction/${portfolioId}`)
+      dispatch(setTransactions(res.data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 export default (state = defaultStore, action) => {
   switch (action.type) {
     case POST_TRANSACTION:
-      return {...action.transactionResponse}
+      return {...state, message: action.transactionResponse.message}
+    case SET_TRANSACTIONS:
+      return {...state, transactions: action.transactions}
     default:
       return state
   }

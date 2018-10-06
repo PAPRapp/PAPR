@@ -1,20 +1,17 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Transaction = db.define('transaction',{
-  type:{
+const Transaction = db.define('transaction', {
+  type: {
     type: Sequelize.ENUM('buy', 'sell')
   },
-  company:{
+  ticker: {
     type: Sequelize.STRING
   },
-  ticker:{
-    type: Sequelize.STRING
+  qty: {
+    type: Sequelize.INTEGER
   },
-  qty:{
-    type:Sequelize.INTEGER
-  },
-  price:{
+  price: {
     type: Sequelize.INTEGER
   }
 })

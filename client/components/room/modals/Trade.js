@@ -29,8 +29,6 @@ class Trade extends Component {
       await this.setState({
         [evt.target.name]: evt.target.value
       })
-      console.log('QTY: ', this.state.qty)
-      console.log('CURRENT SHARES: ', this.props.portfolio[this.props.ticker])
       if (
         this.state.type === 'buy' &&
         this.state.qty *
@@ -63,7 +61,6 @@ class Trade extends Component {
 
   async handleSubmit() {
     try {
-      console.log('PORTFOLIO ========> ', this.props.portfolio)
       const tradeInfo = {
         ticker: this.props.ticker,
         type: this.state.type,
@@ -140,7 +137,7 @@ class Trade extends Component {
 const mapStateToProps = state => {
   return {
     userId: state.user.currentUser,
-    roomId: state.room.id,
+    roomId: state.room.currentRoom.id,
     liveFeed: state.liveFeed,
     portfolio: state.portfolio.portfolio
   }

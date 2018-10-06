@@ -1,23 +1,33 @@
 import axios from 'axios'
 
- const GET_ROOM_DATA = 'GET_ROOM_DATA'
+const GET_ROOM_DATA = 'GET_ROOM_DATA'
+const SET_TICKER = 'SET_TICKER'
 
- export const gotRoomData = (roomData) => ({type:GET_ROOM_DATA, roomData })
+export const gotRoomData = (currentRoom, portfolio) => ({
+  type: GET_ROOM_DATA,
+  currentRoom,
+  portfolio
+})
 
+export const setTicker = ticker => ({
+  type: SET_TICKER,
+  ticker
+})
 
- const defaultRoom = {}
+const defaultRoom = {
+  currentRoom: {},
+  portfolio: {},
+  ticker: '',
+  type: ''
+}
 
- export const getRoomData = (content) => {
-   let {userId, roomId} = content
-   console.log({userId, roomId})
+export const getRoomData = (userId, roomId) => {
   return async dispatch => {
     try {
-      const res = await axios.post(
-        `/api/rooms/room`, {userId, roomId}
-      )
+      console.log(userId, roomId)
+      const res = await axios.post(`/api/rooms/room`, {userId, roomId})
       console.log(res.data)
-      dispatch(gotRoomData(res.data))
-      return res
+      dispatch(gotRoomData(res.data, res.data.portfolios[0]))
     } catch (err) {
       console.error(err)
     }
@@ -27,7 +37,13 @@ import axios from 'axios'
 export default function(state = defaultRoom, action) {
   switch (action.type) {
     case GET_ROOM_DATA:
-      return action.roomData
+      return {
+        ...state,
+        currentRoom: action.currentRoom,
+        portfolio: action.portfolio
+      }
+    case SET_TICKER:
+      return {...state, ticker: action.ticker}
     default:
       return state
   }
