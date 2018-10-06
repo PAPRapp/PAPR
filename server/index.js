@@ -10,7 +10,13 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
+const admin = require('firebase-admin')
+const serviceAccount = require('./papr.json')
 module.exports = app
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+})
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.

@@ -11,6 +11,7 @@ import room from './reducers/room'
 import sectors from './reducers/sectors'
 import currentPage from './reducers/currentPage'
 import transaction from './reducers/transaction'
+import hash from './reducers/hash'
 
 const reducer = combineReducers({
   user,
@@ -21,7 +22,8 @@ const reducer = combineReducers({
   room,
   sectors,
   currentPage,
-  transaction
+  transaction,
+  hash
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -38,3 +40,4 @@ export * from './reducers/room'
 export * from './reducers/sectors'
 export * from './reducers/currentPage'
 export * from './reducers/transaction'
+export * from './reducers/hash'

@@ -11,7 +11,7 @@ class LoginSignUpCard extends React.Component {
         <div className="card-contents">
           <img
             id="card-logo"
-            src="images/logo_with_text_no_borders.svg"
+            src="/images/logo_with_text_no_borders.svg"
             alt="Logo"
           />
           <div className="card-buttons">
