@@ -5,7 +5,7 @@ const User = require('../db/models/user')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 module.exports = router
-const admin = require('firebase-admin')
+// const admin = require('firebase-admin')
 
 router.post('/', async (req, res, next) => {
   //validate token
