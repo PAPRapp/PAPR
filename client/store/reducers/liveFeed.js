@@ -4,12 +4,29 @@ const initialState = {
   lastPrices: {},
   historicalPrices: {},
   articles: [],
-  currentCompany: '',
+  symbol: '',
+  quantity,
   loading: false
 }
 
 const UPDATE_PRICE = 'UPDATE_PRICE'
 const CLEAR_PRICES = 'CLEAR_PRICES'
+const SET_SYMBOL = 'SET_SYMBOL'
+const SET_QUANTITY = 'SET_QUANTITY'
+
+export const setSymbol = symbol => {
+  return {
+    type: SET_SYMBOL,
+    symbol
+  }
+}
+
+export const setQuantity = quantity => {
+  return {
+    type: SET_SYMBOL,
+    quantity
+  }
+}
 
 export const clearPrices = () => {
   return {
@@ -53,6 +70,16 @@ export default (state = initialState, action) => {
       }
     case CLEAR_PRICES:
       return initialState
+    case SET_SYMBOL:
+      return {
+        ...state,
+        symbol: action.symbol
+      }
+    case SET_QUANTITY:
+      return {
+        ...state,
+        quantity: action.quantity
+      }
     default:
       return {...state}
   }
