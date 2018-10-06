@@ -29,14 +29,8 @@ router.post('/', async (req, res, next) => {
 })
 
 router.post('/room', async (req, res, next) => {
-  //validate token
-  //send token to google firebase
-  //success or failure
-  //if valid run the rest of the code
-  //otherwise do nothing
   const userId = req.body.userId
   const roomId = req.body.roomId
-  console.log(req.body)
   try {
     const Rooms = await Room.findOne({
       where: {
@@ -60,6 +54,7 @@ router.post('/room', async (req, res, next) => {
 
 //create a room & porfolio and make association together along with user
 router.post('/create', async (req, res, next) => {
+
   const user = req.body.userId
   const cash = req.body.startingCash
   const tickerQuery = req.body.tickers
