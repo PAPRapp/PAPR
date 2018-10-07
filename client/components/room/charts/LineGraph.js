@@ -45,11 +45,12 @@ export default class LineGraph extends Component {
           size={0}
         />
         {crossHair[0] ? (
-          <Crosshair values={crossHair} titleFormat={(data) => ({title: 'Date', value: data[0].x})}
-          itemsFormat={(data) => [{title: 'Price', value: data[1].y}]}
-
+          <Crosshair
+            values={crossHair}
+            titleFormat={data => ({title: 'Date', value: data[0].x})}
+            itemsFormat={data => [{title: 'Price', value: data[1].y}]}
+            style={{line: {backgroundColor: '#808080'}}}
           />
-
         ) : null}
       </XYPlot>
     ) : (

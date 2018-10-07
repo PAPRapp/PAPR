@@ -7,9 +7,9 @@ import {
   YAxis,
   VerticalBarSeries,
   VerticalBarSeriesCanvas,
-  DiscreteColorLegend,
   Hint
 } from 'react-vis'
+import { format } from 'd3-format'
 
 export default class BarGraph extends Component {
   constructor(props) {
@@ -53,18 +53,8 @@ export default class BarGraph extends Component {
           animation
           yDomain={[0, vol]}
         >
-          <DiscreteColorLegend
-            style={{position: 'absolute', left: '40px', top: '0px'}}
-            orientation="horizontal"
-            items={[
-              {
-                title: 'Stock',
-                color: '#228B22'
-              }
-            ]}
-          />
-          <XAxis />
-          <YAxis />
+          <XAxis hideTicks/>
+          <YAxis tickFormat={tick => format('.2s')(tick)}/>
           <BarSeries
             cluster="2015"
             colorType="literal"
