@@ -1,6 +1,7 @@
 import React from 'react'
 import {getRoomData, gotRoomData, setPage, getTransactions} from '../../store/'
 import {connect} from 'react-redux'
+import Sunburst from '../Pie'
 import './style.css'
 
 class RoomCards extends React.Component {
@@ -15,6 +16,7 @@ class RoomCards extends React.Component {
               <div className="cardTitle"> {room.name} </div>
               <div className="expiration"> {exp - currentDate} Days Left </div>
               <div className="activeRoom">Active: {room.active.toString()}</div>
+              <Sunburst />
               <button
                 className="enterRoom"
                 value={JSON.stringify(room)}
