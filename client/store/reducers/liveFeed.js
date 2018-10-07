@@ -5,7 +5,7 @@ const initialState = {
   historicalPrices: {},
   articles: [],
   symbol: '',
-  quantity,
+  quantity: 0,
   loading: false
 }
 

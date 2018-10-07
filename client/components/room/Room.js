@@ -25,14 +25,14 @@ class Room extends Component {
   }
 
   async setIntervalFunc() {
-    let company = this.props.symbol
+    let symbol = this.props.symbol
     let history = this.props.getHistory
-    history(company)
+    history(symbol)
     let callBack = function(ticker, func) {
       func(ticker)
     }
-    let intervalId = setInterval(function() {
-      callBack(company, history)
+    let intervalId = setInterval(() => {
+      callBack(symbol, history)
     }, 10000)
 
     await this.setState({
@@ -40,8 +40,8 @@ class Room extends Component {
     })
   }
 
-  async handleChange(event) {
-    this.setSymbol(event.target.value)
+  handleChange(event) {
+    this.props.setSymbol(event.target.value)
     clearInterval(this.state.intervalId)
     this.setIntervalFunc()
   }
@@ -53,11 +53,10 @@ class Room extends Component {
     const symbols = this.props.room.tickerQuery.join(',')
     iex.emit('subscribe', symbols)
     if (!this.state.intervalId) {
-      await this.setState({
-        ticker: this.props.room.tickerQuery
-          ? this.props.room.tickerQuery[0]
-          : ''
-      })
+      let symbol = this.props.room.tickerQuery
+        ? this.props.room.tickerQuery[0]
+        : ''
+      await this.props.setSymbol(symbol)
     }
     const holdings = getHoldings(this.props.portfolio, this.props.transactions)
     this.props.setHoldings(holdings)
@@ -76,12 +75,13 @@ class Room extends Component {
       <div id="view-container">
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <div style={{marginBottom: '15px'}}>
-            <select onChange={this.handleChange} value={this.state.ticker}>
+            <select onChange={this.handleChange} value={this.props.symbol}>
               {this.props.room.tickerQuery
                 ? this.props.room.tickerQuery.map(ticker => {
+                    let formattedTicker = ticker.toUpperCase()
                     return (
-                      <option key={ticker} value={ticker}>
-                        {ticker}
+                      <option key={formattedTicker} value={formattedTicker}>
+                        {formattedTicker}
                       </option>
                     )
                   })
