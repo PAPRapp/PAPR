@@ -49,6 +49,7 @@ export default class CandleChart extends Component {
           <XAxis />
           <YAxis />
           <CandleStick
+            animation
             colorType="literal"
             opacityType="literal"
             stroke="rgb(61, 67, 68)"

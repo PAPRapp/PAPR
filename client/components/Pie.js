@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {LabelSeries, Sunburst} from 'react-vis'
-import {updateData, pieChartData, pieValue, piePriceFilter} from './utils'
+import {updateData, pieChartColorData, pieValue, piePriceFilter} from './room/charts/utils/utils'
 import {connect} from 'react-redux'
-import {fetchPortfolio} from '../store/portfolio'
+import {fetchPortfolio} from '../store/reducers/portfolio'
 
 function getKeyPath(node) {
   if (!node.parent) {
@@ -15,6 +15,7 @@ function getKeyPath(node) {
 }
 
 // create empty children array and push result of object
+//will connect with live data Sunday/Monday
 const sampleData = {
   children: [
     {

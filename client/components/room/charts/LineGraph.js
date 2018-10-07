@@ -38,7 +38,7 @@ export default class LineGraph extends Component {
           }}
           lineStyle={{stroke: '#228B22'}}
           markStyle={{stroke: 'none'}}
-          onNearestX={(value, {index}) => {
+          onNearestXY={(value, {index}) => {
             this.setState({crossHair: dataPoints.map(coord => coord[index])})
           }}
           data={dataPoints[0]}

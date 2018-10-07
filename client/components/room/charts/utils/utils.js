@@ -22,6 +22,39 @@ export const pieChartColorData = tickerInfo => {
   })
 }
 
+//pie filtering out null data util function
+export const piePriceFilter = values => {
+  return values.filter(value => {
+    if(value !== undefined) {
+      return value.price
+    }
+  })
+}
+
+
+//piechart setting/matching initial values util function
+export const pieValue = (tickers, selected) => {
+  return tickers.children.map(ticker => {
+    if(ticker.name === selected) {
+      return {
+        price: ticker.value
+      }
+    }
+  })
+}
+
+//pie chart update util function
+export const updateData = (data, key) => {
+  if(data.children) {
+    data.children.map(child => updateData(child, key))
+  }
+  data.style = {
+    fillOpacity: key && !key[data.name] ? 0.2 : 1
+  }
+
+  return data
+}
+
 // candle stick creationg util function
 export const monthlyQuad = tickerInfo => {
   return tickerInfo.map((ticker, i) => {

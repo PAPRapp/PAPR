@@ -42,7 +42,7 @@ export default class BarGraph extends Component {
     const minMax = dynamicBar(info)
     const high = maxVol(minMax)
     const {vol} = high
-    //test data
+
     return (
       <div>
         <XYPlot
