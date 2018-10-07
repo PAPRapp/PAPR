@@ -41,7 +41,7 @@ export default class CandleChart extends Component {
       <div className="chart">
         <FlexibleWidthXYPlot
           animation
-          yDomain={[a * 0.998, b]}
+          yDomain={[a * 0.99, b]}
           height={400}
           width={1000}
           xType="ordinal"
