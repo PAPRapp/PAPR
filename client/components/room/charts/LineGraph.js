@@ -1,47 +1,36 @@
 import React, {Component} from 'react'
 import '../../../../node_modules/react-vis/dist/style.css'
-import {graphStock, dynamicLine, minPrice, maxPrice} from './utils/utils'
-import {XYPlot, LineMarkSeries, XAxis, YAxis, Hint} from 'react-vis'
+import {graphCrossStock, dynamicLine, minPrice, maxPrice} from './utils/utils'
+import {XYPlot, LineMarkSeries, XAxis, YAxis, Crosshair} from 'react-vis'
 
 export default class LineGraph extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      value: null
+      crossHair: []
     }
-    this.getValue = this.getValue.bind(this)
-    this.removeValue = this.removeValue.bind(this)
-  }
-
-  getValue(value) {
-    this.setState({
-      value
-    })
-  }
-
-  removeValue() {
-    this.setState({
-      value: null
-    })
   }
 
   render() {
-    const {value} = this.state
+    const {crossHair} = this.state
     const {info} = this.props
-    const dataPoints = graphStock(info)
+    const dataPoints = graphCrossStock(info)
     const minMax = dynamicLine(info)
     const low = minPrice(minMax)
     const high = maxPrice(minMax)
-    return dataPoints ? (
+    return crossHair ? (
       <XYPlot
         animation
+        onMouseLeave={() => {
+          this.setState({crossHair: []})
+        }}
         yDomain={[low.dollar * 0.998, high.dollar]}
         width={1000}
         height={400}
         xType="ordinal"
       >
-        <XAxis tickeLabelAngle={-70} />
+        <XAxis />
         <YAxis />
         <LineMarkSeries
           style={{
@@ -49,26 +38,18 @@ export default class LineGraph extends Component {
           }}
           lineStyle={{stroke: '#228B22'}}
           markStyle={{stroke: 'none'}}
-          data={dataPoints}
-          onValueMouseOver={this.getValue}
-          onValueMouseOut={this.removeValue}
+          onNearestX={(value, {index}) => {
+            this.setState({crossHair: dataPoints.map(coord => coord[index])})
+          }}
+          data={dataPoints[0]}
           size={0}
         />
-        {value ? (
-          <Hint
-            value={value}
-            style={{
-              fontSize: 20,
-              text: {
-                display: 'none'
-              },
-              value: {
-                color: 'green'
-              }
-            }}
-          >
-            <div className="rv-hint__content">{`${value.x} $${value.y}`}</div>
-          </Hint>
+        {crossHair[0] ? (
+          <Crosshair values={crossHair} titleFormat={(data) => ({title: 'Date', value: data[0].x})}
+          itemsFormat={(data) => [{title: 'Price', value: data[1].y}]}
+
+          />
+
         ) : null}
       </XYPlot>
     ) : (

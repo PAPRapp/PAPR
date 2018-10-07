@@ -1,3 +1,28 @@
+//pie chart data util function
+export const pieTreeData = tickerInfo => {
+  const initialData = {children: []}
+  return tickerInfo.map(ticker => {
+    initialData.children.push(ticker)
+  })
+}
+
+//dynamic pie chart color util function
+export const pieChartColorData = tickerInfo => {
+  const randomColor = () =>
+    ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(
+      0,
+      7
+    )
+  return tickerInfo.map(ticker => {
+    return {
+      name: ticker.name,
+      hex: randomColor(),
+      value: ticker.price
+    }
+  })
+}
+
+// candle stick creationg util function
 export const monthlyQuad = tickerInfo => {
   return tickerInfo.map((ticker, i) => {
     const point = (ticker.open + ticker.close) / 2
@@ -110,17 +135,17 @@ export const graphInfo = tickerInfo => {
   })
 }
 
-//line graph utility function for plotting data
-export const graphStock = tickerInfo => {
-  // let d = new Date();
+//line graph utility function for plotting data w/cross hair
+export const graphCrossStock = tickerInfo => {
+  const crossData = []
   return tickerInfo.map(ticker => {
-    if (ticker.close) {
-      return {
-        // date: d.toISOString(ticker.date),
+    if (ticker.marketClose || ticker.close) {
+      crossData.push({
         x: ticker.label,
-        y: ticker.close
-      }
+        y: ticker.marketClose || ticker.close
+      })
     }
+    return crossData
   })
 }
 
