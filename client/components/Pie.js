@@ -1,8 +1,14 @@
 import React, {Component} from 'react'
-import {LabelSeries, Sunburst} from 'react-vis'
-import {updateData, pieChartData, pieValue, piePriceFilter} from './utils'
+import {LabelSeries, Sunburst, GradientDefs} from 'react-vis'
+import {
+  updateData,
+  pieChartColorData,
+  pieValue,
+  piePriceFilter,
+  dynamicPiePrices
+} from './room/charts/utils/utils'
 import {connect} from 'react-redux'
-import {fetchPortfolio} from '../store/portfolio'
+import {fetchPortfolio} from '../store/reducers/portfolio'
 
 function getKeyPath(node) {
   if (!node.parent) {
@@ -15,6 +21,7 @@ function getKeyPath(node) {
 }
 
 // create empty children array and push result of object
+//will connect with live data Sunday/Monday
 const sampleData = {
   children: [
     {
@@ -50,6 +57,41 @@ const sampleData = {
   ]
 }
 
+//sample portfolio
+const portfolio ={
+  'CASH': 10000,
+  'AAPL': 20,
+  'MSFT': 20,
+  'FB': 20,
+  'IBM': 20,
+  'AMD': 10
+}
+
+//sample socket simulation pricing
+const priceSim = [
+  {
+    symbol: 'AAPL',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'MSFT',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'FB',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'IBM',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'AMD',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+]
+
+const dynamicPie = dynamicPiePrices(portfolio, priceSim)
 const initialData = updateData(sampleData, false)
 
 class SunBurst extends Component {
@@ -86,62 +128,60 @@ class SunBurst extends Component {
     const portfolioShares = this.state.portfolio
     console.log('THIS IS THE PORTFOLIO', portfolioShares)
     return (
-      <div>
-        <Sunburst
-          animation
-          hideRootNode
-          onValueMouseOver={node => {
-            if (clicked) {
-              return
-            }
-            const path = getKeyPath(node).reverse()
-            const pathAsMap = path.reduce((res, row) => {
-              res[row] = true
-              return res
-            }, {})
-            this.setState({
-              initialValue: path[path.length - 1],
-              data: updateData(initialData, pathAsMap)
-            })
-          }}
-          onValueMouseOut={() =>
-            clicked
-              ? () => {}
-              : this.setState({
-                  initialValue: false,
-                  data: updateData(initialData, false)
-                })
+      <Sunburst
+        animation
+        hideRootNode
+        onValueMouseOver={node => {
+          if (clicked) {
+            return
           }
-          onValueClick={() => this.setState({clicked: !clicked})}
-          style={{
-            stroke: '#ddd',
-            strokeOpacity: 0.3,
-            strokeWidth: '0.5'
-          }}
-          colorType="literal"
-          getSize={d => d.value}
-          getColor={d => d.hex}
-          data={data}
-          height={300}
-          width={350}
-        >
-          {initialValue && (
-            <LabelSeries
-              data={[
-                {
-                  x: 0,
-                  y: 0,
-                  label: `${initialValue} ${labelValue[0].price}`,
-                  style: {
-                    fontSize: '30px',
-                    textAnchor: 'middle'
-                  }
+          const path = getKeyPath(node).reverse()
+          const pathAsMap = path.reduce((res, row) => {
+            res[row] = true
+            return res
+          }, {})
+          this.setState({
+            initialValue: path[path.length - 1],
+            data: updateData(initialData, pathAsMap)
+          })
+        }}
+        onValueMouseOut={() =>
+          clicked
+            ? () => {}
+            : this.setState({
+                initialValue: false,
+                data: updateData(initialData, false)
+              })
+        }
+        onValueClick={() => this.setState({clicked: !clicked})}
+        style={{
+          stroke: '#ddd',
+          strokeOpacity: 0.3,
+          strokeWidth: '0.5'
+        }}
+        colorType="literal"
+        getSize={d => d.value}
+        getColor={d => d.hex}
+        data={data}
+        height={300}
+        width={350}
+      >
+        {initialValue && (
+          <LabelSeries
+            data={[
+              {
+                x: 0,
+                y: 0,
+                label: `${initialValue} ${labelValue[0].price}`,
+                style: {
+                  fontSize: '30px',
+                  textAnchor: 'middle'
                 }
-              ]}
-            />
-          )}
-        </Sunburst>
-      </div>
+              }
+            ]}
+          />
+        )}
+      </Sunburst>
     )
   }
 }

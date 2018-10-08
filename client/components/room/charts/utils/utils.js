@@ -1,3 +1,75 @@
+//dynamic pie chart data update util function
+export const dynamicPiePrices = (portfolio, prices) => {
+  const dynamicPortfolio = {}
+  const cash = portfolio.CASH
+  prices.forEach(price => {
+    if(portfolio[price.symbol]) {
+      dynamicPortfolio[price.symbol] = price.lastSalePrice * portfolio[price.symbol]
+    }
+  })
+  dynamicPortfolio.CASH = cash
+  return dynamicPortfolio
+}
+
+
+//pie chart data util function
+export const pieTreeData = tickerInfo => {
+  const initialData = {children: []}
+  return tickerInfo.map(ticker => {
+    initialData.children.push(ticker)
+  })
+}
+
+//dynamic pie chart color util function
+export const pieChartColorData = tickerInfo => {
+  const randomColor = () =>
+    ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(
+      0,
+      7
+    )
+  return tickerInfo.map(ticker => {
+    return {
+      name: ticker.name,
+      hex: randomColor(),
+      value: ticker.price
+    }
+  })
+}
+
+//pie filtering out null data util function
+export const piePriceFilter = values => {
+  return values.filter(value => {
+    if(value !== undefined) {
+      return value.price
+    }
+  })
+}
+
+
+//piechart setting/matching initial values util function
+export const pieValue = (tickers, selected) => {
+  return tickers.children.map(ticker => {
+    if(ticker.name === selected) {
+      return {
+        price: ticker.value
+      }
+    }
+  })
+}
+
+//pie chart update util function
+export const updateData = (data, key) => {
+  if(data.children) {
+    data.children.map(child => updateData(child, key))
+  }
+  data.style = {
+    fillOpacity: key && !key[data.name] ? 0.2 : 1
+  }
+
+  return data
+}
+
+// candle stick creationg util function
 export const monthlyQuad = tickerInfo => {
   return tickerInfo.map((ticker, i) => {
     const point = (ticker.open + ticker.close) / 2
@@ -144,17 +216,17 @@ export const graphInfo = tickerInfo => {
   })
 }
 
-//line graph utility function for plotting data
-export const graphStock = tickerInfo => {
-  // let d = new Date();
+//line graph utility function for plotting data w/cross hair
+export const graphCrossStock = tickerInfo => {
+  const crossData = []
   return tickerInfo.map(ticker => {
-    if (ticker.close) {
-      return {
-        // date: d.toISOString(ticker.date),
+    if (ticker.marketClose || ticker.close) {
+      crossData.push({
         x: ticker.label,
-        y: ticker.close
-      }
+        y: ticker.marketClose || ticker.close
+      })
     }
+    return crossData
   })
 }
 

@@ -44,7 +44,7 @@ export default class BarGraph extends Component {
     const minMax = dynamicBar(info)
     const high = maxVol(minMax)
     const {vol} = high
-    //test data
+
     return (
       <FlexibleXYPlot xType="ordinal" stackBy="y" animation yDomain={[0, vol]}>
         <XAxis hideTicks />
@@ -74,6 +74,7 @@ export default class BarGraph extends Component {
           </Hint>
         ) : null}
       </FlexibleXYPlot>
+
     )
   }
 }

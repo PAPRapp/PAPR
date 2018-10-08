@@ -37,11 +37,9 @@ export const getRooms = userId => {
 
 export const postRoom = data => {
   let content = data
-  console.log(content)
   return async dispatch => {
     try {
       const res = await axios.post('/api/rooms/create', content)
-      console.log(res.data)
       dispatch(postedRoom(res.data))
     } catch (error) {
       console.error(error)
