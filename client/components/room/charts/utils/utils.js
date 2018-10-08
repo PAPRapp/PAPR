@@ -1,3 +1,17 @@
+//dynamic pie chart data update util function
+export const dynamicPiePrices = (portfolio, prices) => {
+  const dynamicPortfolio = {}
+  const cash = portfolio.CASH
+  prices.forEach(price => {
+    if(portfolio[price.symbol]) {
+      dynamicPortfolio[price.symbol] = price.lastSalePrice * portfolio[price.symbol]
+    }
+  })
+  dynamicPortfolio.CASH = cash
+  return dynamicPortfolio
+}
+
+
 //pie chart data util function
 export const pieTreeData = tickerInfo => {
   const initialData = {children: []}
