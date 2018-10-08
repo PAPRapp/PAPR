@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
-import {getUser, setHash} from './store/'
+import {getUser, setHash, setPage} from './store/'
 import particleConfig from './particle'
 import Particles from 'react-particles-js'
 import {Room, UserHome, LandingPage} from './components/'
@@ -28,15 +28,7 @@ class App extends React.Component {
     } else {
       return (
         <Switch>
-          <Route path="/" component={UserHome} />
           <Route path="/home" component={UserHome} />
-          <Route
-            path="/:anything"
-            render={() => (
-              <Particles className="particles-js" params={particleConfig} />
-            )}
-          />
-          <Route path="/rooms" component={Room} />
         </Switch>
       )
     }
@@ -45,14 +37,16 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.user.currentUser
+    user: state.user.currentUser,
+    currentPage: state.currentPage
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     getUser: () => dispatch(getUser()),
-    setHash: hash => dispatch(setHash(hash))
+    setHash: hash => dispatch(setHash(hash)),
+    setPage: page => dispatch(setPage(page))
   }
 }
 

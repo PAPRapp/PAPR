@@ -50,6 +50,40 @@ export const dynamicBar = tickerInfo => {
   })
 }
 
+//pie filtering out null data util function
+export const piePriceFilter = values => {
+  return values.filter(value => {
+    if (value !== undefined) {
+      return value.price
+    }
+  })
+}
+
+//piechart setting/matching initial values util function
+export const pieValue = (tickers, selected) => {
+  return tickers.children.map(ticker => {
+    if (ticker.name === selected) {
+      return {
+        price: ticker.value
+      }
+    }
+  })
+}
+
+//line graph utility function for plotting data w/cross hair
+export const graphCrossStock = tickerInfo => {
+  const crossData = []
+  return tickerInfo.map(ticker => {
+    if (ticker.marketClose || ticker.close) {
+      crossData.push({
+        x: ticker.label,
+        y: ticker.marketClose || ticker.close
+      })
+    }
+    return crossData
+  })
+}
+
 //min volume util function for bar graph
 export const minVol = tickerPoints => {
   return tickerPoints.reduce((prev, curr) => {

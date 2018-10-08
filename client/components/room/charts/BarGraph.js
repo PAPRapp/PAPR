@@ -8,8 +8,10 @@ import {
   VerticalBarSeries,
   VerticalBarSeriesCanvas,
   DiscreteColorLegend,
-  Hint
+  Hint,
+  FlexibleXYPlot
 } from 'react-vis'
+import {format} from 'd3-format'
 
 export default class BarGraph extends Component {
   constructor(props) {
@@ -44,41 +46,34 @@ export default class BarGraph extends Component {
     const {vol} = high
     //test data
     return (
-      <div>
-        <XYPlot
-          xType="ordinal"
-          stackBy="y"
-          width={1000}
-          height={250}
-          animation
-          yDomain={[0, vol]}
-        >
-          <DiscreteColorLegend
-            style={{position: 'absolute', left: '40px', top: '0px'}}
-            orientation="horizontal"
-            items={[
-              {
-                title: 'Stock',
-                color: '#228B22'
-              }
-            ]}
-          />
-          <XAxis />
-          <YAxis />
-          <BarSeries
-            cluster="2015"
-            colorType="literal"
-            data={volumePoints}
-            onValueMouseOver={this.getValue}
-            onValueMouseOut={this.removeValue}
-          />
-          {value ? (
-            <Hint value={value}>
-              <div className="rv-hint__content">{`Volume: ${value.y}`}</div>
-            </Hint>
-          ) : null}
-        </XYPlot>
-      </div>
+      <FlexibleXYPlot xType="ordinal" stackBy="y" animation yDomain={[0, vol]}>
+        <XAxis hideTicks />
+        <YAxis
+          style={{
+            text: {
+              fill: 'white',
+              fontWeight: 200,
+              fontSize: '10px',
+              fontFamily: 'Helvetica'
+            }
+          }}
+          tickFormat={tick => format('.2s')(tick)}
+        />
+        <BarSeries
+          cluster="2015"
+          colorType="literal"
+          data={volumePoints}
+          onValueMouseOver={this.getValue}
+          onValueMouseOut={this.removeValue}
+        />
+        {value ? (
+          <Hint value={value}>
+            <div className="rv-hint__content">{`Volume: ${format('.2s')(
+              value.y
+            )}`}</div>
+          </Hint>
+        ) : null}
+      </FlexibleXYPlot>
     )
   }
 }

@@ -4,7 +4,7 @@ export const getHoldings = (portfolio, transactions) => {
   //Initializes the holdings object that will be returned
   const holdings = {}
   //Attaches the user's cash to the holdings object (cash is a field in portfolio)
-  holdings.cash = portfolio.cash
+  holdings.Cash = portfolio.cash
   //Maps over the transactions defined above
   transactions.forEach(element => {
     /*If the ticker does not currently exist on the holdings object, add it and either

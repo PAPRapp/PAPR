@@ -1,81 +1,174 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {setSymbol, setQuantity} from '../../../store/'
+import {getHoldings} from './utils/'
+import {
+  setSymbol,
+  setQuantity,
+  fetchPortfolio,
+  setHoldings,
+  getTransactions
+} from '../../../store/'
+import axios from 'axios'
 
 class TradeModal extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      message: null
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChangeSymbol = this.handleChangeSymbol.bind(this)
+    this.handleChangeQuantity = this.handleChangeQuantity.bind(this)
   }
-  handleSubmit() {}
+  async handleSubmit(e) {
+    const transactionObj = {
+      qty: this.props.qty,
+      price: this.props.prices[this.props.symbol] * 100,
+      type: e.target.name,
+      ticker: this.props.symbol,
+      portfolioId: this.props.portfolioId,
+      holdings: this.props.holdings,
+      userId: this.props.userId,
+      roomId: this.props.room.id
+    }
+    console.log(this.props.portfolioId)
+    const {data} = await axios.post('/api/transaction', transactionObj)
+    await this.setState({
+      message: data.message
+    })
+    if (this.state.message === 'Transaction confirmed') {
+      await this.props.getTransactions(this.props.portfolioId)
+      await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
+      const holdings = getHoldings(
+        this.props.portfolio,
+        this.props.transactions
+      )
+      this.props.setHoldings(holdings)
+    }
+  }
+
   handleChangeSymbol(e) {
+    if (this.state.message) {
+      this.setState({
+        message: null
+      })
+    }
     this.props.setSymbol(e.target.value)
   }
-  handleChangeQuanity(e) {
-    this.props.setQuantity(e.target.value)
+  handleChangeQuantity(e) {
+    if (this.state.message) {
+      this.setState({
+        message: null
+      })
+    }
+    if (!isNaN(e.target.value)) {
+      this.props.setQuantity(e.target.value)
+    }
   }
   render() {
     const buyDisabled =
-      this.props.cash < this.props.qty * this.props.prices[this.props.symbol]
-    const sellDisabled = this.props.holdings[this.props.symbol] < this.props.qty
+      this.props.cash / 100 <
+      this.props.qty * this.props.prices[this.props.symbol]
+    const sellDisabled =
+      !this.props.holdings[this.props.symbol] ||
+      this.props.holdings[this.props.symbol] < Number(this.props.qty)
 
-    const sharesAvailable = []
-    for (let i = 1; i <= this.props.holdings[this.props.symbol]; i++) {
-      sharesAvailable.push(i.toString())
-    }
     return (
-      <div id="trade_modal">
-        <div style={{display: 'flex', flexDirection: 'column'}}>
-          <select onChange={this.handleChangeSymbol} value={this.props.symbol}>
-            {this.props.room.tickerQuery
-              ? this.props.room.tickerQuery.map(ticker => {
-                  return (
-                    <option key={ticker} value={ticker.toUpperCase()}>
-                      {ticker.toUpperCase()}
-                    </option>
-                  )
-                })
-              : null}
-          </select>
-          <select onChange={this.handleChangeQuanity} value={this.props.qty}>
-            {sharesAvailable.map(num => {
-              return (
-                <option key={num} value={num}>
-                  {num}
-                </option>
-              )
-            })}
-          </select>
+      <div
+        id="trade_modal"
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          width: '90%',
+          height: '95%',
+          paddingLeft: '5vw',
+          paddingRight: '5vw'
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '30%'
+          }}
+        >
+          {/* <div
+          className="trade-info"
+          style={{width: '30%', display: 'flex', alignItems: 'center'}}
+        > */}
+          {this.props.prices[this.props.symbol] ? (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'space-between',
+                width: '100%',
+                height: '60%',
+                color: 'white'
+              }}
+            >
+              <div className="trade-info-text">
+                <b>Share Price</b>
+                <p style={{margin: '12%'}}>
+                  ${this.props.prices[this.props.symbol].toFixed(2)}
+                </p>
+              </div>
+              <div className="trade-info-text">
+                <b>Total Value</b>
+                <p style={{margin: '12%'}}>
+                  ${(
+                    this.props.qty * this.props.prices[this.props.symbol]
+                  ).toFixed(2)}
+                </p>
+              </div>
+            </div>
+          ) : null}
+          <input
+            type="text"
+            onChange={this.handleChangeQuantity}
+            value={this.props.qty}
+            className="trade-input"
+            placeholder="Enter Quantity"
+          />
         </div>
-        {this.props.prices[this.props.symbol] ? (
-          <div>
-            <p>
-              Current Price: ${this.props.prices[this.props.symbol].toFixed(2)}
-            </p>
-            <p>Quantity: {this.props.qty} Shares</p>
-            <p>
-              Transaction Value: ${(
-                this.props.qty * this.props.prices[this.props.symbol]
-              ).toFixed(2)}
-            </p>
-          </div>
-        ) : null}
-        <div id="trade_modal_buttons">
+        <div
+          id="trade-buttons"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '10px 0px 10px 0px',
+            height: '60%',
+            width: '30%'
+          }}
+        >
           <button
             disabled={buyDisabled}
-            className="trade_button"
+            className="trade-button"
             onClick={this.handleSubmit}
+            style={{width: '100%'}}
+            name="buy"
           >
             Buy
           </button>
           <button
             disabled={sellDisabled}
-            className="trade_button"
+            className="trade-button"
             onClick={this.handleSubmit}
+            style={{width: '100%'}}
+            name="sell"
           >
             Sell
           </button>
+          {this.state.message ? (
+            <div className="error-message">
+              <p>{this.state.message}</p>
+            </div>
+          ) : null}
         </div>
       </div>
     )
@@ -89,14 +182,24 @@ const mapStateToProps = state => {
     symbol: state.liveFeed.symbol,
     holdings: state.portfolio.holdings,
     qty: state.liveFeed.quantity,
-    cash: state.portfolio.cash
+    cash: state.portfolio.cash,
+    portfolioId: state.room.portfolio.id,
+    transactions: state.transaction.transactions,
+    userId: state.user.currentUser,
+    portfolio: state.portfolio.portfolio
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setSymbol: symbol => dispatch(setSymbol(symbol)),
-    setQuantity: num => dispatch(setQuantity(num))
+    setQuantity: num => dispatch(setQuantity(num)),
+    fetchPortfolio: async (roomId, userId) =>
+      dispatch(fetchPortfolio(roomId, userId)),
+    getTransactions: async portfolioId => {
+      await dispatch(getTransactions(portfolioId))
+    },
+    setHoldings: holdings => dispatch(setHoldings(holdings))
   }
 }
 

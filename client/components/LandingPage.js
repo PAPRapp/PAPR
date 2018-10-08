@@ -8,14 +8,15 @@ import {currentUser} from '../store/'
 import fire from '../firebase'
 
 class LandingPage extends React.Component {
-  componentDidMount() {
-    fire.auth().onAuthStateChanged(user => {
+  async componentDidMount() {
+    await fire.auth().onAuthStateChanged(async user => {
       if (user) {
-        this.props.currentUser(user.email)
+        await this.props.currentUser(user.email)
         this.props.history.push('/home')
       }
     })
   }
+
   render() {
     if (this.props.currentPage === 'landing') {
       return <LoginInSignUpCard />
@@ -35,7 +36,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    currentUser: email => dispatch(currentUser(email))
+    currentUser: async email => dispatch(currentUser(email))
   }
 }
 

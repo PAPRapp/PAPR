@@ -1,76 +1,80 @@
 import React, {Component} from 'react'
 import '../../../../node_modules/react-vis/dist/style.css'
-import {graphStock, dynamicLine, minPrice, maxPrice} from './utils/utils'
-import {XYPlot, LineMarkSeries, XAxis, YAxis, Hint} from 'react-vis'
+import {graphCrossStock, dynamicLine, minPrice, maxPrice} from './utils/utils'
+import {
+  LineMarkSeries,
+  XAxis,
+  YAxis,
+  FlexibleXYPlot,
+  Crosshair
+} from 'react-vis'
 
 export default class LineGraph extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      value: null
+      crossHair: []
     }
-    this.getValue = this.getValue.bind(this)
-    this.removeValue = this.removeValue.bind(this)
-  }
-
-  getValue(value) {
-    this.setState({
-      value
-    })
-  }
-
-  removeValue() {
-    this.setState({
-      value: null
-    })
   }
 
   render() {
-    const {value} = this.state
+    const {crossHair} = this.state
     const {info} = this.props
-    const dataPoints = graphStock(info)
+    const dataPoints = graphCrossStock(info)
     const minMax = dynamicLine(info)
     const low = minPrice(minMax)
     const high = maxPrice(minMax)
-    return dataPoints ? (
-      <XYPlot
+    return crossHair ? (
+      <FlexibleXYPlot
         animation
+        onMouseLeave={() => {
+          this.setState({crossHair: []})
+        }}
         yDomain={[low.dollar * 0.998, high.dollar]}
-        width={1000}
-        height={400}
         xType="ordinal"
       >
-        <XAxis tickeLabelAngle={-70} />
-        <YAxis />
+        <XAxis
+          style={{
+            text: {
+              fill: 'white',
+              fontWeight: 200,
+              fontSize: '10px',
+              fontFamily: 'Helvetica'
+            }
+          }}
+        />
+        <YAxis
+          style={{
+            text: {
+              fill: 'white',
+              fontWeight: 200,
+              fontSize: '10px',
+              fontFamily: 'Helvetica'
+            }
+          }}
+        />
         <LineMarkSeries
           style={{
             strokeWidth: '2px'
           }}
-          lineStyle={{stroke: '#228B22'}}
-          markStyle={{stroke: 'none'}}
-          data={dataPoints}
-          onValueMouseOver={this.getValue}
-          onValueMouseOut={this.removeValue}
+          lineStyle={{stroke: '#1EC851'}}
+          markStyle={{stroke: '#1EC851'}}
+          data={dataPoints[0]}
+          onNearestX={(value, {index}) => {
+            this.setState({crossHair: dataPoints.map(coord => coord[index])})
+          }}
           size={0}
         />
-        {value ? (
-          <Hint
-            value={value}
-            style={{
-              fontSize: 20,
-              text: {
-                display: 'none'
-              },
-              value: {
-                color: 'green'
-              }
-            }}
-          >
-            <div className="rv-hint__content">{`${value.x} $${value.y}`}</div>
-          </Hint>
+        {crossHair[0] ? (
+          <Crosshair
+            values={crossHair}
+            titleFormat={data => ({title: 'Date', value: data[0].x})}
+            itemsFormat={data => [{title: 'Price', value: data[1].y}]}
+            style={{line: {backgroundColor: '#808080'}}}
+          />
         ) : null}
-      </XYPlot>
+      </FlexibleXYPlot>
     ) : (
       <div>Loading</div>
     )

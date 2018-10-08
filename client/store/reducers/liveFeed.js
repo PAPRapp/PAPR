@@ -1,3 +1,5 @@
+import {iex} from '../../socket.js'
+
 const initialState = {
   symbols: [],
   prices: {},
@@ -5,14 +7,17 @@ const initialState = {
   historicalPrices: {},
   articles: [],
   symbol: '',
-  quantity: 0,
-  loading: false
+  quantity: 1,
+  loading: false,
+  styles: {}
 }
 
 const UPDATE_PRICE = 'UPDATE_PRICE'
 const CLEAR_PRICES = 'CLEAR_PRICES'
 const SET_SYMBOL = 'SET_SYMBOL'
 const SET_QUANTITY = 'SET_QUANTITY'
+const SET_STYLES = 'SET_STYLES'
+const SET_STYLE = 'SET_STYLE'
 
 export const setSymbol = symbol => {
   return {
@@ -23,7 +28,7 @@ export const setSymbol = symbol => {
 
 export const setQuantity = quantity => {
   return {
-    type: SET_SYMBOL,
+    type: SET_QUANTITY,
     quantity
   }
 }
@@ -38,6 +43,21 @@ export const updatePrice = priceObj => {
   return {
     type: UPDATE_PRICE,
     priceObj
+  }
+}
+
+export const setStyles = symbols => {
+  return {
+    type: SET_STYLES,
+    symbols
+  }
+}
+
+export const setStyle = (symbol, style) => {
+  return {
+    type: SET_STYLE,
+    symbol,
+    style
   }
 }
 
@@ -69,16 +89,34 @@ export default (state = initialState, action) => {
         historicalPrices: historicalPrices
       }
     case CLEAR_PRICES:
+      const symbols = state.symbols.join(',')
+      iex.emit('unsubscribe', symbols)
       return initialState
     case SET_SYMBOL:
       return {
         ...state,
-        symbol: action.symbol
+        symbol: action.symbol.toUpperCase()
       }
     case SET_QUANTITY:
       return {
         ...state,
-        quantity: action.quantity
+        quantity: Number(action.quantity)
+      }
+    case SET_STYLES:
+      let styles = {}
+      action.symbols.forEach(symbol => {
+        styles[symbol.toUpperCase()] = '#656a6dcc'
+      })
+      return {
+        ...state,
+        styles
+      }
+    case SET_STYLE:
+      let oldStyles = state.styles
+      oldStyles[action.symbol] = action.style
+      return {
+        ...state,
+        styles: oldStyles
       }
     default:
       return {...state}

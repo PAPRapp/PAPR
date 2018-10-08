@@ -15,21 +15,20 @@ const defaultRooms = {
 export const getRooms = userId => {
   return async dispatch => {
     try {
-      await fire
-        .auth()
-        .currentUser.getIdToken(/* forceRefresh */ true)
-        .then(async idToken => {
-          console.log(idToken)
-          const payload = {
-            userId,
-            idToken
-          }
-          const res = await axios.post(`/api/rooms/`, payload)
-          dispatch(gotRooms(res.data))
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
+      // await fire
+      //   .auth()
+      //   .currentUser.getIdToken(/* forceRefresh */ true)
+      //   .then(async idToken => {
+      //     console.log(idToken)
+      const payload = {
+        userId
+      }
+      const res = await axios.post(`/api/rooms/`, payload)
+      dispatch(gotRooms(res.data))
+      // })
+      // .catch(function(error) {
+      //   console.log(error)
+      // })
     } catch (error) {
       console.error(error)
     }
