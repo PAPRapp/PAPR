@@ -10,89 +10,95 @@ import {
 import {connect} from 'react-redux'
 import {fetchPortfolio} from '../store/reducers/portfolio'
 
-function getKeyPath(node) {
-  if (!node.parent) {
-    return ['root']
-  }
+//bring functions under the class components and test it out
+//grab data from state ex. this.state.portfolio and send that into dynamicPiePrices function along with live socket data from redux store
+//send it into pieChartColorData to assign hex values and set up structure to push into the pieTreeData util func
+//
 
-  return [(node.data && node.data.name) || node.name].concat(
-    getKeyPath(node.parent)
-  )
-}
 
-// create empty children array and push result of object
-//will connect with live data Sunday/Monday
-const sampleData = {
-  children: [
-    {
-      name: 'CASH',
-      hex: '#32CD32',
-      value: 1000
-    },
-    {
-      name: 'AAPL',
-      hex: '#12939A',
-      value: 3300
-    },
-    {
-      name: 'IBM',
-      hex: '#0e0393',
-      value: 10000
-    },
-    {
-      name: 'MSFT',
-      hex: '#ad4602',
-      value: 8000
-    },
-    {
-      name: 'FB',
-      hex: '#1de362',
-      value: 1300
-    },
-    {
-      name: 'TSLA',
-      hex: '#b51503',
-      value: 3000
-    }
-  ]
-}
+// function getKeyPath(node) {
+//   if (!node.parent) {
+//     return ['root']
+//   }
 
-//sample portfolio
-const portfolio ={
-  'CASH': 10000,
-  'AAPL': 20,
-  'MSFT': 20,
-  'FB': 20,
-  'IBM': 20,
-  'AMD': 10
-}
+//   return [(node.data && node.data.name) || node.name].concat(
+//     getKeyPath(node.parent)
+//   )
+// }
 
-//sample socket simulation pricing
-const priceSim = [
-  {
-    symbol: 'AAPL',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'MSFT',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'FB',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'IBM',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'AMD',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-]
+// // create empty children array and push result of object
+// //will connect with live data Sunday/Monday
+// const sampleData = {
+//   children: [
+//     {
+//       name: 'CASH',
+//       hex: '#66ff6e',
+//       value: 1000,
+//     },
+//     {
+//       name: 'AAPL',
+//       hex: '#f96c6c',
+//       value: 3300,
+//     },
+//     {
+//       name: 'IBM',
+//       hex: '#6cc3f9',
+//       value: 10000,
+//     },
+//     {
+//       name: 'MSFT',
+//       hex: '#f9a26c',
+//       value: 8000,
+//     },
+//     {
+//       name: 'FB',
+//       hex: '#926cf9',
+//       value: 1300,
+//     },
+//     {
+//       name: 'TSLA',
+//       hex: '#f9f76c',
+//       value: 3000,
+//     },
+//   ],
+// };
 
-const dynamicPie = dynamicPiePrices(portfolio, priceSim)
-const initialData = updateData(sampleData, false)
+// //sample portfolio
+// const portfolio ={
+//   'CASH': 10000,
+//   'AAPL': 20,
+//   'MSFT': 20,
+//   'FB': 20,
+//   'IBM': 20,
+//   'AMD': 10
+// }
+
+// //sample socket simulation pricing
+// const priceSim = [
+//   {
+//     symbol: 'AAPL',
+//     lastSalePrice: Math.floor(Math.random() * 300)
+//   },
+//   {
+//     symbol: 'MSFT',
+//     lastSalePrice: Math.floor(Math.random() * 300)
+//   },
+//   {
+//     symbol: 'FB',
+//     lastSalePrice: Math.floor(Math.random() * 300)
+//   },
+//   {
+//     symbol: 'IBM',
+//     lastSalePrice: Math.floor(Math.random() * 300)
+//   },
+//   {
+//     symbol: 'AMD',
+//     lastSalePrice: Math.floor(Math.random() * 300)
+//   },
+// ]
+
+// const dynamicPie = dynamicPiePrices(portfolio, priceSim)
+// const initialData = updateData(sampleData, false)
 
 class SunBurst extends Component {
   constructor(props) {
@@ -105,6 +111,89 @@ class SunBurst extends Component {
       portfolio: {}
     }
   }
+  // function getKeyPath(node) {
+  //   if (!node.parent) {
+  //     return ['root']
+  //   }
+
+  //   return [(node.data && node.data.name) || node.name].concat(
+  //     getKeyPath(node.parent)
+  //   )
+  // }
+
+  // // create empty children array and push result of object
+  // //will connect with live data Sunday/Monday
+  // const sampleData = {
+  //   children: [
+  //     {
+  //       name: 'CASH',
+  //       hex: '#66ff6e',
+  //       value: 1000,
+  //     },
+  //     {
+  //       name: 'AAPL',
+  //       hex: '#f96c6c',
+  //       value: 3300,
+  //     },
+  //     {
+  //       name: 'IBM',
+  //       hex: '#6cc3f9',
+  //       value: 10000,
+  //     },
+  //     {
+  //       name: 'MSFT',
+  //       hex: '#f9a26c',
+  //       value: 8000,
+  //     },
+  //     {
+  //       name: 'FB',
+  //       hex: '#926cf9',
+  //       value: 1300,
+  //     },
+  //     {
+  //       name: 'TSLA',
+  //       hex: '#f9f76c',
+  //       value: 3000,
+  //     },
+  //   ],
+  // };
+
+  // //sample portfolio
+  // const portfolio ={
+  //   'CASH': 10000,
+  //   'AAPL': 20,
+  //   'MSFT': 20,
+  //   'FB': 20,
+  //   'IBM': 20,
+  //   'AMD': 10
+  // }
+
+  // //sample socket simulation pricing
+  // const priceSim = [
+  //   {
+  //     symbol: 'AAPL',
+  //     lastSalePrice: Math.floor(Math.random() * 300)
+  //   },
+  //   {
+  //     symbol: 'MSFT',
+  //     lastSalePrice: Math.floor(Math.random() * 300)
+  //   },
+  //   {
+  //     symbol: 'FB',
+  //     lastSalePrice: Math.floor(Math.random() * 300)
+  //   },
+  //   {
+  //     symbol: 'IBM',
+  //     lastSalePrice: Math.floor(Math.random() * 300)
+  //   },
+  //   {
+  //     symbol: 'AMD',
+  //     lastSalePrice: Math.floor(Math.random() * 300)
+  //   },
+  // ]
+
+  // const dynamicPie = dynamicPiePrices(portfolio, priceSim)
+  // const initialData = updateData(sampleData, false)
 
   async componentDidMount() {
     try {
@@ -118,6 +207,88 @@ class SunBurst extends Component {
   }
 
   render() {
+      // create empty children array and push result of object
+  //will connect with live data Sunday/Monday
+  function getKeyPath(node) {
+    if (!node.parent) {
+      return ['root']
+    }
+
+    return [(node.data && node.data.name) || node.name].concat(
+      getKeyPath(node.parent)
+    )
+  }
+  const sampleData = {
+    children: [
+      {
+        name: 'CASH',
+        hex: '#66ff6e',
+        value: 1000,
+      },
+      {
+        name: 'AAPL',
+        hex: '#f96c6c',
+        value: 3300,
+      },
+      {
+        name: 'IBM',
+        hex: '#6cc3f9',
+        value: 10000,
+      },
+      {
+        name: 'MSFT',
+        hex: '#f9a26c',
+        value: 8000,
+      },
+      {
+        name: 'FB',
+        hex: '#926cf9',
+        value: 1300,
+      },
+      {
+        name: 'TSLA',
+        hex: '#f9f76c',
+        value: 3000,
+      },
+    ],
+  };
+
+  //sample portfolio
+  const dumPort ={
+    'CASH': 10000,
+    'AAPL': 20,
+    'MSFT': 20,
+    'FB': 20,
+    'IBM': 20,
+    'AMD': 10
+  }
+
+  //sample socket simulation pricing
+  const priceSim = [
+    {
+      symbol: 'AAPL',
+      lastSalePrice: Math.floor(Math.random() * 300)
+    },
+    {
+      symbol: 'MSFT',
+      lastSalePrice: Math.floor(Math.random() * 300)
+    },
+    {
+      symbol: 'FB',
+      lastSalePrice: Math.floor(Math.random() * 300)
+    },
+    {
+      symbol: 'IBM',
+      lastSalePrice: Math.floor(Math.random() * 300)
+    },
+    {
+      symbol: 'AMD',
+      lastSalePrice: Math.floor(Math.random() * 300)
+    },
+  ]
+
+  const dynamicPie = dynamicPiePrices(portfolio, priceSim)
+  const initialData = updateData(sampleData, false)
     const {clicked, data, initialValue} = this.state
     const portfolio = pieValue(sampleData, initialValue)
     const {tickers} = this.props
@@ -172,7 +343,7 @@ class SunBurst extends Component {
               {
                 x: 0,
                 y: 0,
-                label: `${initialValue} ${labelValue[0].price}`,
+                label: `${initialValue} $${(labelValue[0].price / 100).toFixed(2)}`,
                 style: {
                   fontSize: '30px',
                   textAnchor: 'middle'

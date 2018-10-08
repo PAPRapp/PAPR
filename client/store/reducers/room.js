@@ -2,12 +2,19 @@ import axios from 'axios'
 
 const GET_ROOM_DATA = 'GET_ROOM_DATA'
 const SET_TICKER = 'SET_TICKER'
+const SET_TRADE = 'SET_TRADE'
 
 export const gotRoomData = (currentRoom, portfolio) => ({
   type: GET_ROOM_DATA,
   currentRoom,
   portfolio
 })
+
+export const setTrade = () => {
+  return {
+    type: SET_TRADE
+  }
+}
 
 export const setTicker = ticker => ({
   type: SET_TICKER,
@@ -18,7 +25,8 @@ const defaultRoom = {
   currentRoom: {},
   portfolio: {},
   ticker: '',
-  type: ''
+  type: '',
+  trade: false
 }
 
 export const getRoomData = (userId, roomId) => {
@@ -34,7 +42,7 @@ export const getRoomData = (userId, roomId) => {
   }
 }
 
-export default function(state = defaultRoom, action) {
+export default (state = defaultRoom, action) => {
   switch (action.type) {
     case GET_ROOM_DATA:
       return {
@@ -44,6 +52,8 @@ export default function(state = defaultRoom, action) {
       }
     case SET_TICKER:
       return {...state, ticker: action.ticker}
+    case SET_TRADE:
+      return {...state, trade: !state.trade}
     default:
       return state
   }

@@ -7,20 +7,30 @@ const checkIfTransactionValid = (holdings, transactionRequest) => {
     /*If you bought 5 shares of Company A at 100 the purchase price would be 500*/
     const purchasePrice = transactionRequest.qty * transactionRequest.price
     /*If the purchase price is greater than the user's cash balance canPurchase === false*/
-    const canPurchase = purchasePrice <= holdings.cash
+    const canPurchase = purchasePrice <= holdings.Cash
     return canPurchase
   } else if (transactionRequest.type === 'sell') {
     const sharesToSell = transactionRequest.qty
-    const sharesOwned = holdings[transactionRequest.ticker] >= sharesToSell
+    const sharesOwned = holdings[transactionRequest.ticker]
     /*If the user owns 5 shares of company A and attemps to sell 6 shares of company B, canSell === false*/
-    const canSell = transactionRequest.qty <= sharesOwned
+    console.log(sharesToSell, sharesOwned)
+    const canSell = sharesToSell <= sharesOwned
     return canSell
   }
 }
 
 router.post('/', async (req, res, next) => {
   try {
-    const {type, ticker, qty, price, portfolioId, holdings} = req.body
+    const {
+      type,
+      ticker,
+      qty,
+      price,
+      portfolioId,
+      holdings,
+      userId,
+      roomId
+    } = req.body
     //Check to see if they have enough cash to purchase or shares to sell
     const validTransaction = checkIfTransactionValid(holdings, req.body)
     if (validTransaction) {
@@ -29,9 +39,25 @@ router.post('/', async (req, res, next) => {
         type,
         ticker,
         qty,
-        price,
-        portfolioId
+        price
+      }).then(transaction => {
+        console.log(portfolioId)
+        transaction.setPortfolio(portfolioId)
       })
+
+      if (type === 'buy') {
+        await Portfolio.update(
+          {cash: holdings.Cash - qty * price},
+          {where: {userId, roomId}}
+        )
+      }
+      if (type === 'sell') {
+        await Portfolio.update(
+          {cash: holdings.Cash + qty * price},
+          {where: {userId, roomId}}
+        )
+      }
+
       const successfulTransactionResponse = {
         message: 'Transaction confirmed'
       }

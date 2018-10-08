@@ -1,15 +1,26 @@
 body {
+  position: fixed;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'Iceland', 'Times New Roman', Times, serif;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+  font-family: 'Helvetica', 'Times New Roman', Times, serif;
   font-weight: normal;
   font-style: normal;
-  z-index: 0;
   background-color: #394b59;
   color: #edf0f2;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+body > #user-home {
+  display: flex;
+  position: fixed;
+  flex-grow: 1;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 button:focus {
@@ -83,6 +94,8 @@ button:disabled {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  justify-self: center;
+  align-self: center;
   align-items: center;
   width: 20vw;
   text-align: center;
@@ -109,11 +122,6 @@ button:disabled {
   width: 20%;
   height: 10%;
   margin: 10px;
-}
-
-#user-home {
-  display: flex;
-  align-items: center;
 }
 
 @keyframes fadein {

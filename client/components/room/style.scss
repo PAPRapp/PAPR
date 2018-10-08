@@ -1,0 +1,269 @@
+#view-container {
+  /* margin-left: 2.25%;
+  width: 90vw;
+  width: 90vw;
+  height: 95vh;
+  height: 100%; */
+  background-color: #0e111192;
+  opacity: 1;
+  background-image: url('https://www.transparenttextures.com/patterns/absurdity.png');
+  /* opacity: 0.98; */
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  flex: 10;
+  /* flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; */
+  #top-bar {
+    display: flex;
+    flex-grow: 1;
+    height: 4vh;
+    margin-bottom: 2px;
+    select {
+      display: flex;
+      justify-content: center;
+      padding-left: 5px;
+      font-size: 16px;
+      align-items: center;
+      background-color: rgb(61, 67, 68);
+      color: #edf0f2;
+      // background-image: url('https://www.transparenttextures.com/patterns/absurdity.png');
+      color: white;
+      border: none;
+      width: 18%;
+      -webkit-border-radius: 0px;
+      border-radius: 0px;
+    }
+    select:hover {
+      background-color: #394b59;
+    }
+    select:active {
+      border: none;
+    }
+
+    #room-tickers {
+      width: 100%;
+      display: flex;
+      .room-ticker {
+        background-color: #394b59;
+        opacity: 0.95;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .room-ticker:hover {
+        opacity: 1;
+        font-weight: bold;
+        font-size: 16px;
+      }
+    }
+  }
+
+  #middle-bar {
+    display: flex;
+    flex-grow: 1;
+    height: 63vh;
+    margin-top: 2px;
+
+    #leader-board-tv {
+      display: flex;
+      width: 18%;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      margin-right: 2px;
+      margin-left: 2px;
+      #leader-board {
+        display: flex;
+        height: 80vh;
+        width: 100%;
+        flex-direction: column;
+        background-color: #0e111192;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2px;
+        margin-bottom: 2px;
+        margin-left: 2px;
+      }
+      #tv {
+        span {
+          width: 100%;
+          height: 100%;
+        }
+        display: flex;
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    #room-charts {
+      display: flex;
+      width: 50%;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+      margin-right: 2px;
+      background-color: #0e111192;
+      #top-chart {
+        display: flex;
+        width: 100%;
+        height: 60%;
+        flex-direction: column;
+        #line-chart {
+          height: 100%;
+          width: 100%;
+          align-items: center;
+        }
+      }
+      #bottom-chart {
+        display: flex;
+        width: 100%;
+        height: 40%;
+        flex-direction: column;
+        flex-grow: 1;
+        #bar-chart {
+          height: 100%;
+          width: 100%;
+          background-color: #394b59;
+          align-items: center;
+        }
+      }
+    }
+
+    #personal-board {
+      display: flex;
+      width: 50%;
+      height: 100%;
+      flex-direction: column;
+      justify-content: stretch;
+      #portfolio {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        // background-color: #394b59;
+        justify-content: center;
+        align-items: center;
+        background-color: #0e111192;
+        margin-top: 2px;
+      }
+      #buy-sell {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        background-color: #0e111192;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  #bottom-bar {
+    display: flex;
+    flex-grow: 1;
+    height: 33vh;
+    #news {
+      width: 100%;
+      background-color: #0e111192;
+      display: flex;
+      flex-direction: column;
+      margin-top: 2px;
+      .article {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        .title {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 80%;
+        }
+        .sentiment {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 20%;
+        }
+      }
+    }
+  }
+}
+
+.rv-xy-plot__axis__tick__text {
+  fill: white;
+}
+
+.trade-buttons {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 20%;
+  size: 18px;
+}
+
+.trade-button {
+  width: 100%;
+  height: 200%;
+  padding: 5%;
+  border: none;
+  margin-top: 4px;
+  background-color: rgb(61, 67, 68);
+  color: #edf0f2;
+  font-size: 13px;
+}
+
+.trade-select {
+  width: 100%;
+  background-color: rgb(61, 67, 68);
+  color: #edf0f2;
+  font-size: 13px;
+  margin-left: 5px;
+}
+
+.trade-button:hover {
+  outline: none;
+  background-color: #394b59;
+}
+
+.trade-button button:focus {
+  outline: none;
+  background-color: #394b59;
+}
+
+.trade-button button:active {
+  outline: none;
+  background-color: #394b59;
+}
+
+.trade-input {
+  border: none;
+  font-size: 14px;
+  background-color: rgb(61, 67, 68);
+  color: #edf0f2;
+  padding: 3%;
+  width: 100%;
+}
+
+// .trade-input-text {
+//   width: 100%;
+//   margin-bottom: 5px;
+// }
+
+.selection {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 12vw;
+}
+
+.trade-info-text {
+  text-align: center;
+  width: 100%;
+}

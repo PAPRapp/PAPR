@@ -60,27 +60,8 @@ class NavBar extends React.Component {
             LOG OUT
           </button>
         </div>
-        <div id="nav-logo">
-          <div>
-            <img
-              className="box"
-              id="top-box"
-              src="/images/logo_top_box.svg"
-              alt="PAPR Top Box"
-            />
-            <img
-              className="box"
-              id="middle-box"
-              src="/images/logo_middle_box.svg"
-              alt="PAPR Middle Box"
-            />
-            <img
-              className="box"
-              id="bottom-box"
-              src="/images/logo_bottom_box.svg"
-              alt="PAPR Bottom Box"
-            />
-          </div>
+        <div>
+          <img id="nav-logo" src="/images/logo_without_text_no_borders.svg" />
         </div>
       </nav>
     )
