@@ -98,7 +98,7 @@ class Room extends Component {
     await this.setState({
       intervalId: null
     })
-    let symbols = this.props.room.tickerQuery.join(',')
+    let symbols = Object.keys(this.props.previousStyles).join(',')
     iex.emit('subscribe', symbols)
     symbols = symbols.split(',')
     if (!this.state.intervalId) {
@@ -144,7 +144,7 @@ class Room extends Component {
                     value={JSON.stringify(room)}
                     className="room-drop-down"
                   >
-                    <p>{room.name}</p>
+                    {room.name}
                   </option>
                 )
               }

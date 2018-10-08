@@ -254,7 +254,7 @@ class SunBurst extends Component {
   };
 
   //sample portfolio
-  const portfolio ={
+  const dumPort ={
     'CASH': 10000,
     'AAPL': 20,
     'MSFT': 20,
