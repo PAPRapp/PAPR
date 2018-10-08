@@ -37,7 +37,7 @@ class Charts extends React.Component {
         .slice(-20)
 
       return (
-        <div className="room-chart">
+        <div id="room-charts">
           <div className="chart-buttons">
             <button
               className="chart-button"
@@ -53,16 +53,17 @@ class Charts extends React.Component {
             </button>
           </div>
           {chart === 'line' ? (
-            <div>
-              <LineGraph info={historyFilter} />
-              <BarGraph info={historyFilter} />
+            <div id="top-chart">
+              <LineGraph id="line-chart" info={historyFilter} />
             </div>
           ) : chart === 'candle' ? (
-            <div>
-              <CandleChart info={historyFilter} />
-              <BarGraph info={historyFilter} />
+            <div id="top-chart">
+              <CandleChart id="line-chart" info={historyFilter} />
             </div>
           ) : null}
+          <div id="bottom-chart">
+            <BarGraph id="bar-chart" info={historyFilter} />
+          </div>
         </div>
       )
     } else {

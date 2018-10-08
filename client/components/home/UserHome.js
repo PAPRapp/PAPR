@@ -1,6 +1,14 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {signOut, getUser, joinRoom} from '../../store/'
+import {
+  signOut,
+  getUser,
+  joinRoom,
+  getRooms,
+  getRoomData,
+  setStyles,
+  setPage
+} from '../../store/'
 import {Rooms, Room, CreateRoom, Navbar} from '../'
 import {withRouter} from 'react-router-dom'
 import particleConfig from '../../particle'
@@ -17,17 +25,25 @@ class UserHome extends React.Component {
       console.log(this.props.hash)
       await this.props.joinRoom(this.props.hash, this.props.userId)
     }
+    await this.props.getRooms(this.props.userId)
+    if (this.props.rooms.length) {
+      let room = this.props.rooms[0]
+      console.log(room)
+      await this.props.getRoomData(this.props.userId, room.id)
+      await this.props.setStyles(this.props.currentRoom.tickerQuery)
+      this.props.setPage('room')
+    }
   }
 
   render() {
     return (
-      <div id="user-home">
-        <Navbar nav={this.nav} />
+      <React.Fragment>
+        <Navbar />
         <Particles className="particles-js" params={particleConfig} />
         {this.props.currentPage === 'rooms' ? <Rooms /> : null}
         {this.props.currentPage === 'room' ? <Room /> : null}
         {this.props.currentPage === 'createroom' ? <CreateRoom /> : null}
-      </div>
+      </React.Fragment>
     )
   }
 }
@@ -39,7 +55,9 @@ const mapStateToProps = state => {
   return {
     userId: state.user.currentUser,
     currentPage: state.currentPage,
-    hash: state.hash
+    hash: state.hash,
+    rooms: state.rooms.rooms,
+    currentRoom: state.room.currentRoom
   }
 }
 
@@ -53,7 +71,12 @@ const mapDispatchToProps = dispatch => {
     },
     joinRoom: async (hash, userId) => {
       await dispatch(joinRoom(hash, userId))
-    }
+    },
+    getRooms: async userId => dispatch(getRooms(userId)),
+    getRoomData: async (userId, roomId) =>
+      dispatch(getRoomData(userId, roomId)),
+    setStyles: tickers => dispatch(setStyles(tickers)),
+    setPage: page => dispatch(setPage(page))
   }
 }
 export default withRouter(

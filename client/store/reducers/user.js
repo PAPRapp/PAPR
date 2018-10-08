@@ -37,9 +37,14 @@ export const getUser = () => {
 export const currentUser = email => {
   let useremail = email
   return async dispatch => {
-    const userId = await axios.get(`/api/users?email=${useremail}`)
-    console.log(userId)
-    dispatch(getCurrent(userId.data.id))
+    await axios
+      .get(`/api/users?email=${useremail}`)
+      .then(res => {
+        dispatch(getCurrent(res.data.id))
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 

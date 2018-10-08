@@ -1,7 +1,13 @@
 import React, {Component} from 'react'
 import '../../../../node_modules/react-vis/dist/style.css'
 import {graphCrossStock, dynamicLine, minPrice, maxPrice} from './utils/utils'
-import {XYPlot, LineMarkSeries, XAxis, YAxis, Crosshair} from 'react-vis'
+import {
+  LineMarkSeries,
+  XAxis,
+  YAxis,
+  FlexibleXYPlot,
+  Crosshair
+} from 'react-vis'
 
 export default class LineGraph extends Component {
   constructor(props) {
@@ -20,28 +26,44 @@ export default class LineGraph extends Component {
     const low = minPrice(minMax)
     const high = maxPrice(minMax)
     return crossHair ? (
-      <XYPlot
+      <FlexibleXYPlot
         animation
         onMouseLeave={() => {
           this.setState({crossHair: []})
         }}
         yDomain={[low.dollar * 0.998, high.dollar]}
-        width={1000}
-        height={400}
         xType="ordinal"
       >
-        <XAxis />
-        <YAxis />
+        <XAxis
+          style={{
+            text: {
+              fill: 'white',
+              fontWeight: 200,
+              fontSize: '10px',
+              fontFamily: 'Helvetica'
+            }
+          }}
+        />
+        <YAxis
+          style={{
+            text: {
+              fill: 'white',
+              fontWeight: 200,
+              fontSize: '10px',
+              fontFamily: 'Helvetica'
+            }
+          }}
+        />
         <LineMarkSeries
           style={{
             strokeWidth: '2px'
           }}
-          lineStyle={{stroke: '#228B22'}}
-          markStyle={{stroke: 'none'}}
-          onNearestXY={(value, {index}) => {
+          lineStyle={{stroke: '#1EC851'}}
+          markStyle={{stroke: '#1EC851'}}
+          data={dataPoints[0]}
+          onNearestX={(value, {index}) => {
             this.setState({crossHair: dataPoints.map(coord => coord[index])})
           }}
-          data={dataPoints[0]}
           size={0}
         />
         {crossHair[0] ? (
@@ -52,7 +74,7 @@ export default class LineGraph extends Component {
             style={{line: {backgroundColor: '#808080'}}}
           />
         ) : null}
-      </XYPlot>
+      </FlexibleXYPlot>
     ) : (
       <div>Loading</div>
     )
