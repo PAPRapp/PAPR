@@ -12,7 +12,7 @@ class CreateRoom extends Component {
       tickers: '',
       startingCash: '',
       sector: '',
-      exp: '',
+      expiration: '',
       sectorTickers: []
     }
     this.handleChange = this.handleChange.bind(this)
@@ -46,11 +46,11 @@ class CreateRoom extends Component {
     let name = this.state.name
     let startingCash = this.state.startingCash
     let tickers = this.state.sectorTickers
-    let exp = this.state.exp
+    let expiration = this.state.expiration
     let user = this.props.userId
-    await this.props.postRoom({name, startingCash, tickers, exp, user})
+    await this.props.postRoom({name, startingCash, tickers, expiration, user})
     let slice = window.location.href.slice(0,-4)
-    let invite = slice + "join/" + this.props.slug
+    let invite = slice + "rooms/join/" + this.props.slug
     alert("Send out this link to invite users:\n"  + invite)
 
   }
@@ -110,10 +110,10 @@ class CreateRoom extends Component {
             <span>Expiration Date</span>
             <input
               type="date"
-              id="exp"
-              name="exp"
-              onChange={this.handleChange('exp')}
-              value={this.state.exp}
+              id="expiration"
+              name="expiration"
+              onChange={this.handleChange('expiration')}
+              value={this.state.expiration}
             />
           </div >
           <div className="fourmdivide">
