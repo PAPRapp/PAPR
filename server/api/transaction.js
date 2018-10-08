@@ -11,9 +11,10 @@ const checkIfTransactionValid = (holdings, transactionRequest) => {
     return canPurchase
   } else if (transactionRequest.type === 'sell') {
     const sharesToSell = transactionRequest.qty
-    const sharesOwned = holdings[transactionRequest.ticker] >= sharesToSell
+    const sharesOwned = holdings[transactionRequest.ticker]
     /*If the user owns 5 shares of company A and attemps to sell 6 shares of company B, canSell === false*/
-    const canSell = transactionRequest.qty <= sharesOwned
+    console.log(sharesToSell, sharesOwned)
+    const canSell = sharesToSell <= sharesOwned
     return canSell
   }
 }

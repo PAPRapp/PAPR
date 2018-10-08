@@ -89,7 +89,7 @@ export default (state = initialState, action) => {
         historicalPrices: historicalPrices
       }
     case CLEAR_PRICES:
-      const symbols = state.symbols.join(',')
+      const symbols = Object.keys(state.styles).join(',')
       iex.emit('unsubscribe', symbols)
       return initialState
     case SET_SYMBOL:

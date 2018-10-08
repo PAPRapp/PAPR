@@ -67,8 +67,8 @@ class TradeModal extends React.Component {
   }
   render() {
     const buyDisabled =
-      this.props.cash / 100 <
-      this.props.qty * this.props.prices[this.props.symbol]
+      this.props.holdings.Cash / 100 <
+      Number(this.props.qty) * this.props.prices[this.props.symbol]
     const sellDisabled =
       !this.props.holdings[this.props.symbol] ||
       this.props.holdings[this.props.symbol] < Number(this.props.qty)
@@ -182,7 +182,7 @@ const mapStateToProps = state => {
     symbol: state.liveFeed.symbol,
     holdings: state.portfolio.holdings,
     qty: state.liveFeed.quantity,
-    cash: state.portfolio.cash,
+    cash: state.portfolio.portfolio.Cash,
     portfolioId: state.room.portfolio.id,
     transactions: state.transaction.transactions,
     userId: state.user.currentUser,
