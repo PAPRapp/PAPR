@@ -143,13 +143,19 @@
         display: flex;
         height: 100%;
         width: 100%;
-        flex-direction: column;
+        flex-direction: row;
+        #-text {
+          display: flex;
+          flex-direction: column;
+        }
         // background-color: #394b59;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
         background-color: #0e111192;
         margin-top: 2px;
       }
+
+
       #buy-sell {
         display: flex;
         height: 100%;

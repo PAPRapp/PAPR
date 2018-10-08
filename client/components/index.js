@@ -20,6 +20,7 @@ export {default as CandleChart} from './room/charts/CandleChart'
 export {default as LivePrices} from './room/charts/LivePrices'
 export {default as Charts} from './room/charts/Charts'
 export {default as CandleFunc} from './room/charts/utils/CandleFunc'
+export {default as Pie} from './Pie'
 
 //Components that reside on/in the createRoom component
 export {default as CreateRoom} from './createRoom/CreateRoom'
