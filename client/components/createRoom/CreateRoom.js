@@ -10,7 +10,7 @@ class CreateRoom extends Component {
     this.state = {
       name: '',
       tickers: '',
-      cash: '',
+      startingCash: '',
       sector: '',
       exp: '',
       sectorTickers: []
@@ -44,12 +44,13 @@ class CreateRoom extends Component {
   handleSubmit = async evt => {
     evt.preventDefault()
     let name = this.state.name
-    let cash = this.state.name
+    let startingCash = this.state.startingCash
     let tickers = this.state.sectorTickers
     let exp = this.state.exp
-    await this.props.postRoom({name, cash, tickers, exp})
+    let user = this.props.userId
+    await this.props.postRoom({name, startingCash, tickers, exp, user})
     let slice = window.location.href.slice(0,-4)
-    let invite = slice + "join" + this.props.slug
+    let invite = slice + "join/" + this.props.slug
     alert("Send out this link to invite users:\n"  + invite)
 
   }
@@ -103,8 +104,8 @@ class CreateRoom extends Component {
               placeholder="Min: 0"
               name="cash"
               id="cash"
-              onChange={this.handleChange('cash')}
-              value={this.state.cash}
+              onChange={this.handleChange('startingCash')}
+              value={this.state.startingCash}
             />
             <span>Expiration Date</span>
             <input
@@ -209,7 +210,7 @@ class CreateRoom extends Component {
 const mapStateToProps = state => {
   return {
     sectors: state.sectors,
-    userId: state.user.currentUser.id,
+    userId: state.user.currentUser,
     slug: state.rooms.slug
   }
 }

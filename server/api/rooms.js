@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Room = require('../db/models/room')
 const Portfolio = require('../db/models/portfolio')
-const User = require('../db/models/user')
+const Rooms = require('../db/models/room')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 module.exports = router
@@ -54,25 +54,29 @@ router.post('/room', async (req, res, next) => {
 
 //create a room & porfolio and make association together along with user
 router.post('/create', async (req, res, next) => {
-
-  const user = req.body.userId
-  const cash = req.body.startingCash
+  const startingCash = req.body.startingCash
   const tickerQuery = req.body.tickers
   const exp = req.body.exp
   const name = req.body.name
+  const userId = req.body.user
   try {
-    const findUser = await User.findById(user)
     const createPortfolio = await Portfolio.create({
-      cash
+      cash: startingCash
     })
     const createdRoom = await Room.create({
       name,
       tickerQuery,
-      exp
+      exp,
+      startingCash
     })
     createPortfolio.setRoom(createdRoom)
-    createPortfolio.setUser(findUser)
-    const getSlug = await Room.findById(createdRoom.id)
+    createPortfolio.setUser(userId)
+    const getSlug = await Rooms.findById(createdRoom.id)
+    const slug = getSlug.slug
+      await Room.update(
+      {users: Sequelize.fn('array_append', Sequelize.col('users'), userId)},
+      {where: {slug}}
+    )
     res.json(getSlug.slug)
   } catch (error) {
     next(error)
