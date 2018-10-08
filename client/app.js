@@ -12,7 +12,6 @@ class App extends React.Component {
     if (url.match(/join\/(.*$)/g)) {
       const hash = url.match(/join\/(.*$)/g)[0].split('/')[1]
       if (hash.length) {
-        console.log(hash)
         this.props.setHash(hash)
       }
     }

@@ -16,7 +16,7 @@ const Room = db.define('room', {
     defaultValue: Date.now(),
     allowNull: false
   },
-  exp: {
+  expiration: {
     type: Sequelize.DATE,
     allowNull: false,
     validate: {
@@ -35,6 +35,10 @@ const Room = db.define('room', {
   },
   startingCash: {
     type: Sequelize.INTEGER,
+    allowNull: false
+  },
+  roomowner:{
+    type: Sequelize.STRING,
     allowNull: false
   }
 })

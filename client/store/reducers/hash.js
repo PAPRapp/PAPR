@@ -19,7 +19,7 @@ export const clearHash = () => {
 export const joinRoom = (hash, userId) => {
   return async dispatch => {
     try {
-      await axios.put(`/api/join/${hash}`, {userId})
+      await axios.put(`/api/rooms/join/${hash}`, {userId})
       dispatch(clearHash())
     } catch (err) {
       console.log(err)
