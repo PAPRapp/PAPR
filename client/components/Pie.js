@@ -16,89 +16,91 @@ import {fetchPortfolio} from '../store/reducers/portfolio'
 //
 
 
-// function getKeyPath(node) {
-//   if (!node.parent) {
-//     return ['root']
-//   }
+function getKeyPath(node) {
+  if (!node.parent) {
+    return ['root']
+  }
 
-//   return [(node.data && node.data.name) || node.name].concat(
-//     getKeyPath(node.parent)
-//   )
-// }
+  return [(node.data && node.data.name) || node.name].concat(
+    getKeyPath(node.parent)
+  )
+}
 
-// // create empty children array and push result of object
-// //will connect with live data Sunday/Monday
-// const sampleData = {
-//   children: [
-//     {
-//       name: 'CASH',
-//       hex: '#66ff6e',
-//       value: 1000,
-//     },
-//     {
-//       name: 'AAPL',
-//       hex: '#f96c6c',
-//       value: 3300,
-//     },
-//     {
-//       name: 'IBM',
-//       hex: '#6cc3f9',
-//       value: 10000,
-//     },
-//     {
-//       name: 'MSFT',
-//       hex: '#f9a26c',
-//       value: 8000,
-//     },
-//     {
-//       name: 'FB',
-//       hex: '#926cf9',
-//       value: 1300,
-//     },
-//     {
-//       name: 'TSLA',
-//       hex: '#f9f76c',
-//       value: 3000,
-//     },
-//   ],
-// };
+// create empty children array and push result of object
+//will connect with live data Sunday/Monday
+const sampleData = {
+  children: [
+    {
+      name: 'CASH',
+      hex: '#32CD32',
+      value: 1000
+    },
+    {
+      name: 'AAPL',
+      hex: '#12939A',
+      value: 3300
+    },
+    {
+      name: 'IBM',
+      hex: '#0e0393',
+      value: 10000
+    },
+    {
+      name: 'MSFT',
+      hex: '#ad4602',
+      value: 8000
+    },
+    {
+      name: 'FB',
+      hex: '#1de362',
+      value: 1300
+    },
+    {
+      name: 'TSLA',
+      hex: '#b51503',
+      value: 3000
+    }
+  ]
+}
 
-// //sample portfolio
-// const portfolio ={
-//   'CASH': 10000,
-//   'AAPL': 20,
-//   'MSFT': 20,
-//   'FB': 20,
-//   'IBM': 20,
-//   'AMD': 10
-// }
+//sample portfolio
+const portfolio ={
+  'CASH': 10000,
+  'AAPL': 20,
+  'MSFT': 20,
+  'FB': 20,
+  'IBM': 20,
+  'AMD': 10
+}
 
-// //sample socket simulation pricing
-// const priceSim = [
-//   {
-//     symbol: 'AAPL',
-//     lastSalePrice: Math.floor(Math.random() * 300)
-//   },
-//   {
-//     symbol: 'MSFT',
-//     lastSalePrice: Math.floor(Math.random() * 300)
-//   },
-//   {
-//     symbol: 'FB',
-//     lastSalePrice: Math.floor(Math.random() * 300)
-//   },
-//   {
-//     symbol: 'IBM',
-//     lastSalePrice: Math.floor(Math.random() * 300)
-//   },
-//   {
-//     symbol: 'AMD',
-//     lastSalePrice: Math.floor(Math.random() * 300)
-//   },
-// ]
+//sample socket simulation pricing
+const priceSim = [
+  {
+    symbol: 'AAPL',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'MSFT',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'FB',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'IBM',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+  {
+    symbol: 'AMD',
+    lastSalePrice: Math.floor(Math.random() * 300)
+  },
+]
 
-// const dynamicPie = dynamicPiePrices(portfolio, priceSim)
-// const initialData = updateData(sampleData, false)
+
+
+const dynamicPie = dynamicPiePrices(portfolio, priceSim)
+const initialData = updateData(sampleData, false)
 
 class SunBurst extends Component {
   constructor(props) {
@@ -111,89 +113,6 @@ class SunBurst extends Component {
       portfolio: {}
     }
   }
-  // function getKeyPath(node) {
-  //   if (!node.parent) {
-  //     return ['root']
-  //   }
-
-  //   return [(node.data && node.data.name) || node.name].concat(
-  //     getKeyPath(node.parent)
-  //   )
-  // }
-
-  // // create empty children array and push result of object
-  // //will connect with live data Sunday/Monday
-  // const sampleData = {
-  //   children: [
-  //     {
-  //       name: 'CASH',
-  //       hex: '#66ff6e',
-  //       value: 1000,
-  //     },
-  //     {
-  //       name: 'AAPL',
-  //       hex: '#f96c6c',
-  //       value: 3300,
-  //     },
-  //     {
-  //       name: 'IBM',
-  //       hex: '#6cc3f9',
-  //       value: 10000,
-  //     },
-  //     {
-  //       name: 'MSFT',
-  //       hex: '#f9a26c',
-  //       value: 8000,
-  //     },
-  //     {
-  //       name: 'FB',
-  //       hex: '#926cf9',
-  //       value: 1300,
-  //     },
-  //     {
-  //       name: 'TSLA',
-  //       hex: '#f9f76c',
-  //       value: 3000,
-  //     },
-  //   ],
-  // };
-
-  // //sample portfolio
-  // const portfolio ={
-  //   'CASH': 10000,
-  //   'AAPL': 20,
-  //   'MSFT': 20,
-  //   'FB': 20,
-  //   'IBM': 20,
-  //   'AMD': 10
-  // }
-
-  // //sample socket simulation pricing
-  // const priceSim = [
-  //   {
-  //     symbol: 'AAPL',
-  //     lastSalePrice: Math.floor(Math.random() * 300)
-  //   },
-  //   {
-  //     symbol: 'MSFT',
-  //     lastSalePrice: Math.floor(Math.random() * 300)
-  //   },
-  //   {
-  //     symbol: 'FB',
-  //     lastSalePrice: Math.floor(Math.random() * 300)
-  //   },
-  //   {
-  //     symbol: 'IBM',
-  //     lastSalePrice: Math.floor(Math.random() * 300)
-  //   },
-  //   {
-  //     symbol: 'AMD',
-  //     lastSalePrice: Math.floor(Math.random() * 300)
-  //   },
-  // ]
-
-  // const dynamicPie = dynamicPiePrices(portfolio, priceSim)
-  // const initialData = updateData(sampleData, false)
 
   async componentDidMount() {
     try {
@@ -207,95 +126,50 @@ class SunBurst extends Component {
   }
 
   render() {
-      // create empty children array and push result of object
-  //will connect with live data Sunday/Monday
-  function getKeyPath(node) {
-    if (!node.parent) {
-      return ['root']
-    }
+    const {holdings, prices} = this.props;
+    const data = {children: [], style: {fillOpacity: 1}}
+//     {hex: "#32CD32"
+// name: "CASH"
+// style: {fillOpacity: 1}
+// value: 1000}
 
-    return [(node.data && node.data.name) || node.name].concat(
-      getKeyPath(node.parent)
+    const colors = ['#70706F', '#7D7D7A', '#8E8D8D', '#A1A2A3', '#B3B6B5', '#BEC0C2']
+    const randomColor = () =>
+    ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(
+      0,
+      7
     )
-  }
-  const sampleData = {
-    children: [
-      {
-        name: 'CASH',
-        hex: '#66ff6e',
-        value: 1000,
-      },
-      {
-        name: 'AAPL',
-        hex: '#f96c6c',
-        value: 3300,
-      },
-      {
-        name: 'IBM',
-        hex: '#6cc3f9',
-        value: 10000,
-      },
-      {
-        name: 'MSFT',
-        hex: '#f9a26c',
-        value: 8000,
-      },
-      {
-        name: 'FB',
-        hex: '#926cf9',
-        value: 1300,
-      },
-      {
-        name: 'TSLA',
-        hex: '#f9f76c',
-        value: 3000,
-      },
-    ],
-  };
+    Object.keys(holdings).forEach((symbol, i) => {
+        if(!data.hasOwnProperty(symbol)) {
+          if(symbol === 'Cash') {
+            data.children.push( {
+              name: symbol,
+              value: holdings[symbol],
+              hex: colors[i],
+              style: {fillOpacity: 1}
+            }
+          );
+          } else {
+            data.children.push( {
+                name: symbol,
+                value: prices[symbol] * holdings[symbol],
+                hex: colors[i],
+                style: {fillOpacity: 1}
+              }
+            );
+          }
+        }
+    })
 
-  //sample portfolio
-  const dumPort ={
-    'CASH': 10000,
-    'AAPL': 20,
-    'MSFT': 20,
-    'FB': 20,
-    'IBM': 20,
-    'AMD': 10
-  }
-
-  //sample socket simulation pricing
-  const priceSim = [
-    {
-      symbol: 'AAPL',
-      lastSalePrice: Math.floor(Math.random() * 300)
-    },
-    {
-      symbol: 'MSFT',
-      lastSalePrice: Math.floor(Math.random() * 300)
-    },
-    {
-      symbol: 'FB',
-      lastSalePrice: Math.floor(Math.random() * 300)
-    },
-    {
-      symbol: 'IBM',
-      lastSalePrice: Math.floor(Math.random() * 300)
-    },
-    {
-      symbol: 'AMD',
-      lastSalePrice: Math.floor(Math.random() * 300)
-    },
-  ]
-
-  const dynamicPie = dynamicPiePrices(portfolio, priceSim)
-  const initialData = updateData(sampleData, false)
-    const {clicked, data, initialValue} = this.state
-    const portfolio = pieValue(sampleData, initialValue)
+    //{IBM: 350, JPM: 350}
+    const {clicked, initialValue} = this.state
+    console.log("THIS IS DATA", data)
+    // const portfolio = pieValue(sampleData, initialValue)
     const {tickers} = this.props
     console.log('THESE ARE TICKERS', tickers)
-    const labelValue = piePriceFilter(portfolio)
-    const {price} = labelValue
-    console.log('THIS IS PRICE', price)
+    // const labelValue = piePriceFilter(portfolio)
+    // const {price} = labelValue
+    // console.log('THIS IS PRICE', price)
     const portfolioShares = this.state.portfolio
     console.log('THIS IS THE PORTFOLIO', portfolioShares)
     return (
@@ -343,7 +217,7 @@ class SunBurst extends Component {
               {
                 x: 0,
                 y: 0,
-                label: `${initialValue} $${(labelValue[0].price / 100).toFixed(2)}`,
+                // label: `${initialValue} $${(labelValue[0].price / 100).toFixed(2)}`,
                 style: {
                   fontSize: '30px',
                   textAnchor: 'middle'
@@ -359,10 +233,12 @@ class SunBurst extends Component {
 
 const mapStateToProps = state => {
   return {
-    tickers: state.liveFeed.prices,
+    prices: state.liveFeed.prices,
     userId: state.user.currentUser,
     roomId: state.room.currentRoom.id,
-    portfolio: state.portfolio.portfolio
+    tickers: state.room.currentRoom.tickerQuery,
+    portfolio: state.portfolio.portfolio,
+    holdings: state.portfolio.holdings,
   }
 }
 
