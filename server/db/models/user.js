@@ -6,7 +6,7 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false
-  }
+  },
 })
 
 module.exports = User

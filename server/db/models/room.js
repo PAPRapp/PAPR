@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize')
-const crypto = require('crypto')
-const aleaRNGFactory = require('number-generator/lib/aleaRNGFactory');
-const { uInt32 } = aleaRNGFactory(10);
 const db = require('../db')
+var rn = require('random-number');
 
 const Room = db.define('room', {
   name: {
@@ -34,11 +32,20 @@ const Room = db.define('room', {
   },
   users: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
+  },
+  startingCash: {
+    type: Sequelize.INTEGER,
+    allowNull: false
   }
 })
 
 Room.generateSalt = function() {
-  return uInt32()
+  var options = {
+    min:  10000
+  , max:  99999
+  , integer: true
+  }
+  return rn(options)
 }
 
 const saltSlug = room => {

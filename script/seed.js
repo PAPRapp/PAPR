@@ -12,8 +12,8 @@ async function seed() {
     User.create({email: 'matt@email.com'}),
     User.create({email: 'joe@email.com'}),
     User.create({email: 'aaron@email.com'}),
-    Room.create({name: 'Test', tickerQuery:['ibm','aapl','tsla','wmt'], exp: new Date('October 10, 2018'), users:['1','2','3','4']}),
-    Room.create({name: 'Test2', tickerQuery:['ge','bac','f','snap'], exp: new Date('October 10, 2018'), users:['1','2']}),
+    Room.create({name: 'Test', tickerQuery:['ibm','aapl','tsla','wmt'], exp: new Date('October 10, 2018'), users:['1','2','3','4'], startingCash: 200000}),
+    Room.create({name: 'Test2', tickerQuery:['ge','bac','f','snap'], exp: new Date('October 10, 2018'), users:['1','2'], startingCash: 100000}),
     Portfolio.create({cash: 100000, userId: 1, roomId: 1}),
   ])
 
