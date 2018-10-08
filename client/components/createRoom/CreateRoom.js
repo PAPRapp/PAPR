@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getSectors, getTickers, postRoom} from '../../store/'
 import Autocomplete from 'react-autocomplete'
+import {Pie} from '../'
 import './style.css'
 
 class CreateRoom extends Component {
@@ -86,6 +87,7 @@ class CreateRoom extends Component {
     const sectors = this.props.sectors.sectors
     return (
       <div className="CreatrRoomDiv">
+      <Pie />
         <div className="fourmCard">
           <form className="fourm" onSubmit={this.handleSubmit}>
           <div className="fourmdivide">

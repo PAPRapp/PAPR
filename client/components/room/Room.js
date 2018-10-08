@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Charts, LivePrices, Trade, TradeModal} from '../'
+import {Charts, LivePrices, Trade, TradeModal, Pie} from '../'
 import {iex} from '../../socket.js'
 import {getHoldings} from './modals/utils'
 import {
@@ -231,6 +231,8 @@ class Room extends Component {
               <TradeModal />
             </div>
             <div id="portfolio">
+              {Object.keys(this.props.holdings).length ? <Pie /> : <div>Loading</div> }
+            <div id="portfolio-text">
               <div>
                 <b>Portfolio Value: </b> ${totalPortfolioValue.toFixed(2)}
               </div>
@@ -255,6 +257,7 @@ class Room extends Component {
                     }
                   })
                 : null}
+              </div>
             </div>
           </div>
         </div>
