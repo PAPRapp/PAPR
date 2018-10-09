@@ -20,6 +20,7 @@ export const fetchPortfolio = (roomId, userId) => {
   return async dispatch => {
     try {
       const portfolio = await axios.get(`/api/portfolio/${roomId}/${userId}`)
+      console.log(portfolio.data)
       dispatch(getPortfolio(portfolio.data))
     } catch (error) {
       console.log(error)

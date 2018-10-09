@@ -77,7 +77,6 @@ export default class CandleChart extends Component {
           </Hint>
         ) : null}
       </FlexibleXYPlot>
-
     )
   }
 }
