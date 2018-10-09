@@ -32,7 +32,6 @@ class UserHome extends React.Component {
     await this.props.getRooms(this.props.userId)
     if (this.props.rooms.length) {
       let room = this.props.rooms[0]
-      console.log(room)
       await this.props.getRoomData(this.props.userId, room.id)
       await this.props.setStyles(room.tickerQuery)
       console.log('room id', room.id)
@@ -46,6 +45,8 @@ class UserHome extends React.Component {
       )
       this.props.setHoldings(holdings)
       this.props.setPage('room')
+    }else{
+      this.props.setPage('createroom')
     }
   }
 

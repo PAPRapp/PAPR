@@ -1,62 +1,20 @@
-.CreatrRoomDiv {
+.form-wrapper {
   background-color: #0e111192;
-  border-radius: 25px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  transition: all 0.2s ease-in-out;
-  transform: scale(0.95);
-  width: 67vw;
-  height: 99vh;
-  animation: fadein 3s forwards;
-  opacity: 0.98;
-  background-image: url(https://www.transparenttextures.com/patterns/absurdity.png);
-}
-
-.fourmCard {
-  background-color: white;
   position: absolute;
-  display: flex;
-  left: 19vw;
-  top: 9vw;
   border-radius: 25px;
-  align-items: center;
-  transition: all 0.2s ease-in-out;
-  transform: scale(0.95);
-  width: 32vw;
-  height: 57vh;
-  animation: fadein 3s forwards;
+  height: 70%;
+  width: 70%;
+  top: 13vh;
+  left: 12vw;
+  opacity: 1;
+  background-image: url(https://www.transparenttextures.com/patterns/absurdity.png)
 }
-.fourm {
-  display: flex;
-  color: black;
-  text-align: center;
-  left: 4vw;
-  width: 24vw;
-  height: 39vh;
-  position: relative;
-  justify-content: space-between;
-}
-.fourmdivide {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 300px;
-}
-.tickerBoxs {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 100px;
-  padding-left: 50px;
-}
-.tickerBox {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-.submitButton {
-  position: absolute;
-  left: 7vw;
-  bottom: 0px;
-  width: 200px;
+.form-div {
+  background: #f9f9f9;
+  padding: 30px 30px;
+  position: fixed;
+  border-radius: 25px;
+  top: 47%;
+  left: 48%;
+  transform: translate(-50%, -50%);
 }

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-var rn = require('random-number');
+const crypto = require('crypto');
 
 const Room = db.define('room', {
   name: {
@@ -16,7 +16,7 @@ const Room = db.define('room', {
     defaultValue: Date.now(),
     allowNull: false
   },
-  exp: {
+  expiration: {
     type: Sequelize.DATE,
     allowNull: false,
     validate: {
@@ -36,22 +36,35 @@ const Room = db.define('room', {
   startingCash: {
     type: Sequelize.INTEGER,
     allowNull: false
+  },
+  roomowner:{
+    type: Sequelize.STRING,
+    allowNull: false
   }
 })
 
-Room.generateSalt = function() {
-  var options = {
-    min:  10000
-  , max:  99999
-  , integer: true
+
+const UrlSafe = (slug) => {
+  const excludeSlug = []
+  for(let i = 0; i < slug.length; i++){
+    if(slug[i] === "/" || slug[i] === "?" || slug[i] === "=" || slug[i] === "+"){
+      continue
+    }else{
+      excludeSlug.push(slug[i])
+    }
   }
-  return rn(options)
+  return excludeSlug.join('')
 }
 
-const saltSlug = room => {
-    room.slug = Room.generateSalt()
+Room.generateSlug = function() {
+  const slug = crypto.randomBytes(16).toString('base64').split('')
+  return UrlSafe(slug)
 }
 
-Room.beforeCreate(saltSlug)
+const genSlug = (room) => {
+    room.slug = Room.generateSlug()
+}
+
+Room.beforeCreate(genSlug)
 
 module.exports = Room

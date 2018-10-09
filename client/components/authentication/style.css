@@ -2,16 +2,22 @@
   background-color: #0e111192;
   border-radius: 25px;
   display: flex;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* left: 25%; */
+  /* right: 25%; */
+  /* right: 46vw; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
   transition: all 0.2s ease-in-out;
-  transform: scale(0.95);
   width: 30vw;
   height: 80vh;
   animation: fadein 3s forwards;
   opacity: 0.98;
-  background-image: url('https://www.transparenttextures.com/patterns/absurdity.png');
+  background-image: url(https://www.transparenttextures.com/patterns/absurdity.png);
 }
 
 .card-contents {

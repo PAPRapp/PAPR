@@ -27,11 +27,15 @@ export const getSectors = () => {
 
 export const getTickers = (sector) =>{
   const params = sector
-  console.log(params)
   return async dispatch =>{
    try {
      const res = await axios.get(`https://api.iextrading.com/1.0/stock/market/collection/sector?collectionName=${params}`)
-     dispatch(getTicker(res.data));
+     let tickers = res.data
+     let results = tickers.map(suggestion => ({
+       value: suggestion.symbol,
+       label: suggestion.companyName
+     }))
+     dispatch(getTicker(results));
    } catch (error) {
     console.log(error)
    }

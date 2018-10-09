@@ -32,9 +32,7 @@ const defaultRoom = {
 export const getRoomData = (userId, roomId) => {
   return async dispatch => {
     try {
-      console.log(userId, roomId)
       const res = await axios.post(`/api/rooms/room`, {userId, roomId})
-      console.log(res.data)
       dispatch(gotRoomData(res.data, res.data.portfolios[0]))
     } catch (err) {
       console.error(err)
