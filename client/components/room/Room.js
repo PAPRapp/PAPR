@@ -71,12 +71,12 @@ class Room extends Component {
         : ''
       await this.props.setSymbol(symbol)
     }
-    await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
-    const holdings = getHoldings(
-      this.props.portfolioForHoldings,
-      this.props.transactions
-    )
-    this.props.setHoldings(holdings)
+    // await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
+    // const holdings = getHoldings(
+    //   this.props.portfolioForHoldings,
+    //   this.props.transactions
+    // )
+    // this.props.setHoldings(holdings)
     this.setIntervalFunc()
   }
 
@@ -131,6 +131,38 @@ class Room extends Component {
         }
       })
     }
+
+    const colors = [
+      '#00417B',
+      '#01A3E2',
+      '#018CC9',
+      '#0379B1',
+      '#016BA7',
+      '#004E89',
+    ]
+
+    const {holdings, prices} = this.props
+    const pieData = {children: [], style: {fillOpacity: 1}}
+
+    Object.keys(holdings).forEach((symbol, i) => {
+      if (!pieData.hasOwnProperty(symbol)) {
+        if (symbol === 'Cash') {
+          pieData.children.push({
+            name: symbol,
+            value: holdings[symbol],
+            hex: colors[i],
+            style: {fillOpacity: 1}
+          })
+        } else {
+          pieData.children.push({
+            name: symbol,
+            value: prices[symbol] * holdings[symbol],
+            hex: colors[i],
+            style: {fillOpacity: 1}
+          })
+        }
+      }
+    })
 
     return (
       <div id="view-container">
@@ -231,7 +263,8 @@ class Room extends Component {
               <TradeModal />
             </div>
             <div id="portfolio">
-              {Object.keys(this.props.holdings).length ? <Pie /> : <div>Loading</div> }
+            {console.log(pieData)}
+              {Object.keys(this.props.holdings).length ? <Pie id="pie" data={pieData} /> : <div>Loading</div> }
             <div id="portfolio-text">
               <div>
                 <b>Portfolio Value: </b> ${totalPortfolioValue.toFixed(2)}

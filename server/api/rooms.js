@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Room = require('../db/models/room')
 const Portfolio = require('../db/models/portfolio')
-const Rooms = require('../db/models/room')
+// const Rooms = require('../db/models/room')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 module.exports = router
@@ -15,14 +15,14 @@ router.post('/', async (req, res, next) => {
   //otherwise do nothing
   const userId = req.body.userId
   try {
-    const Rooms = await Room.findAll({
+    const rooms = await Room.findAll({
       where: {
         users: {
           [Op.contains]: [userId]
         }
       }
     })
-    res.json(Rooms)
+    res.json(rooms)
   } catch (error) {
     res.send(error)
   }
@@ -32,7 +32,7 @@ router.post('/room', async (req, res, next) => {
   const userId = req.body.userId
   const roomId = req.body.roomId
   try {
-    const Rooms = await Room.findOne({
+    const rooms = await Room.findOne({
       where: {
         id: roomId
       },
@@ -46,7 +46,7 @@ router.post('/room', async (req, res, next) => {
       ]
     })
 
-    res.json(Rooms)
+    res.json(rooms)
   } catch (error) {
     res.send(error)
   }

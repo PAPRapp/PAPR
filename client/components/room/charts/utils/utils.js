@@ -3,14 +3,14 @@ export const dynamicPiePrices = (portfolio, prices) => {
   const dynamicPortfolio = {}
   const cash = portfolio.CASH
   prices.forEach(price => {
-    if(portfolio[price.symbol]) {
-      dynamicPortfolio[price.symbol] = price.lastSalePrice * portfolio[price.symbol]
+    if (portfolio[price.symbol]) {
+      dynamicPortfolio[price.symbol] =
+        price.lastSalePrice * portfolio[price.symbol]
     }
   })
   dynamicPortfolio.CASH = cash
   return dynamicPortfolio
 }
-
 
 //pie chart data util function
 export const pieTreeData = tickerInfo => {
@@ -39,17 +39,16 @@ export const pieChartColorData = tickerInfo => {
 //pie filtering out null data util function
 export const piePriceFilter = values => {
   return values.filter(value => {
-    if(value !== undefined) {
+    if (value !== undefined) {
       return value.price
     }
   })
 }
 
-
 //piechart setting/matching initial values util function
 export const pieValue = (tickers, selected) => {
   return tickers.children.map(ticker => {
-    if(ticker.name === selected) {
+    if (ticker.name === selected) {
       return {
         price: ticker.value
       }
@@ -59,7 +58,7 @@ export const pieValue = (tickers, selected) => {
 
 //pie chart update util function
 export const updateData = (data, key) => {
-  if(data.children) {
+  if (data.children) {
     data.children.map(child => updateData(child, key))
   }
   data.style = {
@@ -251,13 +250,4 @@ export const bought = tradeConfirmations => {
 //trades sold util function
 export const sold = tradeConfirmations => {
   return tradeConfirmations.filter(trades => trades.sell)
-}
-
-export const yAxis = {
-  axis: {
-    y: {
-      min: 0,
-      max: 200
-    }
-  }
 }

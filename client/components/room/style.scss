@@ -201,8 +201,19 @@
   }
 }
 
+
+.rv-xy-plot__series--label-text {
+  fill: white !important
+}
+
+
 .rv-xy-plot__axis__tick__text {
   fill: white;
+}
+
+.rv-sunburst__series--radial__arc:hover {
+  stroke: black !important;
+  stroke-width: 2px !important;
 }
 
 .trade-buttons {
