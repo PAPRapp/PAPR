@@ -43,13 +43,13 @@ class Charts extends React.Component {
               className="chart-button"
               onClick={e => this.changeChart(e, 'line')}
             >
-              Line
+              LINE
             </button>
             <button
               className="chart-button"
               onClick={e => this.changeChart(e, 'candle')}
             >
-              Candle
+              CANDLE
             </button>
           </div>
           {chart === 'line' ? (

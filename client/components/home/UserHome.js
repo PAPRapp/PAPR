@@ -31,10 +31,7 @@ class UserHome extends React.Component {
       let room = this.props.rooms[0]
       await this.props.getRoomData(this.props.userId, room.id)
       await this.props.setStyles(room.tickerQuery)
-      console.log('room id', room.id)
-      console.log('user id', this.props.userId)
       await this.props.fetchPortfolio(room.id, this.props.userId)
-      console.log('portfolio id', this.props.portfolioForHoldings.id)
       await this.props.getTransactions(this.props.portfolioForHoldings.id)
       const holdings = await getHoldings(
         this.props.portfolioForHoldings,

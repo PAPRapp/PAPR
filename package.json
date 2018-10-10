@@ -50,6 +50,7 @@
     "firebase": "^5.5.2",
     "firebase-admin": "^6.0.0",
     "history": "^4.6.3",
+    "moment": "^2.22.2",
     "morgan": "^1.8.1",
     "node-sass": "^4.9.3",
     "number-generator": "^2.2.2",

@@ -68,10 +68,12 @@ class TradeModal extends React.Component {
   render() {
     const buyDisabled =
       this.props.holdings.Cash / 100 <
-      Number(this.props.qty) * this.props.prices[this.props.symbol]
+        Number(this.props.qty) * this.props.prices[this.props.symbol] ||
+      Number(this.props.qty) < 0
     const sellDisabled =
       !this.props.holdings[this.props.symbol] ||
-      this.props.holdings[this.props.symbol] < Number(this.props.qty)
+      this.props.holdings[this.props.symbol] < Number(this.props.qty) ||
+      Number(this.props.qty) < 0
 
     return (
       <div
@@ -111,12 +113,6 @@ class TradeModal extends React.Component {
               }}
             >
               <div className="trade-info-text">
-                <b>Share Price</b>
-                <p style={{margin: '12%'}}>
-                  ${this.props.prices[this.props.symbol].toFixed(2)}
-                </p>
-              </div>
-              <div className="trade-info-text">
                 <b>Total Value</b>
                 <p style={{margin: '12%'}}>
                   ${(
@@ -153,7 +149,7 @@ class TradeModal extends React.Component {
             style={{width: '100%'}}
             name="buy"
           >
-            Buy
+            BUY
           </button>
           <button
             disabled={sellDisabled}
@@ -162,7 +158,7 @@ class TradeModal extends React.Component {
             style={{width: '100%'}}
             name="sell"
           >
-            Sell
+            SELL
           </button>
           {this.state.message ? (
             <div className="error-message">
