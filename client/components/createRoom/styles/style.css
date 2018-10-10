@@ -37,3 +37,11 @@
   color: #1919ff;
   cursor: copy;
 }
+.dateerror{
+  position: fixed;
+  transform: translate(-50%, -50%);
+  bottom: 1vh;
+  left: 25vw;
+  color: white;
+  font-size: 14px;
+}

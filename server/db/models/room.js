@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const crypto = require('crypto');
+const crypto = require('crypto')
 
 const Room = db.define('room', {
   name: {
@@ -28,28 +28,36 @@ const Room = db.define('room', {
     defaultValue: true
   },
   slug: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   users: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
   startingCash: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      min: 0,
+      max: 1000000
+    }
   },
-  roomowner:{
+  roomowner: {
     type: Sequelize.STRING,
     allowNull: false
   }
 })
 
-
-const UrlSafe = (slug) => {
+const UrlSafe = slug => {
   const excludeSlug = []
-  for(let i = 0; i < slug.length; i++){
-    if(slug[i] === "/" || slug[i] === "?" || slug[i] === "=" || slug[i] === "+"){
+  for (let i = 0; i < slug.length; i++) {
+    if (
+      slug[i] === '/' ||
+      slug[i] === '?' ||
+      slug[i] === '=' ||
+      slug[i] === '+'
+    ) {
       continue
-    }else{
+    } else {
       excludeSlug.push(slug[i])
     }
   }
@@ -57,12 +65,15 @@ const UrlSafe = (slug) => {
 }
 
 Room.generateSlug = function() {
-  const slug = crypto.randomBytes(16).toString('base64').split('')
+  const slug = crypto
+    .randomBytes(16)
+    .toString('base64')
+    .split('')
   return UrlSafe(slug)
 }
 
-const genSlug = (room) => {
-    room.slug = Room.generateSlug()
+const genSlug = room => {
+  room.slug = Room.generateSlug()
 }
 
 Room.beforeCreate(genSlug)
