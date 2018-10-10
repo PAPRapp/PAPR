@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
-import CreateRoom from './CreateRoom'
+import CreateRoom from './CreateRoomForm'
 import {createroommodalstyles} from './styles/Material-UI-Style'
 import getModalStyleFunc from './utils/ModalComponent'
 
