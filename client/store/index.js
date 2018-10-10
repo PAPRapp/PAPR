@@ -12,6 +12,7 @@ import sectors from './reducers/sectors'
 import currentPage from './reducers/currentPage'
 import transaction from './reducers/transaction'
 import hash from './reducers/hash'
+import message from './reducers/message'
 
 const reducer = combineReducers({
   user,
@@ -23,11 +24,10 @@ const reducer = combineReducers({
   sectors,
   currentPage,
   transaction,
-  hash
+  hash,
+  message
 })
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
-)
+const middleware = applyMiddleware(thunkMiddleware)
 const store = createStore(reducer, middleware)
 
 export default store
@@ -41,3 +41,4 @@ export * from './reducers/sectors'
 export * from './reducers/currentPage'
 export * from './reducers/transaction'
 export * from './reducers/hash'
+export * from './reducers/message'

@@ -1,6 +1,15 @@
 import React, {Component} from 'react'
+import moment from 'moment'
 import {connect} from 'react-redux'
-import {Charts, LivePrices, Trade, TradeModal, Pie, Leaderboard} from '../'
+import {
+  Charts,
+  LivePrices,
+  Trade,
+  TradeModal,
+  Pie,
+  Leaderboard,
+  Chat
+} from '../'
 import {iex} from '../../socket.js'
 import {getHoldings} from './modals/utils'
 import {
@@ -14,7 +23,9 @@ import {
   fetchPortfolio,
   setStyle,
   setStyles,
-  getNews
+  getNews,
+  fetchMessages,
+  fetchAllPortfolios
 } from '../../store/'
 import './style.scss'
 import YouTube from 'react-youtube'
@@ -35,14 +46,17 @@ class Room extends Component {
     let symbol = this.props.symbol
     let history = this.props.getHistory
     let news = this.props.getNews
+    let roomId = this.props.room.id
+    let getPortfolios = this.props.fetchAllPortfolios
     history(symbol)
     news(symbol)
-    let callBack = function(ticker, func, func2) {
+    let callBack = function(ticker, room, func, func2, func3) {
       func2(ticker)
       func(ticker)
+      func3(room)
     }
     let intervalId = setInterval(() => {
-      callBack(symbol, history, news)
+      callBack(symbol, roomId, history, news, getPortfolios)
     }, 10000)
 
     await this.setState({
@@ -93,6 +107,8 @@ class Room extends Component {
     await this.props.setStyles(this.props.room.tickerQuery)
     await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
     await this.props.getTransactions(this.props.portfolioForSockets.id)
+    await this.props.fetchMessages(this.props.room.id)
+    await this.props.fetchAllPortfolios(this.props.room.id)
     clearInterval(this.state.intervalId)
     await this.setState({
       intervalId: null
@@ -256,7 +272,11 @@ class Room extends Component {
                   top: 0
                 }}
               >
-                <p id="symbol">{this.props.symbol}</p>
+                <p id="symbol">
+                  {this.props.symbol} ${this.props.prices[this.props.symbol]
+                    ? this.props.prices[this.props.symbol].toFixed(2)
+                    : null}
+                </p>
               </b>
               <TradeModal />
             </div>
@@ -296,8 +316,8 @@ class Room extends Component {
           </div>
         </div>
         <div id="bottom-bar">
-          <div id="papr-score">
-            <p>{this.props.news.paprScore}</p>
+          <div id="chat">
+            <Chat />
           </div>
           <div id="news">
             <div id="news-heading">
@@ -381,16 +401,18 @@ const mapDispatchToProps = dispatch => {
     getRoomData: (userId, roomId) => dispatch(getRoomData(userId, roomId)),
     clearPrices: () => dispatch(clearPrices()),
     setHoldings: holdings => dispatch(setHoldings(holdings)),
-    setSymbol: async symbol => dispatch(setSymbol(symbol)),
+    setSymbol: symbol => dispatch(setSymbol(symbol)),
     setTrade: () => dispatch(setTrade()),
-    fetchPortfolio: async (roomId, userId) =>
-    dispatch(fetchPortfolio(roomId, userId)),
+    fetchPortfolio: (roomId, userId) =>
+      dispatch(fetchPortfolio(roomId, userId)),
     getTransactions: async portfolioId => {
       await dispatch(getTransactions(portfolioId))
     },
     setStyle: (symbol, color) => dispatch(setStyle(symbol, color)),
     setStyles: tickers => dispatch(setStyles(tickers)),
-    getNews: ticker => dispatch(getNews(ticker))
+    getNews: ticker => dispatch(getNews(ticker)),
+    fetchMessages: roomId => dispatch(fetchMessages(roomId)),
+    fetchAllPortfolios: roomId => dispatch(fetchAllPortfolios(roomId))
   }
 }
 

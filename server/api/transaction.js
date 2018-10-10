@@ -7,14 +7,20 @@ const checkIfTransactionValid = (holdings, transactionRequest) => {
     /*If you bought 5 shares of Company A at 100 the purchase price would be 500*/
     const purchasePrice = transactionRequest.qty * transactionRequest.price
     /*If the purchase price is greater than the user's cash balance canPurchase === false*/
-    const canPurchase = purchasePrice <= holdings.Cash
+    const canPurchase =
+      purchasePrice <= holdings.Cash &&
+      transactionRequest.qty > 0 &&
+      transactionRequest.qty < 100000000
     return canPurchase
   } else if (transactionRequest.type === 'sell') {
     const sharesToSell = transactionRequest.qty
     const sharesOwned = holdings[transactionRequest.ticker]
     /*If the user owns 5 shares of company A and attemps to sell 6 shares of company B, canSell === false*/
     console.log(sharesToSell, sharesOwned)
-    const canSell = sharesToSell <= sharesOwned
+    const canSell =
+      sharesToSell <= sharesOwned &&
+      transactionRequest.qty > 0 &&
+      transactionRequest.qty < 100000000
     return canSell
   }
 }

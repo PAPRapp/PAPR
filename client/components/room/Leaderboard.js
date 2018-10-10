@@ -90,7 +90,7 @@ class Leaderboard extends Component {
     this.props.portfolios.sort(compare)
     return (
       <div id="leader-board">
-        <h4>LEADERBOARD</h4>
+        <p>LEADERBOARD</p>
         {this.props.portfolios.map(portfolio => {
           let backgroundColor
           if (color) {
@@ -147,14 +147,12 @@ const mapDispatchToProps = dispatch => {
     getRoomData: (userId, roomId) => dispatch(getRoomData(userId, roomId)),
     clearPrices: () => dispatch(clearPrices()),
     setHoldings: holdings => dispatch(setHoldings(holdings)),
-    setSymbol: async symbol => dispatch(setSymbol(symbol)),
+    setSymbol: symbol => dispatch(setSymbol(symbol)),
     setTrade: () => dispatch(setTrade()),
-    fetchPortfolio: async (roomId, userId) =>
+    fetchPortfolio: (roomId, userId) =>
       dispatch(fetchPortfolio(roomId, userId)),
-    fetchAllPortfolios: async roomId => dispatch(fetchAllPortfolios(roomId)),
-    getTransactions: async portfolioId => {
-      await dispatch(getTransactions(portfolioId))
-    },
+    fetchAllPortfolios: roomId => dispatch(fetchAllPortfolios(roomId)),
+    getTransactions: portfolioId => dispatch(getTransactions(portfolioId)),
     setStyle: (symbol, color) => dispatch(setStyle(symbol, color)),
     setStyles: tickers => dispatch(setStyles(tickers))
   }
