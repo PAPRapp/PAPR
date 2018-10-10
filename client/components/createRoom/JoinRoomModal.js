@@ -20,6 +20,10 @@ class JoinRoomModal extends React.Component {
     this.setState({copied: true})
   }
 
+  componentWillUnmount() {
+    window.location.reload()
+  }
+
   render() {
     const {classes} = this.props
     const url = this.props.url
