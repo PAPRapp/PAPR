@@ -307,7 +307,15 @@ class Room extends Component {
           <div id="news">
             <div id="news-heading">
               <b>Headline</b>
-              <b>Sentiment</b>
+              <b
+                style={{
+                  color: 'white',
+                  textAlign: 'center',
+                  paddingRight: '10px'
+                }}
+              >
+                Sentiment
+              </b>
             </div>
             {this.props.news.news.map((article, i) => {
               const sentimentColor =
@@ -320,16 +328,24 @@ class Room extends Component {
                     target="_blank"
                     rel="noopener noreferrer"
                     href={article.url}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
                   >
                     {article.headline}
                   </a>
                   <a
                     style={{
                       backgroundColor: sentimentColor,
+                      display: 'flex',
                       fontSize: '10px',
                       width: '100px',
                       textAlign: 'center',
-                      padding: '5px'
+                      padding: '5px',
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
                     {article.sentiment}

@@ -53,6 +53,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-left: 1px;
+        margin-right: 1px;
       }
       .room-ticker:hover {
         opacity: 1;
@@ -217,6 +219,7 @@
         align-items: center;
         justify-content: space-between;
         width: 98%;
+        min-height: 20px !important;
         height: 20px;
         padding-top: 10px;
         padding-bottom: 10px;
@@ -224,19 +227,22 @@
         padding-left: 10px;
         background-color: #656a6d54;
         size: 30px;
+        margin-bottom: 10px;
       }
       .article {
         display: flex;
         flex-direction: row;
-        align-items: flex-start;
+        align-items: center;
         justify-content: space-between;
         position: relative;
         width: 98%;
-        height: 20px;
+        min-height: 10px;
+        height: 10px;
         padding-top: 10px;
         padding-bottom: 10px;
         padding-right: 10px;
         padding-left: 10px;
+        margin-bottom: 10px;
         :hover {
           background-color: #656a6d54;
         }
@@ -245,10 +251,11 @@
           text-decoration: none;
           text-align: 'center';
         }
-        b {
-          color: white;
-          text-align: 'center';
-        }
+      }
+      .article b {
+        color: white;
+        text-align: 'center';
+        padding-right: 15px;
       }
     }
   }
@@ -265,6 +272,12 @@
 
 .rv-xy-plot__series--label-text {
   fill: white !important;
+}
+
+/* .rv-xy-plot__series .rv-xy-plot__series--arc-path */
+.rv-sunburst__series--radial__arc:hover {
+  fill: #edf0f2 !important;
+  background-color: black;
 }
 
 .trade-buttons {
