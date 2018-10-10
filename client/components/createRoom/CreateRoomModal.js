@@ -3,27 +3,8 @@ import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import CreateRoom from './CreateRoom'
-
-function getModalStyle() {
-  const top = 50
-  const left = 50
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`
-  }
-}
-
-const styles = theme => ({
-  paper: {
-    position: 'absolute',
-    width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4
-  }
-})
+import {createroommodalstyles} from './styles/Material-UI-Style'
+import getModalStyleFunc from './utils/ModalComponent'
 
 class CreateRoomModal extends React.Component {
   render() {
@@ -36,7 +17,7 @@ class CreateRoomModal extends React.Component {
           open={this.props.state}
           onClose={this.props.handleClose}
         >
-          <div style={getModalStyle()} className={classes.paper}>
+          <div style={getModalStyleFunc()} className={classes.paper}>
             <CreateRoom />
           </div>
         </Modal>
@@ -49,4 +30,4 @@ CreateRoomModal.propTypes = {
   classes: PropTypes.object
 }
 
-export default withStyles(styles)(CreateRoomModal)
+export default withStyles(createroommodalstyles)(CreateRoomModal)
