@@ -1,15 +1,25 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import {signOut, setPage, getRooms} from '../../store/'
+import {
+  signOut,
+  setPage,
+  getRooms,
+  getUser,
+  joinRoom,
+  getRoomData,
+  setStyles,
+  fetchPortfolio,
+  getTransactions
+} from '../../store/'
 import CreateRoomModal from '../createRoom/CreateRoomModal'
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: false,
-    };
+      open: false
+    }
 
     this.handleSignOut = this.handleSignOut.bind(this)
     this.handleOpen = this.handleOpen.bind(this)
@@ -17,12 +27,12 @@ class NavBar extends React.Component {
   }
 
   handleOpen = () => {
-    this.setState({ open: true });
-  };
+    this.setState({open: true})
+  }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({open: false})
+  }
 
   handleSignOut() {
     this.props.signOut()
@@ -38,8 +48,7 @@ class NavBar extends React.Component {
           <button
             className="nav-button"
             onClick={async () => {
-              await this.props.getRooms(this.props.userId)
-              this.props.setPage('rooms')
+              this.props.setPage('room')
             }}
           >
             ROOMS
@@ -54,22 +63,24 @@ class NavBar extends React.Component {
             PROFILE
           </button> */}
 
-          <button
+          {/* <button
             className="nav-button"
             onClick={() => {
               this.props.setPage('settings')
             }}
           >
             SETTINGS
-          </button>
+          </button> */}
 
-          <button
-            className="nav-button"
-            onClick={this.handleOpen}
-          >
+          <button className="nav-button" onClick={this.handleOpen}>
             CREATE ROOM
           </button>
-          {renderModal ? <CreateRoomModal handleClose={this.handleClose} state={this.state.open}/> : null}
+          {renderModal ? (
+            <CreateRoomModal
+              handleClose={this.handleClose}
+              state={this.state.open}
+            />
+          ) : null}
           <button className="nav-button" onClick={this.handleSignOut}>
             LOG OUT
           </button>
@@ -90,7 +101,22 @@ const mapDispatchToProps = dispatch => {
     setPage: page => {
       dispatch(setPage(page))
     },
-    getRooms: userId => dispatch(getRooms(userId))
+    getRooms: userId => dispatch(getRooms(userId)),
+    getUser: () => {
+      dispatch(getUser())
+    },
+    joinRoom: async (hash, userId) => {
+      await dispatch(joinRoom(hash, userId))
+    },
+    getRoomData: async (userId, roomId) =>
+      dispatch(getRoomData(userId, roomId)),
+    setStyles: tickers => dispatch(setStyles(tickers)),
+    fetchPortfolio: async (roomId, userId) =>
+      dispatch(fetchPortfolio(roomId, userId)),
+    getTransactions: async portfolioId => {
+      await dispatch(getTransactions(portfolioId))
+    },
+    setHoldings: holdings => dispatch(setHoldings(holdings))
   }
 }
 

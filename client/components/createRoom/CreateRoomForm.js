@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {getSectors, getTickers, postRoom} from '../../store'
+import {getSectors, getTickers, postRoom, getRooms, setPage} from '../../store'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import './styles/style.css'
@@ -39,10 +39,6 @@ class CreateRoomForm extends Component {
     this.props.getTickers(this.state.sector)
   }
 
-  handleClose = () => {
-    this.setState({open: false})
-  }
-
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
@@ -73,7 +69,7 @@ class CreateRoomForm extends Component {
       tickers: null,
       startingCash: '',
       sector: '',
-      expiration: '',
+      expiration: ''
     })
   }
 
@@ -109,6 +105,7 @@ class CreateRoomForm extends Component {
       })
     } else {
       await this.props.postRoom({name, startingCash, tickers, expiration, user})
+      await this.props.getRooms(this.props.userId)
       const slice = window.location.href.slice(0, -4)
       const invite = slice + 'rooms/join/' + this.props.slug
       this.setState({
@@ -119,9 +116,10 @@ class CreateRoomForm extends Component {
         startingCash: '',
         sector: '',
         expiration: '',
-        errorDate: false,
+        errorDate: false
       })
     }
+    window.location.reload()
   }
 
   handleChangeCompanies = name => value => {
@@ -241,7 +239,9 @@ class CreateRoomForm extends Component {
               handleChangeCompanies={this.handleChangeCompanies}
             />
           </div>
-          {this.state.errorDate ? <div className="dateerror"> Expiration Date must be in future </div> : null}
+          {this.state.errorDate ? (
+            <div className="dateerror"> Expiration Date must be in future </div>
+          ) : null}
           <Button type="submit" variant="contained" className={classes.button}>
             Submit
           </Button>
@@ -263,7 +263,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getSectors: () => dispatch(getSectors()),
     getTickers: sector => dispatch(getTickers(sector)),
-    postRoom: data => dispatch(postRoom(data))
+    postRoom: data => dispatch(postRoom(data)),
+    getRooms: async userId => dispatch(getRooms(userId))
   }
 }
 
