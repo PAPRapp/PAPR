@@ -27,6 +27,7 @@ const reducer = combineReducers({
   hash,
   message
 })
+
 const middleware = applyMiddleware(thunkMiddleware)
 const store = createStore(reducer, middleware)
 

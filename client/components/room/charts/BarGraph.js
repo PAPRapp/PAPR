@@ -46,9 +46,10 @@ export default class BarGraph extends Component {
     const {vol} = high
 
     return (
-      <FlexibleXYPlot xType="ordinal" stackBy="y" animation yDomain={[0, vol]}>
+      <FlexibleXYPlot animation xType="ordinal" stackBy="y" yDomain={[0, vol]}>
         <XAxis hideTicks />
         <YAxis
+          animation
           style={{
             text: {
               fill: 'white',

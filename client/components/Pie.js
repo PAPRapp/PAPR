@@ -106,6 +106,7 @@ class SunBurst extends Component {
           }
         }
       })
+      console.log("DATA", data)
       return (
         <FlexibleSunburst
           animation
@@ -124,6 +125,7 @@ class SunBurst extends Component {
           data={data}
           padAngle={0.015}
         >
+        {/* <DiscreteColorLegend height={200} width={300} items={}/> */}
           {value ? (
             <LabelSeries
               data={[

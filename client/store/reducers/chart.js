@@ -48,7 +48,6 @@ export const getTicker = id => {
   return async dispatch => {
     try {
       const res = await axios.get(`/api/rooms/${id}`)
-      console.log(res.data)
       dispatch(gotTicker(res.data.tickerQuery))
     } catch (error) {
       console.error(error)

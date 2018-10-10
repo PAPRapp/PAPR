@@ -47,6 +47,7 @@ export default class LineGraph extends Component {
           tickLabelAngle={-15}
         />
         <YAxis
+          animation
           style={{
             text: {
               fill: 'white',
