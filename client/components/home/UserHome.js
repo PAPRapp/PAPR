@@ -20,9 +20,7 @@ import './style.scss'
  */
 class UserHome extends React.Component {
   async componentDidMount() {
-    console.log(this.props.hash)
     if (this.props.hash) {
-      console.log(this.props.hash)
       await this.props.joinRoom(this.props.hash, this.props.userId)
     }
     await this.props.getRooms(this.props.userId)

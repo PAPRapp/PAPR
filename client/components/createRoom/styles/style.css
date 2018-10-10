@@ -1,0 +1,16 @@
+.form-div {
+  width: 50vw;
+  background-color: #394b59;
+  padding: 30px 30px;
+  position: fixed;
+  top: 47%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+}
+.expiration{
+  position: relative;
+  top: 16px;
+}
+.css-1tna5xz{
+  color: white;
+}

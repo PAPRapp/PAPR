@@ -2,13 +2,27 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {signOut, setPage, getRooms} from '../../store/'
-// import PropTypes from 'prop-types'
+import CreateRoomModal from '../createRoom/CreateRoomModal'
 
 class NavBar extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      open: false,
+    };
+
     this.handleSignOut = this.handleSignOut.bind(this)
+    this.handleOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   handleSignOut() {
     this.props.signOut()
@@ -17,6 +31,7 @@ class NavBar extends React.Component {
   }
 
   render() {
+    const renderModal = this.state.open
     return (
       <nav>
         <div id="nav-buttons">
@@ -49,13 +64,11 @@ class NavBar extends React.Component {
 
           <button
             className="nav-button"
-            onClick={() => {
-              this.props.setPage('createroom')
-            }}
+            onClick={this.handleOpen}
           >
             CREATE ROOM
           </button>
-
+          {renderModal ? <CreateRoomModal handleClose={this.handleClose} state={this.state.open}/> : null}
           <button className="nav-button" onClick={this.handleSignOut}>
             LOG OUT
           </button>
