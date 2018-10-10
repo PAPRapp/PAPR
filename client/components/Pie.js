@@ -1,10 +1,5 @@
 import React, {Component} from 'react'
-import {
-  LabelSeries,
-  Sunburst,
-  makeVisFlexible,
-  DiscreteColorLegend
-} from 'react-vis'
+import {LabelSeries, Sunburst, makeVisFlexible, DiscreteColorLegend} from 'react-vis'
 import {connect} from 'react-redux'
 import {fetchPortfolio} from '../store/reducers/portfolio'
 
@@ -15,7 +10,7 @@ class SunBurst extends Component {
     this.state = {
       name: null,
       value: null,
-      highlight: false
+      highlight: false,
     }
     this.getValue = this.getValue.bind(this)
     this.removeValue = this.removeValue.bind(this)
@@ -57,8 +52,8 @@ class SunBurst extends Component {
     }
   }
 
-  async getValue(value) {
-    await this.setState({
+  getValue(value) {
+    this.setState({
       value: `${value.value}`,
       name: value.name
     })
