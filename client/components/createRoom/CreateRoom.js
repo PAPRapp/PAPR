@@ -3,200 +3,13 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {getSectors, getTickers, postRoom} from '../../store/'
-import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
-import Paper from '@material-ui/core/Paper'
-import Chip from '@material-ui/core/Chip'
-import CancelIcon from '@material-ui/icons/Cancel'
-import {emphasize} from '@material-ui/core/styles/colorManipulator'
-import Typography from '@material-ui/core/Typography'
-import NoSsr from '@material-ui/core/NoSsr'
-import classNames from 'classnames'
-import Select from 'react-select'
 import Button from '@material-ui/core/Button'
-import './style.css'
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200
-  },
-  dense: {
-    marginTop: 19
-  },
-  menu: {
-    width: 200
-  },
-  root: {
-    flexGrow: 1,
-    height: 250
-  },
-  input: {
-    display: 'flex',
-    padding: 0
-  },
-  valueContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flex: 1,
-    alignItems: 'center'
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`
-  },
-  chipFocused: {
-    backgroundColor: emphasize(
-      theme.palette.type === 'light'
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-      0.08
-    )
-  },
-  noOptionsMessage: {
-    padding: `${theme.spacing.unit}px ${theme.spacing.unit * 2}px`
-  },
-  singleValue: {
-    fontSize: 16
-  },
-  placeholder: {
-    position: 'absolute',
-    left: 2,
-    fontSize: 16
-  },
-  paper: {
-    position: 'absolute',
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0
-  },
-  divider: {
-    height: theme.spacing.unit * 2
-  },
-  button: {
-    position: "relative",
-    left: '21vw',
-    bottom: '3vh'
-  }
-})
-function NoOptionsMessage(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.noOptionsMessage}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  )
-}
-
-function inputComponent({inputRef, ...props}) {
-  return <div ref={inputRef} {...props} />
-}
-
-function Control(props) {
-  return (
-    <TextField
-      fullWidth
-      InputProps={{
-        inputComponent,
-        inputProps: {
-          className: props.selectProps.classes.input,
-          inputRef: props.innerRef,
-          children: props.children,
-          ...props.innerProps
-        }
-      }}
-      {...props.selectProps.textFieldProps}
-    />
-  )
-}
-
-function Option(props) {
-  return (
-    <MenuItem
-      buttonRef={props.innerRef}
-      selected={props.isFocused}
-      component="div"
-      style={{
-        fontWeight: props.isSelected ? 500 : 400
-      }}
-      {...props.innerProps}
-    >
-      {props.children}
-    </MenuItem>
-  )
-}
-
-function Placeholder(props) {
-  return (
-    <Typography
-      color="textSecondary"
-      className={props.selectProps.classes.placeholder}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  )
-}
-
-function SingleValue(props) {
-  return (
-    <Typography
-      className={props.selectProps.classes.singleValue}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Typography>
-  )
-}
-
-function ValueContainer(props) {
-  return (
-    <div className={props.selectProps.classes.valueContainer}>
-      {props.children}
-    </div>
-  )
-}
-
-function MultiValue(props) {
-  return (
-    <Chip
-      tabIndex={-1}
-      label={props.children}
-      className={classNames(props.selectProps.classes.chip, {
-        [props.selectProps.classes.chipFocused]: props.isFocused
-      })}
-      onDelete={props.removeProps.onClick}
-      deleteIcon={<CancelIcon {...props.removeProps} />}
-    />
-  )
-}
-
-function Menu(props) {
-  return (
-    <Paper
-      square
-      className={props.selectProps.classes.paper}
-      {...props.innerProps}
-    >
-      {props.children}
-    </Paper>
-  )
-}
-
-const components = {
-  Control,
-  Menu,
-  MultiValue,
-  NoOptionsMessage,
-  Option,
-  Placeholder,
-  SingleValue,
-  ValueContainer
-}
+import './styles/style.css'
+import AutoCompleteForm from './AutoCompleteForm'
+import JoinRoomModal from './JoinRoomModal'
+import {styles, createroomtheme} from './styles/Material-UI-Style'
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 
 class CreateRoom extends Component {
   constructor() {
@@ -206,11 +19,14 @@ class CreateRoom extends Component {
       tickers: null,
       startingCash: '',
       sector: '',
-      expiration: ''
+      expiration: '',
+      url: '',
+      urlModal: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeSector = this.handleChangeSector.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChangeCompanies = this.handleChangeCompanies.bind(this)
   }
   async componentDidMount() {
     await this.props.getSectors()
@@ -233,12 +49,6 @@ class CreateRoom extends Component {
     this.props.getTickers(event.target.value)
   }
 
-  handleChangeTickers = name => value => {
-    this.setState({
-      [name]: value
-    })
-  }
-
   handleSubmit = async evt => {
     evt.preventDefault()
     let name = this.state.name
@@ -249,30 +59,37 @@ class CreateRoom extends Component {
     await this.props.postRoom({name, startingCash, tickers, expiration, user})
     let slice = window.location.href.slice(0, -4)
     let invite = slice + 'rooms/join/' + this.props.slug
-    alert('Send out this link to invite users:\n' + invite)
+    this.setState({
+      url: invite,
+      urlModal: true
+    })
+  }
+
+  handleChangeCompanies = name => value => {
+    this.setState({
+      [name]: value
+    })
   }
 
   render() {
     const sectors = this.props.sectors.sectors
-    const {classes, theme} = this.props
-    const selectStyles = {
-      input: base => ({
-        ...base,
-        color: theme.palette.text.primary,
-        '& input': {
-          font: 'inherit'
-        }
-      })
-    }
+    const tickers = this.props.sectors.tickers
+    const {classes} = this.props
     return (
-      <div className="form-wrapper">
-        <div className="form-div">
-          <form className={classes.container} onSubmit={this.handleSubmit}>
+      <div className="form-div">
+        <form className={classes.container} onSubmit={this.handleSubmit}>
+          <MuiThemeProvider theme={createroomtheme}>
             <TextField
               id="name"
               label="Room Name"
               required
               className={classes.textField}
+              InputLabelProps={{
+                FormLabelClasses: {
+                  root: classes.formLabelRoot,
+                  focused: classes.formLabelFocused
+                }
+              }}
               value={this.state.name}
               onChange={this.handleChange('name')}
               margin="normal"
@@ -280,6 +97,9 @@ class CreateRoom extends Component {
             <TextField
               id="cash"
               label="Starting Cash"
+              InputProps={{
+                className: classes.colorText
+              }}
               required
               value={this.state.cash}
               onChange={this.handleChange('startingCash')}
@@ -290,10 +110,14 @@ class CreateRoom extends Component {
               }}
               margin="normal"
             />
+            <span className="expiration">
               <TextField
                 id="expiration"
                 label="Expiration Date"
                 type="date"
+                InputProps={{
+                  className: classes.colorText
+                }}
                 required
                 value={this.state.expiration}
                 onChange={this.handleChange('expiration')}
@@ -302,10 +126,14 @@ class CreateRoom extends Component {
                   shrink: true
                 }}
               />
+            </span>
             <TextField
               id="sector"
               select
               required
+              InputProps={{
+                className: classes.colorText
+              }}
               label="Market Sector"
               className={classes.textField}
               value={this.state.sector}
@@ -329,35 +157,18 @@ class CreateRoom extends Component {
                   })
                 : null}
             </TextField>
-            <div className={classes.root}>
-              <NoSsr>
-                <Select
-                  classes={classes}
-                  styles={selectStyles}
-                  textFieldProps={{
-                    label: 'Label',
-                    InputLabelProps: {
-                      shrink: true
-                    }
-                  }}
-                  options={this.props.sectors.tickers}
-                  components={components}
-                  value={this.state.multi}
-                  onChange={this.handleChangeTickers('tickers')}
-                  placeholder="Select multiple companies"
-                  isMulti
-                />
-              </NoSsr>
-            </div>
-            <Button
-              type="submit"
-              variant="contained"
-              className={classes.button}
-            >
-              Submit
-            </Button>
-          </form>
-        </div>
+          </MuiThemeProvider>
+          <div className={classes.root}>
+            <AutoCompleteForm
+              companies={tickers}
+              tickers={this.state.tickers}
+              handleChangeCompanies={this.handleChangeCompanies}
+            />
+          </div>
+          <Button type="submit" variant="contained" className={classes.button}>
+            Submit
+          </Button>
+        </form>
       </div>
     )
   }
@@ -380,10 +191,9 @@ const mapDispatchToProps = dispatch => {
 }
 
 CreateRoom.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withStyles(styles, {withTheme: true})(CreateRoom)
+  withStyles(styles)(CreateRoom)
 )
