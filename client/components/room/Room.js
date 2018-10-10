@@ -26,7 +26,6 @@ class Room extends Component {
       intervalId: null
     }
     this.handleChange = this.handleChange.bind(this)
-    this.show = this.show.bind(this)
     this.setIntervalFunc = this.setIntervalFunc.bind(this)
     this.handleTrade = this.handleTrade.bind(this)
     this.changeRoom = this.changeRoom.bind(this)
@@ -59,10 +58,6 @@ class Room extends Component {
     await this.props.setSymbol(symbol)
     clearInterval(this.state.intervalId)
     this.setIntervalFunc()
-  }
-
-  show = () => {
-    console.log(this.props.history)
   }
 
   async componentDidMount() {

@@ -75,9 +75,9 @@ export const styles = theme => ({
 export const createroommodalstyles = theme => ({
   paper: {
     position: 'absolute',
+    backgroundColor: "none",
     width: theme.spacing.unit * 50,
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
+    boxShadow: "none",
     padding: theme.spacing.unit * 4
   }
 })

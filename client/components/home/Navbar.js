@@ -44,23 +44,24 @@ class NavBar extends React.Component {
           >
             ROOMS
           </button>
-          <button
+
+          {/* <button
             className="nav-button"
             onClick={() => {
               this.props.setPage('profile')
             }}
           >
             PROFILE
-          </button>
+          </button> */}
 
-          <button
+          {/* <button
             className="nav-button"
             onClick={() => {
               this.props.setPage('settings')
             }}
           >
             SETTINGS
-          </button>
+          </button> */}
 
           <button
             className="nav-button"

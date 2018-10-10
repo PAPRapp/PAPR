@@ -1,24 +1,39 @@
 .form-div {
   width: 50vw;
-  background-color: #394b59;
+  background-color: rgba(101, 106, 109, 0.8);
   padding: 30px 30px;
   position: fixed;
   top: 47%;
   left: 48%;
   transform: translate(-50%, -50%);
 }
-.expiration{
+.messagediv {
+  position: fixed;
+  background-color: rgba(101, 106, 109, 0.8);
+  border-radius: 10px;
+  left: 23%;
+  top: 10%;
+  display: flex;
+  width: 50vw;
+  justify-content: center;
+}
+.noroommessage {
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+}
+.expiration {
   position: relative;
   top: 16px;
 }
-.joinroommodal{
+.joinroommodal {
   display: flex;
   flex-direction: column;
 }
-.url{
-  color:white
+.url {
+  color: white;
 }
-.url:hover{
-  color:#1919ff;
+.url:hover {
+  color: #1919ff;
   cursor: copy;
 }
