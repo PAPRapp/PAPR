@@ -21,12 +21,14 @@ class CreateRoom extends Component {
       sector: '',
       expiration: '',
       url: '',
-      rendermodal: false,
+      open: false,
+
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeSector = this.handleChangeSector.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChangeCompanies = this.handleChangeCompanies.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
   async componentDidMount() {
     await this.props.getSectors()
@@ -35,6 +37,10 @@ class CreateRoom extends Component {
     })
     this.props.getTickers(this.state.sector)
   }
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   handleChange = name => event => {
     this.setState({
@@ -59,11 +65,59 @@ class CreateRoom extends Component {
     await this.props.postRoom({name, startingCash, tickers, expiration, user})
     let slice = window.location.href.slice(0, -4)
     let invite = slice + 'rooms/join/' + this.props.slug
-    alert(invite)
-    // this.setState({
-    //   url: invite,
-    //   rendermodal: true
-    // })
+    this.setState({
+      url: invite,
+      open: true,
+      name: '',
+      tickers: null,
+      startingCash: '',
+      sector: '',
+      expiration: '',
+    })
+  }
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    })
+  }
+
+  handleChangeSector = name => event => {
+    this.setState({
+      [name]: event.target.value
+    })
+    this.props.getTickers(event.target.value)
+  }
+
+  handleSubmit = async evt => {
+    evt.preventDefault()
+    let name = this.state.name
+    let startingCash = this.state.startingCash
+    let tickers = this.state.tickers.map(ticker => ticker.value)
+    let expiration = this.state.expiration
+    let user = this.props.userId
+    await this.props.postRoom({name, startingCash, tickers, expiration, user})
+    let slice = window.location.href.slice(0, -4)
+    let invite = slice + 'rooms/join/' + this.props.slug
+    this.setState({
+      url: invite,
+      open: true,
+      name: '',
+      tickers: null,
+      startingCash: '',
+      sector: '',
+      expiration: '',
+    })
+  }
+
+  handleChangeCompanies = name => value => {
+    this.setState({
+      [name]: value
+    })
   }
 
   handleChangeCompanies = name => value => {
@@ -75,10 +129,11 @@ class CreateRoom extends Component {
   render() {
     const sectors = this.props.sectors.sectors
     const tickers = this.props.sectors.tickers
+    const rendermodal = this.state.open
     const {classes} = this.props
     return (
       <div className="form-div">
-
+      {rendermodal ? <JoinRoomModal url={this.state.url} handleClose={this.handleClose} state={this.state.open} />: null}
         <form className={classes.container} onSubmit={this.handleSubmit}>
           <MuiThemeProvider theme={createroomtheme}>
             <TextField

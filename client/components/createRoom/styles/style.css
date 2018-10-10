@@ -11,6 +11,14 @@
   position: relative;
   top: 16px;
 }
-.css-1tna5xz{
-  color: white;
+.joinroommodal{
+  display: flex;
+  flex-direction: column;
+}
+.url{
+  color:white
+}
+.url:hover{
+  color:#1919ff;
+  cursor: copy;
 }

@@ -72,6 +72,28 @@ export const styles = theme => ({
   }
 })
 
+export const createroommodalstyles = theme => ({
+  paper: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4
+  }
+})
+
+export const joinroommodalstyles = theme => ({
+  paper: {
+    position: 'absolute',
+    backgroundColor: "#394b59",
+    display: 'flex',
+    width: '50vw',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    justifyContent: "center"
+  }
+})
+
 
 export const createroomtheme = createMuiTheme({
   multilineColor: {

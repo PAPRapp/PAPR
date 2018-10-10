@@ -4,7 +4,7 @@ import Select from 'react-select'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {styles, autocompleteformtheme} from './styles/Material-UI-Style'
-import components from './autoCompleteFunctions/AutoCompleteComponents'
+import components from './utils/AutoCompleteComponents'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
 import './styles/style.css'
 
