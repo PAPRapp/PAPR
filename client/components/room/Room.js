@@ -316,7 +316,13 @@ class Room extends Component {
                   : article.sentiment === 'NEGATIVE' ? ' #9a1f11' : '#656a6dcc'
               return (
                 <div key={i} className="article">
-                  <a href={article.url}>{article.headline}</a>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href={article.url}
+                  >
+                    {article.headline}
+                  </a>
                   <a
                     style={{
                       backgroundColor: sentimentColor,
