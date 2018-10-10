@@ -260,7 +260,6 @@ class Room extends Component {
               <TradeModal />
             </div>
             <div id="portfolio">
-              {console.log(pieData)}
               {Object.keys(this.props.holdings).length ? (
                 <Pie id="pie" data={pieData} />
               ) : (

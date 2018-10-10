@@ -10,6 +10,7 @@ import AutoCompleteForm from './AutoCompleteForm'
 import JoinRoomModal from './JoinRoomModal'
 import {styles, createroomtheme} from './styles/Material-UI-Style'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+import {formatDate} from './utils/FormateDate'
 
 class CreateRoomForm extends Component {
   constructor() {
@@ -22,7 +23,7 @@ class CreateRoomForm extends Component {
       expiration: '',
       url: '',
       open: false,
-
+      errorDate: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeSector = this.handleChangeSector.bind(this)
@@ -39,8 +40,8 @@ class CreateRoomForm extends Component {
   }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({open: false})
+  }
 
   handleChange = name => event => {
     this.setState({
@@ -77,8 +78,8 @@ class CreateRoomForm extends Component {
   }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({open: false})
+  }
 
   handleChange = name => event => {
     this.setState({
@@ -95,23 +96,32 @@ class CreateRoomForm extends Component {
 
   handleSubmit = async evt => {
     evt.preventDefault()
-    let name = this.state.name
-    let startingCash = this.state.startingCash
-    let tickers = this.state.tickers.map(ticker => ticker.value)
-    let expiration = this.state.expiration
-    let user = this.props.userId
-    await this.props.postRoom({name, startingCash, tickers, expiration, user})
-    let slice = window.location.href.slice(0, -4)
-    let invite = slice + 'rooms/join/' + this.props.slug
-    this.setState({
-      url: invite,
-      open: true,
-      name: '',
-      tickers: null,
-      startingCash: '',
-      sector: '',
-      expiration: '',
-    })
+    const name = this.state.name
+    const startingCash = this.state.startingCash
+    const tickers = this.state.tickers.map(ticker => ticker.value)
+    const expiration = this.state.expiration
+    const user = this.props.userId
+    const today = new Date()
+    const todayformat = formatDate(today)
+    if (expiration <= todayformat) {
+      this.setState({
+        errorDate: true
+      })
+    } else {
+      await this.props.postRoom({name, startingCash, tickers, expiration, user})
+      const slice = window.location.href.slice(0, -4)
+      const invite = slice + 'rooms/join/' + this.props.slug
+      this.setState({
+        url: invite,
+        open: true,
+        name: '',
+        tickers: null,
+        startingCash: '',
+        sector: '',
+        expiration: '',
+        errorDate: false,
+      })
+    }
   }
 
   handleChangeCompanies = name => value => {
@@ -133,7 +143,13 @@ class CreateRoomForm extends Component {
     const {classes} = this.props
     return (
       <div className="form-div">
-      {rendermodal ? <JoinRoomModal url={this.state.url} handleClose={this.handleClose} state={this.state.open} />: null}
+        {rendermodal ? (
+          <JoinRoomModal
+            url={this.state.url}
+            handleClose={this.handleClose}
+            state={this.state.open}
+          />
+        ) : null}
         <form className={classes.container} onSubmit={this.handleSubmit}>
           <MuiThemeProvider theme={createroomtheme}>
             <TextField
@@ -142,6 +158,7 @@ class CreateRoomForm extends Component {
               required
               className={classes.textField}
               InputLabelProps={{
+                shrink: true,
                 FormLabelClasses: {
                   root: classes.formLabelRoot,
                   focused: classes.formLabelFocused
@@ -154,8 +171,10 @@ class CreateRoomForm extends Component {
             <TextField
               id="cash"
               label="Starting Cash"
-              InputProps={{
-                className: classes.colorText
+              inputProps={{
+                className: classes.colorText,
+                min: 0,
+                max: 1000000
               }}
               required
               value={this.state.cash}
@@ -172,7 +191,7 @@ class CreateRoomForm extends Component {
                 id="expiration"
                 label="Expiration Date"
                 type="date"
-                InputProps={{
+                inputProps={{
                   className: classes.colorText
                 }}
                 required
@@ -222,6 +241,7 @@ class CreateRoomForm extends Component {
               handleChangeCompanies={this.handleChangeCompanies}
             />
           </div>
+          {this.state.errorDate ? <div className="dateerror"> Expiration Date must be in future </div> : null}
           <Button type="submit" variant="contained" className={classes.button}>
             Submit
           </Button>

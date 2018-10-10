@@ -54,14 +54,14 @@ class NavBar extends React.Component {
             PROFILE
           </button> */}
 
-          {/* <button
+          <button
             className="nav-button"
             onClick={() => {
               this.props.setPage('settings')
             }}
           >
             SETTINGS
-          </button> */}
+          </button>
 
           <button
             className="nav-button"
