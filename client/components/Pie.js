@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {LabelSeries, Sunburst, makeVisFlexible} from 'react-vis'
+import {LabelSeries, Sunburst, makeVisFlexible, DiscreteColorLegend} from 'react-vis'
 import {connect} from 'react-redux'
 import {fetchPortfolio} from '../store/reducers/portfolio'
 
@@ -78,11 +78,11 @@ class SunBurst extends Component {
           onValueMouseOver={this.getValue}
           onValueMouseOut={this.removeValue}
           onClick={this.highlightValue}
-          style={{
-            stroke: highlight ? 'white' : null,
-            strokeOpacity: 0.3,
-            strokeWidth: 8.0
-          }}
+          // style={{
+          //   stroke: highlight ? 'white' : null,
+          //   strokeOpacity: 0.3,
+          //   strokeWidth: 8.0
+          // }}
           colorType="literal"
           getSize={d => d.value}
           getColor={d => d.hex}
