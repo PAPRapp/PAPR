@@ -33,23 +33,25 @@ export default class LineGraph extends Component {
         }}
         yDomain={[low.dollar * 0.998, high.dollar]}
         xType="ordinal"
+        margin={{left: 40}}
       >
         <XAxis
           style={{
             text: {
               fill: 'white',
               fontWeight: 200,
-              fontSize: '10px',
+              fontSize: '9px',
               fontFamily: 'Helvetica'
             }
           }}
+          tickLabelAngle={-15}
         />
         <YAxis
           style={{
             text: {
               fill: 'white',
               fontWeight: 200,
-              fontSize: '10px',
+              fontSize: '9px',
               fontFamily: 'Helvetica'
             }
           }}

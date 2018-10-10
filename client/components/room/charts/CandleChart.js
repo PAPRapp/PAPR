@@ -48,6 +48,7 @@ export default class CandleChart extends Component {
               fontFamily: 'Helvetica'
             }
           }}
+          tickLabelAngle={-15}
         />
         <YAxis
           style={{
