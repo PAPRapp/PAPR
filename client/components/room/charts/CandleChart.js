@@ -36,9 +36,9 @@ export default class CandleChart extends Component {
     const high = maxPoint(minMax)
     const {a} = low
     const {b} = high
-
+    console.log("tickers", a, b)
     return (
-      <FlexibleXYPlot animation yDomain={[a * 0.98, b]} xType="ordinal">
+      <FlexibleXYPlot animation yDomain={[a * 0.998, b]} xType="ordinal">
         <XAxis
           style={{
             text: {
@@ -51,6 +51,7 @@ export default class CandleChart extends Component {
           tickLabelAngle={-15}
         />
         <YAxis
+          animation
           style={{
             text: {
               fill: 'white',

@@ -9,7 +9,6 @@ iex.on('connect', () => {
 })
 
 iex.on('message', message => {
-  console.log(message)
   const {symbol, lastSalePrice, lastSaleTime} = JSON.parse(message)
   store.dispatch(updatePrice({symbol, lastSalePrice, lastSaleTime}))
 })

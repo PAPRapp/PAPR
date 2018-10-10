@@ -227,7 +227,7 @@ class Room extends Component {
             <div id="tv">
               <YouTube
                 videoId="Mc038uSZHJY"
-                //FdtQ2ZgLbEs
+                //FdtQ2ZgLbEs al jazeera
                 opts={opts}
                 onReady={this._onReady}
               />
@@ -261,7 +261,6 @@ class Room extends Component {
               <TradeModal />
             </div>
             <div id="portfolio">
-              {console.log(pieData)}
               {Object.keys(this.props.holdings).length ? (
                 <Pie id="pie" data={pieData} />
               ) : (

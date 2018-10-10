@@ -1,3 +1,11 @@
+// conditional date utility function for ydomain Candle Chart
+
+export const dateChange = (pointA, pointB) => {
+  const today = new Date()
+  const time = today.getHours()
+}
+
+
 //dynamic pie chart data update util function
 export const dynamicPiePrices = (portfolio, prices) => {
   const dynamicPortfolio = {}
@@ -79,7 +87,7 @@ export const monthlyQuad = tickerInfo => {
         y: point,
         yHigh: ticker.high,
         yOpen: ticker.open,
-        yClose: ticker.close,
+        yClose: ticker.marketClose || ticker.close,
         yLow: ticker.low,
         color:
           i > 1
