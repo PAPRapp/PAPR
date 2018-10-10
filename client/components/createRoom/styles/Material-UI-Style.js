@@ -1,6 +1,7 @@
 import {emphasize} from '@material-ui/core/styles/colorManipulator'
+import {createMuiTheme} from '@material-ui/core/styles'
 
-const styles = theme => ({
+export const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
@@ -71,4 +72,70 @@ const styles = theme => ({
   }
 })
 
-export default styles
+
+export const createroomtheme = createMuiTheme({
+  multilineColor: {
+    color: 'white'
+  },
+  overrides: {
+    MuiFormLabel: {
+      root: {
+        color: '#FFFFFF',
+        '&$focused': {
+          color: '#FFFFFF'
+        }
+      },
+      focused: {
+        '&$focused': {
+          color: '#FFFFFF'
+        }
+      }
+    },
+    MuiInputBase: {
+      root: {
+        color: '#FFFFFF'
+      }
+    },
+    MuiFormHelperText: {
+      root: {
+        color: '#FFFFFF'
+      }
+    },
+    MuiInput: {
+      underline: {
+        '&:after': {
+          borderBottom: '2px solid #FFFFFF'
+        }
+      }
+    }
+  }
+})
+
+export const autocompleteformtheme = createMuiTheme({
+  overrides: {
+    MuiFormControl: {
+      root: {
+        color: '#FFFFFF'
+      }
+    },
+    MuiTypography: {
+      colorTextSecondary: {
+        color: '#FFFFFF'
+      }
+    },
+    MuiFormLabel: {
+      root: {
+        color: '#FFFFFF'
+      }
+    }
+  },
+  palette: {
+    primary: {
+      main: '#FFFFFF'
+    }
+  },
+  inputSearchStyleText: {
+    color: '#FFFFFF'
+  }
+})
+

@@ -1,233 +1,123 @@
 import React, {Component} from 'react'
-import {LabelSeries, Sunburst, GradientDefs} from 'react-vis'
-import {
-  updateData,
-  pieChartColorData,
-  pieValue,
-  piePriceFilter,
-  dynamicPiePrices
-} from './room/charts/utils/utils'
+import {LabelSeries, Sunburst, makeVisFlexible, DiscreteColorLegend} from 'react-vis'
 import {connect} from 'react-redux'
 import {fetchPortfolio} from '../store/reducers/portfolio'
-
-//bring functions under the class components and test it out
-//grab data from state ex. this.state.portfolio and send that into dynamicPiePrices function along with live socket data from redux store
-//send it into pieChartColorData to assign hex values and set up structure to push into the pieTreeData util func
-//
-
-
-function getKeyPath(node) {
-  if (!node.parent) {
-    return ['root']
-  }
-
-  return [(node.data && node.data.name) || node.name].concat(
-    getKeyPath(node.parent)
-  )
-}
-
-// create empty children array and push result of object
-//will connect with live data Sunday/Monday
-const sampleData = {
-  children: [
-    {
-      name: 'CASH',
-      hex: '#32CD32',
-      value: 1000
-    },
-    {
-      name: 'AAPL',
-      hex: '#12939A',
-      value: 3300
-    },
-    {
-      name: 'IBM',
-      hex: '#0e0393',
-      value: 10000
-    },
-    {
-      name: 'MSFT',
-      hex: '#ad4602',
-      value: 8000
-    },
-    {
-      name: 'FB',
-      hex: '#1de362',
-      value: 1300
-    },
-    {
-      name: 'TSLA',
-      hex: '#b51503',
-      value: 3000
-    }
-  ]
-}
-
-//sample portfolio
-const portfolio ={
-  'CASH': 10000,
-  'AAPL': 20,
-  'MSFT': 20,
-  'FB': 20,
-  'IBM': 20,
-  'AMD': 10
-}
-
-//sample socket simulation pricing
-const priceSim = [
-  {
-    symbol: 'AAPL',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'MSFT',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'FB',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'IBM',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-  {
-    symbol: 'AMD',
-    lastSalePrice: Math.floor(Math.random() * 300)
-  },
-]
-
-
-
-const dynamicPie = dynamicPiePrices(portfolio, priceSim)
-const initialData = updateData(sampleData, false)
 
 class SunBurst extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      data: initialData,
-      initialValue: 'CASH',
-      clicked: false,
-      portfolio: {}
+      name: null,
+      value: null,
+      highlight: false,
     }
+    this.getValue = this.getValue.bind(this)
+    this.removeValue = this.removeValue.bind(this)
+    this.highlightValue = this.highlightValue.bind(this)
   }
 
-  async componentDidMount() {
-    try {
-      await this.props.fetchPortfolio(this.props.roomId, this.props.userId)
-      await this.setState({
-        portfolio: this.props.portfolio
-      })
-    } catch (error) {
-      console.error(error)
-    }
+  getValue(value) {
+    this.setState({
+      value: `${value.value}`,
+      name: value.name
+    })
+  }
+
+  removeValue() {
+    this.setState({
+      value: null,
+      name: null
+    })
+  }
+
+  highlightValue(highlight) {
+    this.setState({
+      highlight: !highlight
+    })
   }
 
   render() {
-    const {holdings, prices} = this.props;
+    const {holdings, prices} = this.props
+    const {name, value, highlight} = this.state
     const data = {children: [], style: {fillOpacity: 1}}
-//     {hex: "#32CD32"
-// name: "CASH"
-// style: {fillOpacity: 1}
-// value: 1000}
+    const FlexibleSunburst = makeVisFlexible(Sunburst)
+    const colors = [
+      '#00417B',
+      '#01A3E2',
+      '#018CC9',
+      '#0379B1',
+      '#016BA7',
+      '#004E89'
+    ]
 
-    const colors = ['#70706F', '#7D7D7A', '#8E8D8D', '#A1A2A3', '#B3B6B5', '#BEC0C2']
-    const randomColor = () =>
-    ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(
-      0,
-      7
-    )
-    Object.keys(holdings).forEach((symbol, i) => {
-        if(!data.hasOwnProperty(symbol)) {
-          if(symbol === 'Cash') {
-            data.children.push( {
+    if (Object.keys(holdings).length > 0) {
+      Object.keys(holdings).forEach((symbol, i) => {
+        if (!data.hasOwnProperty(symbol)) {
+          if (symbol === 'Cash') {
+            data.children.push({
               name: symbol,
-              value: holdings[symbol],
+              value: (holdings[symbol] / 100).toFixed(2),
               hex: colors[i],
               style: {fillOpacity: 1}
-            }
-          );
+            })
           } else {
-            data.children.push( {
-                name: symbol,
-                value: prices[symbol] * holdings[symbol],
-                hex: colors[i],
-                style: {fillOpacity: 1}
-              }
-            );
+            data.children.push({
+              name: symbol,
+              value: (prices[symbol] * holdings[symbol]).toFixed(2),
+              hex: colors[i],
+              style: {fillOpacity: 1}
+            })
           }
         }
-    })
-
-    //{IBM: 350, JPM: 350}
-    const {clicked, initialValue} = this.state
-    console.log("THIS IS DATA", data)
-    // const portfolio = pieValue(sampleData, initialValue)
-    const {tickers} = this.props
-    console.log('THESE ARE TICKERS', tickers)
-    // const labelValue = piePriceFilter(portfolio)
-    // const {price} = labelValue
-    // console.log('THIS IS PRICE', price)
-    const portfolioShares = this.state.portfolio
-    console.log('THIS IS THE PORTFOLIO', portfolioShares)
-    return (
-      <Sunburst
-        animation
-        hideRootNode
-        onValueMouseOver={node => {
-          if (clicked) {
-            return
-          }
-          const path = getKeyPath(node).reverse()
-          const pathAsMap = path.reduce((res, row) => {
-            res[row] = true
-            return res
-          }, {})
-          this.setState({
-            initialValue: path[path.length - 1],
-            data: updateData(initialData, pathAsMap)
-          })
-        }}
-        onValueMouseOut={() =>
-          clicked
-            ? () => {}
-            : this.setState({
-                initialValue: false,
-                data: updateData(initialData, false)
-              })
-        }
-        onValueClick={() => this.setState({clicked: !clicked})}
-        style={{
-          stroke: '#ddd',
-          strokeOpacity: 0.3,
-          strokeWidth: '0.5'
-        }}
-        colorType="literal"
-        getSize={d => d.value}
-        getColor={d => d.hex}
-        data={data}
-        height={300}
-        width={350}
-      >
-        {initialValue && (
-          <LabelSeries
-            data={[
-              {
-                x: 0,
-                y: 0,
-                // label: `${initialValue} $${(labelValue[0].price / 100).toFixed(2)}`,
-                style: {
-                  fontSize: '30px',
-                  textAnchor: 'middle'
+      })
+      return (
+        <FlexibleSunburst
+          animation
+          hideRootNode
+          onValueMouseOver={this.getValue}
+          onValueMouseOut={this.removeValue}
+          onClick={this.highlightValue}
+          // style={{
+          //   stroke: highlight ? 'white' : null,
+          //   strokeOpacity: 0.3,
+          //   strokeWidth: 8.0
+          // }}
+          colorType="literal"
+          getSize={d => d.value}
+          getColor={d => d.hex}
+          data={data}
+          padAngle={0.015}
+        >
+          {value ? (
+            <LabelSeries
+              data={[
+                {
+                  x: 0,
+                  y: 8,
+                  label: `${name}`,
+                  style: {
+                    fontSize: '20px',
+                    textAnchor: 'middle'
+                  }
+                },
+                {
+                  x: 0,
+                  y: -17,
+                  label: `$${value}`,
+                  style: {
+                    fontSize: '20px',
+                    textAnchor: 'middle'
+                  }
                 }
-              }
-            ]}
-          />
-        )}
-      </Sunburst>
-    )
+              ]}
+            />
+          ) : null}
+        </FlexibleSunburst>
+      )
+    } else {
+      return <div>Loading...</div>
+    }
   }
 }
 
@@ -238,7 +128,7 @@ const mapStateToProps = state => {
     roomId: state.room.currentRoom.id,
     tickers: state.room.currentRoom.tickerQuery,
     portfolio: state.portfolio.portfolio,
-    holdings: state.portfolio.holdings,
+    holdings: state.portfolio.holdings
   }
 }
 

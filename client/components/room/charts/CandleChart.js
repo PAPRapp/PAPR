@@ -38,7 +38,7 @@ export default class CandleChart extends Component {
     const {b} = high
 
     return (
-      <FlexibleXYPlot animation yDomain={[a * 0.998, b]} xType="ordinal">
+      <FlexibleXYPlot animation yDomain={[a * 0.98, b]} xType="ordinal">
         <XAxis
           style={{
             text: {
@@ -77,7 +77,6 @@ export default class CandleChart extends Component {
           </Hint>
         ) : null}
       </FlexibleXYPlot>
-
     )
   }
 }

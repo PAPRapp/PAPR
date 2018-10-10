@@ -1,52 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {withStyles, createMuiTheme} from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import {getSectors, getTickers, postRoom} from '../../store/'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import './styles/style.css'
 import AutoCompleteForm from './AutoCompleteForm'
-import styles from './styles/Material-UI-Style'
+import JoinRoomModal from './JoinRoomModal'
+import {styles, createroomtheme} from './styles/Material-UI-Style'
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
-
-const mui = createMuiTheme({
-  multilineColor: {
-    color: 'white'
-  },
-  overrides: {
-    MuiFormLabel: {
-      root: {
-        color: '#FFFFFF',
-        '&$focused': {
-          color: '#FFFFFF'
-        }
-      },
-      focused: {
-        '&$focused': {
-          color: '#FFFFFF'
-        }
-      }
-    },
-    MuiInputBase: {
-      root: {
-        color: '#FFFFFF'
-      }
-    },
-    MuiFormHelperText: {
-      root: {
-        color: '#FFFFFF'
-      }
-    },
-    MuiInput: {
-      underline: {
-        '&:after': {
-          borderBottom: '2px solid #FFFFFF'
-        }
-      }
-    }
-  }
-})
 
 class CreateRoom extends Component {
   constructor() {
@@ -56,7 +19,9 @@ class CreateRoom extends Component {
       tickers: null,
       startingCash: '',
       sector: '',
-      expiration: ''
+      expiration: '',
+      url: '',
+      urlModal: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeSector = this.handleChangeSector.bind(this)
@@ -94,7 +59,10 @@ class CreateRoom extends Component {
     await this.props.postRoom({name, startingCash, tickers, expiration, user})
     let slice = window.location.href.slice(0, -4)
     let invite = slice + 'rooms/join/' + this.props.slug
-    alert('Send out this link to invite users:\n' + invite)
+    this.setState({
+      url: invite,
+      urlModal: true
+    })
   }
 
   handleChangeCompanies = name => value => {
@@ -110,7 +78,7 @@ class CreateRoom extends Component {
     return (
       <div className="form-div">
         <form className={classes.container} onSubmit={this.handleSubmit}>
-          <MuiThemeProvider theme={mui}>
+          <MuiThemeProvider theme={createroomtheme}>
             <TextField
               id="name"
               label="Room Name"

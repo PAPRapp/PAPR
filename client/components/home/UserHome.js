@@ -7,8 +7,12 @@ import {
   getRooms,
   getRoomData,
   setStyles,
-  setPage
+  setPage,
+  fetchPortfolio,
+  getTransactions,
+  setHoldings
 } from '../../store/'
+import {getHoldings} from '../room/modals/utils'
 import {Rooms, Room, CreateRoom, Navbar} from '../'
 import {withRouter} from 'react-router-dom'
 import particleConfig from '../../particle'
@@ -27,7 +31,17 @@ class UserHome extends React.Component {
     if (this.props.rooms.length) {
       let room = this.props.rooms[0]
       await this.props.getRoomData(this.props.userId, room.id)
-      await this.props.setStyles(this.props.currentRoom.tickerQuery)
+      await this.props.setStyles(room.tickerQuery)
+      console.log('room id', room.id)
+      console.log('user id', this.props.userId)
+      await this.props.fetchPortfolio(room.id, this.props.userId)
+      console.log('portfolio id', this.props.portfolioForHoldings.id)
+      await this.props.getTransactions(this.props.portfolioForHoldings.id)
+      const holdings = await getHoldings(
+        this.props.portfolioForHoldings,
+        this.props.transactions
+      )
+      this.props.setHoldings(holdings)
       this.props.setPage('room')
     }else{
       this.props.setPage('createroom')
@@ -56,7 +70,9 @@ const mapStateToProps = state => {
     currentPage: state.currentPage,
     hash: state.hash,
     rooms: state.rooms.rooms,
-    currentRoom: state.room.currentRoom
+    currentRoom: state.room.currentRoom,
+    portfolioForHoldings: state.portfolio.portfolio,
+    transactions: state.transaction.transactions,
   }
 }
 
@@ -75,7 +91,13 @@ const mapDispatchToProps = dispatch => {
     getRoomData: async (userId, roomId) =>
       dispatch(getRoomData(userId, roomId)),
     setStyles: tickers => dispatch(setStyles(tickers)),
-    setPage: page => dispatch(setPage(page))
+    setPage: page => dispatch(setPage(page)),
+    fetchPortfolio: async (roomId, userId) =>
+    dispatch(fetchPortfolio(roomId, userId)),
+  getTransactions: async portfolioId => {
+    await dispatch(getTransactions(portfolioId))
+  },
+  setHoldings: holdings => dispatch(setHoldings(holdings)),
   }
 }
 export default withRouter(
