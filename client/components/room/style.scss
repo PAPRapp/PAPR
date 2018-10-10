@@ -70,7 +70,7 @@
 
     #leader-board-tv {
       display: flex;
-      width: 18%;
+      width: 28.6%;
       height: 100%;
       flex-direction: column;
       align-items: center;
@@ -80,13 +80,27 @@
         display: flex;
         height: 80vh;
         width: 100%;
+        overflow-y: scroll;
         flex-direction: column;
         background-color: #0e111192;
-        justify-content: center;
-        align-items: center;
+        justify-content: flex-start;
+        align-items: flex-start;
         margin-right: 2px;
         margin-bottom: 2px;
         margin-left: 2px;
+        #leader-board-item {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          height: 40px;
+          width: 100%;
+          p {
+            padding-left: 12px;
+            padding-right: 12px;
+          }
+          justify-content: space-between;
+          // align-items: space-between;
+        }
       }
       #tv {
         span {
@@ -135,7 +149,7 @@
 
     #personal-board {
       display: flex;
-      width: 50%;
+      width: 40%;
       height: 100%;
       flex-direction: column;
       justify-content: stretch;
@@ -155,7 +169,6 @@
         margin-top: 2px;
       }
 
-
       #buy-sell {
         display: flex;
         height: 100%;
@@ -164,6 +177,10 @@
         background-color: #0e111192;
         justify-content: center;
         align-items: center;
+        #symbol {
+          padding-left: 30px;
+          font-size: 30px;
+        }
       }
     }
   }
@@ -172,40 +189,70 @@
     display: flex;
     flex-grow: 1;
     height: 33vh;
+    #papr-score {
+      display: flex;
+      width: 31.8%;
+      margin-right: 2px;
+      margin-left: 2px;
+      justify-content: center;
+      align-items: center;
+      font-size: 50px;
+      background-color: #0e111192;
+    }
     #news {
       width: 100%;
       background-color: #0e111192;
       display: flex;
       flex-direction: column;
+      align-items: center;
       margin-top: 2px;
-      .article {
-        width: 100%;
-        height: 100%;
+      overflow-y: scroll;
+      padding-top: 10px;
+      div.article:hover {
+        background-color: #656a6d54;
+      }
+      #news-heading {
         display: flex;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        .title {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 80%;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 98%;
+        height: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+        background-color: #656a6d54;
+        size: 30px;
+      }
+      .article {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        position: relative;
+        width: 98%;
+        height: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+        :hover {
+          background-color: #656a6d54;
         }
-        .sentiment {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 20%;
+        a {
+          color: white;
+          text-decoration: none;
+          text-align: 'center';
+        }
+        b {
+          color: white;
+          text-align: 'center';
         }
       }
     }
   }
 }
-
-
-.rv-xy-plot__series--label-text {
-  fill: white !important
-}
-
 
 .rv-xy-plot__axis__tick__text {
   fill: white;
@@ -214,6 +261,10 @@
 .rv-sunburst__series--radial__arc:hover {
   stroke: black !important;
   stroke-width: 2px !important;
+}
+
+.rv-xy-plot__series--label-text {
+  fill: white !important;
 }
 
 .trade-buttons {

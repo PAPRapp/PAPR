@@ -57,6 +57,7 @@
     "passport-google-oauth": "^1.0.0",
     "pg": "^6.1.2",
     "pg-hstore": "^2.3.2",
+    "polarity": "^3.0.2",
     "prop-types": "^15.6.2",
     "random-number": "0.0.9",
     "react": "^16.4.2",
@@ -76,6 +77,7 @@
     "redux-logger": "^2.8.1",
     "redux-thunk": "^2.3.0",
     "sass-loader": "^7.1.0",
+    "sentiment": "^5.0.1",
     "sequelize": "^4.38.0",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.1.1"
