@@ -21,7 +21,7 @@ class CreateRoom extends Component {
       sector: '',
       expiration: '',
       url: '',
-      urlModal: false,
+      rendermodal: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeSector = this.handleChangeSector.bind(this)
@@ -61,7 +61,7 @@ class CreateRoom extends Component {
     let invite = slice + 'rooms/join/' + this.props.slug
     this.setState({
       url: invite,
-      urlModal: true
+      rendermodal: true
     })
   }
 
@@ -77,6 +77,7 @@ class CreateRoom extends Component {
     const {classes} = this.props
     return (
       <div className="form-div">
+
         <form className={classes.container} onSubmit={this.handleSubmit}>
           <MuiThemeProvider theme={createroomtheme}>
             <TextField
