@@ -119,7 +119,6 @@ class CreateRoomForm extends Component {
         errorDate: false
       })
     }
-    window.location.reload()
   }
 
   handleChangeCompanies = name => value => {
