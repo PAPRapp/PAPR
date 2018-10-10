@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
-import {LabelSeries, Sunburst, makeVisFlexible, DiscreteColorLegend} from 'react-vis'
+import {
+  LabelSeries,
+  Sunburst,
+  makeVisFlexible,
+  DiscreteColorLegend
+} from 'react-vis'
 import {connect} from 'react-redux'
 import {fetchPortfolio} from '../store/reducers/portfolio'
 
@@ -10,15 +15,50 @@ class SunBurst extends Component {
     this.state = {
       name: null,
       value: null,
-      highlight: false,
+      highlight: false
     }
     this.getValue = this.getValue.bind(this)
     this.removeValue = this.removeValue.bind(this)
     this.highlightValue = this.highlightValue.bind(this)
   }
 
-  getValue(value) {
-    this.setState({
+  componentDidMount() {
+    const {holdings, prices} = this.props
+    const data = {children: [], style: {fillOpacity: 1}}
+    const colors = [
+      '#00417B',
+      '#01A3E2',
+      '#018CC9',
+      '#0379B1',
+      '#016BA7',
+      '#004E89'
+    ]
+    if (Object.keys(holdings).length > 0) {
+      Object.keys(holdings).forEach((symbol, i) => {
+        if (!data.hasOwnProperty(symbol)) {
+          if (symbol === 'Cash') {
+            data.children.push({
+              name: symbol,
+              value: (holdings[symbol] / 100).toFixed(2),
+              hex: colors[i],
+              style: {fillOpacity: 1}
+            })
+          } else {
+            data.children.push({
+              name: symbol,
+              value: (prices[symbol] * holdings[symbol]).toFixed(2),
+              hex: colors[i],
+              style: {fillOpacity: 1}
+            })
+          }
+        }
+      })
+      this.getValue(data.children[0])
+    }
+  }
+
+  async getValue(value) {
+    await this.setState({
       value: `${value.value}`,
       name: value.name
     })
@@ -76,7 +116,7 @@ class SunBurst extends Component {
           animation
           hideRootNode
           onValueMouseOver={this.getValue}
-          onValueMouseOut={this.removeValue}
+          // onValueMouseOut={this.removeValue}
           onClick={this.highlightValue}
           // style={{
           //   stroke: highlight ? 'white' : null,

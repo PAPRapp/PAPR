@@ -18,7 +18,6 @@ import {withRouter} from 'react-router-dom'
 import particleConfig from '../../particle'
 import Particles from 'react-particles-js'
 import './style.scss'
-
 /**
  * COMPONENT
  */
@@ -45,11 +44,10 @@ class UserHome extends React.Component {
       )
       this.props.setHoldings(holdings)
       this.props.setPage('room')
-    }else{
+    } else {
       this.props.setPage('createroom')
     }
   }
-
   render() {
     return (
       <React.Fragment>
@@ -62,7 +60,6 @@ class UserHome extends React.Component {
     )
   }
 }
-
 /**
  * CONTAINER
  */
@@ -74,10 +71,9 @@ const mapStateToProps = state => {
     rooms: state.rooms.rooms,
     currentRoom: state.room.currentRoom,
     portfolioForHoldings: state.portfolio.portfolio,
-    transactions: state.transaction.transactions,
+    transactions: state.transaction.transactions
   }
 }
-
 const mapDispatchToProps = dispatch => {
   return {
     getUser: () => {
@@ -95,17 +91,16 @@ const mapDispatchToProps = dispatch => {
     setStyles: tickers => dispatch(setStyles(tickers)),
     setPage: page => dispatch(setPage(page)),
     fetchPortfolio: async (roomId, userId) =>
-    dispatch(fetchPortfolio(roomId, userId)),
-  getTransactions: async portfolioId => {
-    await dispatch(getTransactions(portfolioId))
-  },
-  setHoldings: holdings => dispatch(setHoldings(holdings)),
+      dispatch(fetchPortfolio(roomId, userId)),
+    getTransactions: async portfolioId => {
+      await dispatch(getTransactions(portfolioId))
+    },
+    setHoldings: holdings => dispatch(setHoldings(holdings))
   }
 }
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(UserHome)
 )
-
 /**
  * PROP TYPES
  */

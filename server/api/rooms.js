@@ -29,10 +29,8 @@ router.post('/room', async (req, res, next) => {
   const userId = req.body.userId
   const roomId = req.body.roomId
   try {
-
     const response = await getuserroomportfolio(userId, roomId)
     res.json(response)
-    
   } catch (error) {
     next(error)
   }

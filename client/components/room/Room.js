@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Charts, LivePrices, Trade, TradeModal, Pie} from '../'
+import {Charts, LivePrices, Trade, TradeModal, Pie, Leaderboard} from '../'
 import {iex} from '../../socket.js'
 import {getHoldings} from './modals/utils'
 import {
@@ -13,7 +13,8 @@ import {
   getTransactions,
   fetchPortfolio,
   setStyle,
-  setStyles
+  setStyles,
+  getNews
 } from '../../store/'
 import './style.scss'
 import YouTube from 'react-youtube'
@@ -34,12 +35,15 @@ class Room extends Component {
   async setIntervalFunc() {
     let symbol = this.props.symbol
     let history = this.props.getHistory
+    let news = this.props.getNews
     history(symbol)
-    let callBack = function(ticker, func) {
+    news(symbol)
+    let callBack = function(ticker, func, func2) {
+      func2(ticker)
       func(ticker)
     }
     let intervalId = setInterval(() => {
-      callBack(symbol, history)
+      callBack(symbol, history, news)
     }, 10000)
 
     await this.setState({
@@ -71,12 +75,12 @@ class Room extends Component {
         : ''
       await this.props.setSymbol(symbol)
     }
-    // await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
-    // const holdings = getHoldings(
-    //   this.props.portfolioForHoldings,
-    //   this.props.transactions
-    // )
-    // this.props.setHoldings(holdings)
+    await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
+    const holdings = getHoldings(
+      this.props.portfolioForHoldings,
+      this.props.transactions
+    )
+    this.props.setHoldings(holdings)
     this.setIntervalFunc()
   }
 
@@ -138,7 +142,7 @@ class Room extends Component {
       '#018CC9',
       '#0379B1',
       '#016BA7',
-      '#004E89',
+      '#004E89'
     ]
 
     const {holdings, prices} = this.props
@@ -224,9 +228,7 @@ class Room extends Component {
         </div>
         <div id="middle-bar">
           <div id="leader-board-tv">
-            <div id="leader-board">
-              <p>LEADER BOARD</p>
-            </div>
+            <Leaderboard />
             <div id="tv">
               <YouTube
                 videoId="FdtQ2ZgLbEs"
@@ -258,76 +260,77 @@ class Room extends Component {
                   top: 0
                 }}
               >
-                {this.props.symbol}
+                <p id="symbol">{this.props.symbol}</p>
               </b>
               <TradeModal />
             </div>
             <div id="portfolio">
-            {console.log(pieData)}
-              {Object.keys(this.props.holdings).length ? <Pie id="pie" data={pieData} /> : <div>Loading</div> }
-            <div id="portfolio-text">
-              <div>
-                <b>Portfolio Value: </b> ${totalPortfolioValue.toFixed(2)}
-              </div>
-              {Object.keys(this.props.holdings).length
-                ? Object.keys(this.props.holdings).map(symbol => {
-                    if (symbol === 'Cash') {
-                      return (
-                        <div key={symbol}>
-                          <b>
-                            {symbol}: ${this.props.holdings[symbol] / 100}
-                          </b>
-                        </div>
-                      )
-                    } else {
-                      return (
-                        <div key={symbol}>
-                          <b>
-                            {symbol}: {this.props.holdings[symbol]} Shares
-                          </b>
-                        </div>
-                      )
-                    }
-                  })
-                : null}
+              {console.log(pieData)}
+              {Object.keys(this.props.holdings).length ? (
+                <Pie id="pie" data={pieData} />
+              ) : (
+                <div>Loading</div>
+              )}
+              <div id="portfolio-text">
+                <div>
+                  <b>Portfolio Value: </b> ${totalPortfolioValue.toFixed(2)}
+                </div>
+                {Object.keys(this.props.holdings).length
+                  ? Object.keys(this.props.holdings).map(symbol => {
+                      if (symbol === 'Cash') {
+                        return (
+                          <div key={symbol}>
+                            <b>
+                              {symbol}: ${this.props.holdings[symbol] / 100}
+                            </b>
+                          </div>
+                        )
+                      } else {
+                        return (
+                          <div key={symbol}>
+                            <b>
+                              {symbol}: {this.props.holdings[symbol]} Shares
+                            </b>
+                          </div>
+                        )
+                      }
+                    })
+                  : null}
               </div>
             </div>
           </div>
         </div>
         <div id="bottom-bar">
+          <div id="papr-score">
+            <p>{this.props.news.paprScore}</p>
+          </div>
           <div id="news">
-            <div className="article">
-              <div className="title">
-                <p>NEWS</p>
-              </div>
-              <div className="sentiment">
-                <p>SENTIMENT</p>
-              </div>
+            <div id="news-heading">
+              <b>Headline</b>
+              <b>Sentiment</b>
             </div>
-            <div className="article">
-              <div className="title">
-                <p>NEWS</p>
-              </div>
-              <div className="sentiment">
-                <p>SENTIMENT</p>
-              </div>
-            </div>
-            <div className="article">
-              <div className="title">
-                <p>NEWS</p>
-              </div>
-              <div className="sentiment">
-                <p>SENTIMENT</p>
-              </div>
-            </div>
-            <div className="article">
-              <div className="title">
-                <p>NEWS</p>
-              </div>
-              <div className="sentiment">
-                <p>SENTIMENT</p>
-              </div>
-            </div>
+            {this.props.news.news.map((article, i) => {
+              const sentimentColor =
+                article.sentiment === 'POSITIVE'
+                  ? '#1EC851'
+                  : article.sentiment === 'NEGATIVE' ? ' #9a1f11' : '#656a6dcc'
+              return (
+                <div key={i} className="article">
+                  <a href={article.url}>{article.headline}</a>
+                  <a
+                    style={{
+                      backgroundColor: sentimentColor,
+                      fontSize: '10px',
+                      width: '100px',
+                      textAlign: 'center',
+                      padding: '5px'
+                    }}
+                  >
+                    {article.sentiment}
+                  </a>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -350,7 +353,8 @@ const mapStateToProps = state => {
     rooms: state.rooms.rooms,
     prices: state.liveFeed.prices,
     lastPrices: state.liveFeed.lastPrices,
-    previousStyles: state.liveFeed.styles
+    previousStyles: state.liveFeed.styles,
+    news: state.chart.news
   }
 }
 
@@ -368,7 +372,8 @@ const mapDispatchToProps = dispatch => {
       await dispatch(getTransactions(portfolioId))
     },
     setStyle: (symbol, color) => dispatch(setStyle(symbol, color)),
-    setStyles: tickers => dispatch(setStyles(tickers))
+    setStyles: tickers => dispatch(setStyles(tickers)),
+    getNews: ticker => dispatch(getNews(ticker))
   }
 }
 
