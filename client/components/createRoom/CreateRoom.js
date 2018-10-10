@@ -59,10 +59,11 @@ class CreateRoom extends Component {
     await this.props.postRoom({name, startingCash, tickers, expiration, user})
     let slice = window.location.href.slice(0, -4)
     let invite = slice + 'rooms/join/' + this.props.slug
-    this.setState({
-      url: invite,
-      rendermodal: true
-    })
+    alert(invite)
+    // this.setState({
+    //   url: invite,
+    //   rendermodal: true
+    // })
   }
 
   handleChangeCompanies = name => value => {
