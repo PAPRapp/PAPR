@@ -384,7 +384,7 @@ const mapDispatchToProps = dispatch => {
     setSymbol: async symbol => dispatch(setSymbol(symbol)),
     setTrade: () => dispatch(setTrade()),
     fetchPortfolio: async (roomId, userId) =>
-      dispatch(fetchPortfolio(roomId, userId)),
+    dispatch(fetchPortfolio(roomId, userId)),
     getTransactions: async portfolioId => {
       await dispatch(getTransactions(portfolioId))
     },

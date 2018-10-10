@@ -1,6 +1,6 @@
 .form-div {
   width: 50vw;
-  background-color: rgba(101, 106, 109, 0.8);
+  background-color: rgba(101, 106, 109, 0.92);
   padding: 30px 30px;
   position: fixed;
   top: 47%;
@@ -9,7 +9,7 @@
 }
 .messagediv {
   position: fixed;
-  background-color: rgba(101, 106, 109, 0.8);
+  background-color: rgba(101, 106, 109, 0.92);
   border-radius: 10px;
   left: 23%;
   top: 10%;
