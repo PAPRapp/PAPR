@@ -14,7 +14,7 @@ export default class LiveTV extends React.Component {
     return (
       <div id="tv">
         <YouTube
-          videoId="Mc038uSZHJY"
+          videoId="Kc7oDf21PGw"
           //FdtQ2ZgLbEs al jazeera
           opts={opts}
           onReady={this._onReady}
