@@ -17,6 +17,14 @@ import {
 } from '../../store/'
 import './style.scss'
 
+const numberWithCommas = n => {
+  const parts = n.toString().split('.')
+  return (
+    parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+    (parts[1] ? '.' + parts[1] : '')
+  )
+}
+
 class Leaderboard extends Component {
   constructor() {
     super()
@@ -90,12 +98,17 @@ class Leaderboard extends Component {
     this.props.portfolios.sort(compare)
     return (
       <div id="leader-board">
-        <p>LEADERBOARD</p>
-        {this.props.portfolios.map(portfolio => {
+        <div
+          id="leader-board-item"
+          style={{backgroundColor: '#656a6d54', paddingLeft: '12px'}}
+        >
+          LEADERBOARD
+        </div>
+        {this.props.portfolios.map((portfolio, i) => {
           let backgroundColor
           if (color) {
             color = !color
-            backgroundColor = '#656a6d54'
+            backgroundColor = '#394b5920'
           } else {
             color = !color
             backgroundColor = 'transparent'
@@ -107,12 +120,13 @@ class Leaderboard extends Component {
               style={{backgroundColor: backgroundColor}}
             >
               <p id="leader-board-user" style={{textAlign: 'right'}}>
-                {portfolio.userEmail.toUpperCase()}
+                {i + 1}. {portfolio.userEmail.toUpperCase()}
               </p>
-              <p
-                id="leader-board-value"
-                style={{textAlign: 'left'}}
-              >{`$${portfolio.value.toFixed(2)}`}</p>
+              <p id="leader-board-value" style={{textAlign: 'left'}}>{`${
+                portfolio.value
+                  ? '$' + numberWithCommas(portfolio.value.toFixed(2))
+                  : 'LOADING'
+              }`}</p>
             </div>
           )
         })}

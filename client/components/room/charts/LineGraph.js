@@ -36,6 +36,7 @@ export default class LineGraph extends Component {
         margin={{left: 40}}
       >
         <XAxis
+          animation={false}
           style={{
             text: {
               fill: 'white',

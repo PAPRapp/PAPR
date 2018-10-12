@@ -36,55 +36,57 @@ class Chat extends React.Component {
 
   render() {
     return (
-      <div
-        className="chat-room"
-        style={{
-          display: 'flex',
-          width: '100%',
-          height: '100%',
-          flexDirection: 'column'
-        }}
-      >
-        <div className="chat-messages" style={{flex: 1}}>
-          {this.props.messages.map((message, i) => {
-            return (
-              <div
-                key={i}
-                className="message"
-                style={
-                  {
-                    // display: 'row',
-                    // justifyContent: 'space-between',
-                    // alignItems: 'center',
-                    // size: '14px',
-                    // height: '90%',
-                    // minHeight: '90%'
-                  }
-                }
-              >
-                <b>
-                  {message.username}: {message.content}
-                </b>
-              </div>
-            )
-          })}
-        </div>
+      <div id="chat">
         <div
-          className="chat-input"
-          style={{display: 'flex', width: '100%', height: '10%'}}
+          className="chat-room"
+          style={{
+            display: 'flex',
+            width: '100%',
+            height: '100%',
+            flexDirection: 'column'
+          }}
         >
-          <input
-            type="text"
-            onChange={this.handleChange}
-            value={this.props.content}
-          />
-          <button
-            type="submit"
-            className="chat-button"
-            onClick={this.handleSubmit}
+          <div className="chat-messages" style={{flex: 1}}>
+            {this.props.messages.map((message, i) => {
+              return (
+                <div
+                  key={i}
+                  className="message"
+                  style={
+                    {
+                      // display: 'row',
+                      // justifyContent: 'space-between',
+                      // alignItems: 'center',
+                      // size: '14px',
+                      // height: '90%',
+                      // minHeight: '90%'
+                    }
+                  }
+                >
+                  <b>
+                    {message.username}: {message.content}
+                  </b>
+                </div>
+              )
+            })}
+          </div>
+          <div
+            className="chat-input"
+            style={{display: 'flex', width: '100%', height: '10%'}}
           >
-            SEND
-          </button>
+            <input
+              type="text"
+              onChange={this.handleChange}
+              value={this.props.content}
+            />
+            <button
+              type="submit"
+              className="chat-button"
+              onClick={this.handleSubmit}
+            >
+              SEND
+            </button>
+          </div>
         </div>
       </div>
     )

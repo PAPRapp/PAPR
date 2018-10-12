@@ -11,6 +11,7 @@ module.exports = {
     path: __dirname,
     filename: './public/bundle.js'
   },
+
   devtool: 'source-map',
   module: {
     rules: [
@@ -23,7 +24,10 @@ module.exports = {
         test: /\.s?css$/,
         loader: ['style-loader', 'css-loader', 'sass-loader']
       },
-      {test: /\.json$/, loader: ['json-loader']},
+      {
+        test: /\.json$/,
+        loader: ['json-loader']
+      },
       {
         test: /\.ttf$/,
         use: [

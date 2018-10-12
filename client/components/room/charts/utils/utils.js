@@ -1,9 +1,14 @@
-// conditional date utility function for ydomain Candle Chart
-
-export const dateChange = (pointA, pointB) => {
-  const today = new Date()
-  const time = today.getHours()
-}
+// conditional date utility function for ydomain a-low Candle Chart
+export const dateChange = pointA => {
+  const currentDay = new Date()
+  const today = currentDay.getDay()
+  const weekHour = currentDay.getHours()
+  if(today === 6 || today === 0 || weekHour >= 20 || weekHour < 9) {
+    return pointA * 0.94
+  } else {
+    return pointA * 0.998
+  }
+ }
 
 
 //dynamic pie chart data update util function
@@ -269,3 +274,4 @@ export const yAxis = {
     }
   }
 }
+

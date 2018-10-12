@@ -1,13 +1,19 @@
 import axios from 'axios'
-import portfolio from './portfolio'
 
 const POST_TRANSACTION = 'POST_TRANSACTION'
 const SET_TRANSACTIONS = 'SET_TRANSACTIONS'
+const CLEAR_MESSAGE = 'CLEAR_MESSAGE'
 
-const postTransaction = transactionResponse => {
+export const postTransaction = transactionResponse => {
   return {
     type: POST_TRANSACTION,
     transactionResponse
+  }
+}
+
+export const clearMessage = () => {
+  return {
+    type: CLEAR_MESSAGE
   }
 }
 
@@ -50,6 +56,8 @@ export default (state = defaultStore, action) => {
       return {...state, message: action.transactionResponse.message}
     case SET_TRANSACTIONS:
       return {...state, transactions: action.transactions}
+    case CLEAR_MESSAGE:
+      return {...state, message: ''}
     default:
       return state
   }

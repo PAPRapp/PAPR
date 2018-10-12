@@ -2,7 +2,13 @@ import React, {Component} from 'react'
 import '../../../../node_modules/react-vis/dist/style.css'
 import CandleStick from './utils/CandleFunc'
 import {XAxis, YAxis, FlexibleXYPlot, Hint} from 'react-vis'
-import {monthlyQuad, dynamic, minPoint, maxPoint} from './utils/utils'
+import {
+  monthlyQuad,
+  dynamic,
+  minPoint,
+  maxPoint,
+  dateChange
+} from './utils/utils'
 
 export default class CandleChart extends Component {
   constructor(props) {
@@ -36,10 +42,12 @@ export default class CandleChart extends Component {
     const high = maxPoint(minMax)
     const {a} = low
     const {b} = high
-    console.log("tickers", a, b)
+    const pointA = dateChange(a)
+
     return (
-      <FlexibleXYPlot animation yDomain={[a * 0.998, b]} xType="ordinal">
+      <FlexibleXYPlot animation yDomain={[pointA, b]} xType="ordinal">
         <XAxis
+          animation={false}
           style={{
             text: {
               fill: 'white',

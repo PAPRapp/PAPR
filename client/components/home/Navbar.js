@@ -34,6 +34,18 @@ class NavBar extends React.Component {
     this.setState({open: false})
   }
 
+  // handleMouseHover = () => {
+  //   this.setState({
+  //     showLogOut: true
+  //   })
+  // }
+
+  // handleMouseLeave = () => {
+  //   this.setState({
+  //     showLogOut: false
+  //   })
+  // }
+
   handleSignOut() {
     this.props.signOut()
     this.props.setPage('landing')
@@ -45,14 +57,14 @@ class NavBar extends React.Component {
     return (
       <nav>
         <div id="nav-buttons">
-          <button
+          {/* <button
             className="nav-button"
             onClick={async () => {
               this.props.setPage('room')
             }}
           >
             ROOMS
-          </button>
+          </button> */}
 
           {/* <button
             className="nav-button"
@@ -72,8 +84,18 @@ class NavBar extends React.Component {
             SETTINGS
           </button> */}
 
-          <button className="nav-button" onClick={this.handleOpen}>
-            CREATE ROOM
+          <button
+            className="nav-button"
+            onClick={this.handleOpen}
+            style={{
+              fontSize: '30px',
+              animation: this.fadeOutCreateRoom
+                ? 'fade-out-create-room 1s'
+                : null
+            }}
+            onMouseLeave={this.handleFadeoutCreateRoom}
+          >
+            +
           </button>
           {renderModal ? (
             <CreateRoomModal
@@ -81,12 +103,10 @@ class NavBar extends React.Component {
               state={this.state.open}
             />
           ) : null}
-          <button className="nav-button" onClick={this.handleSignOut}>
-            LOG OUT
-          </button>
         </div>
-        <div>
+        <div id="log-out-with-logo" onClick={this.handleSignOut}>
           <img id="nav-logo" src="/images/logo_without_text_no_borders.svg" />
+          <div className="log-out">LOG OUT</div>
         </div>
       </nav>
     )
