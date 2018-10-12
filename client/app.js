@@ -26,9 +26,12 @@ class App extends React.Component {
       )
     } else {
       return (
-        <Switch>
-          <Route path="/home" component={UserHome} />
-        </Switch>
+        <React.Fragment>
+          <Particles className="particles-js" params={particleConfig} />
+          <Switch>
+            <Route path="/home" component={UserHome} />
+          </Switch>
+        </React.Fragment>
       )
     }
   }

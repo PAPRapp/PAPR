@@ -47,7 +47,7 @@ class UserHome extends React.Component {
     return (
       <React.Fragment>
         <Navbar />
-        <Particles className="particles-js" params={particleConfig} />
+        {/* <Particles className="particles-js" params={particleConfig} /> */}
         {this.props.currentPage === 'rooms' ? <Rooms /> : null}
         {this.props.currentPage === 'room' ? <Room /> : null}
         {this.props.currentPage === 'createroom' ? <CreateRoom /> : null}
