@@ -1,155 +1,230 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
+import {getHoldings} from './utils/'
 import {
-  createTransaction,
+  setSymbol,
+  setQuantity,
   fetchPortfolio,
-  updatePortfolio
+  setHoldings,
+  getTransactions,
+  createTransaction,
+  clearMessage
 } from '../../../store/'
+import axios from 'axios'
 
-class Trade extends Component {
+const numberWithCommas = n => {
+  const parts = n.toString().split('.')
+  return (
+    parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') +
+    (parts[1] ? '.' + parts[1] : '')
+  )
+}
+
+class Trade extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      type: 'buy',
-      qty: 0,
-      price: 0,
-      company: '',
-      ticker: '',
-      cash: 0,
-      portfolio: {},
-      message: '',
-      insufficentFunds: true
-    }
-    this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChangeSymbol = this.handleChangeSymbol.bind(this)
+    this.handleChangeQuantity = this.handleChangeQuantity.bind(this)
   }
-
-  async handleChange(evt) {
-    try {
-      await this.setState({
-        [evt.target.name]: evt.target.value
-      })
-      if (
-        this.state.type === 'buy' &&
-        this.state.qty *
-          this.props.liveFeed.prices[this.props.ticker.toUpperCase()] *
-          100 >
-          this.state.cash
-      ) {
-        await this.setState({
-          message: 'Insufficient Funds',
-          insufficentFunds: true
-        })
-      } else if (
-        this.state.type === 'sell' &&
-        this.props.portfolio[this.props.ticker] < this.state.qty
-      ) {
-        await this.setState({
-          message: 'Insufficient Shares',
-          insufficentFunds: true
-        })
-      } else if (this.state.qty <= 0) {
-        await this.setState({insufficentFunds: true})
-      } else {
-        await this.setState({insufficentFunds: false})
-        await this.setState({message: ''})
-      }
-    } catch (error) {
-      console.log(error)
+  async handleSubmit(e) {
+    e.preventDefault()
+    const transactionObj = {
+      qty: this.props.qty,
+      price: this.props.prices[this.props.symbol] * 100,
+      type: e.target.name,
+      ticker: this.props.symbol,
+      portfolioId: this.props.portfolioId,
+      holdings: this.props.holdings,
+      userId: this.props.userId,
+      roomId: this.props.room.id
     }
-  }
-
-  async handleSubmit() {
-    try {
-      const tradeInfo = {
-        ticker: this.props.ticker,
-        type: this.state.type,
-        qty: this.state.qty,
-        price:
-          this.props.liveFeed.prices[this.props.ticker.toUpperCase()] * 100,
-        company: '',
-        cash: this.state.cash,
-        portfolio: this.props.portfolio
-      }
-      await this.props.createTransaction(tradeInfo)
-      await this.props.updatePortfolio(
-        this.props.roomId,
-        this.props.userId,
-        tradeInfo
+    await this.props.createTransaction(transactionObj)
+    if (this.props.message === 'Transaction confirmed') {
+      await this.props.getTransactions(this.props.portfolioId)
+      await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
+      const holdings = getHoldings(
+        this.props.portfolio,
+        this.props.transactions
       )
-      await this.setState({
-        message: 'Transaction Successful'
-      })
-    } catch (error) {
-      console.log(error)
+      this.props.setHoldings(holdings)
     }
   }
 
-  async componentDidMount() {
-    try {
-      await this.props.fetchPortfolio(this.props.roomId, this.props.userId)
-      await this.setState({
-        price:
-          this.props.liveFeed.prices[this.props.ticker.toUpperCase()] * 100,
-        ticker: this.props.ticker,
-        cash: this.props.portfolio.cash,
-        portfolio: this.props.portfolio
+  handleChangeSymbol(e) {
+    if (this.state.message) {
+      this.setState({
+        message: null
       })
-    } catch (error) {
-      console.log(error)
+    }
+    this.props.setSymbol(e.target.value)
+  }
+  handleChangeQuantity(e) {
+    if (this.props.message) {
+      this.props.clearMessage()
+    }
+    if (!isNaN(e.target.value)) {
+      this.props.setQuantity(e.target.value)
     }
   }
-
   render() {
+    const buyDisabled =
+      this.props.holdings.Cash / 100 <
+        Number(this.props.qty) * this.props.prices[this.props.symbol] ||
+      Number(this.props.qty) < 0
+    const sellDisabled =
+      !this.props.holdings[this.props.symbol] ||
+      this.props.holdings[this.props.symbol] < Number(this.props.qty) ||
+      Number(this.props.qty) < 0
+
     return (
-      <div>
-        <p>{this.props.ticker.toUpperCase()}</p>
-        <h4>
-          {this.props.liveFeed.prices[this.props.ticker.toUpperCase()]
-            ? this.props.liveFeed.prices[
-                this.props.ticker.toUpperCase()
-              ].toFixed(2)
-            : null}
-        </h4>
-        <p>Portfollio Shares in {this.props.ticker.toUpperCase()}: </p>
-        <h4>{this.props.portfolio[this.props.ticker] || '0'}</h4>
-        <p>Portfollio Cash: </p>
-        <h4>${(this.props.portfolio.cash / 100).toFixed(2)}</h4>
-        <p>Transaction Type: </p>
-        <select name="type" onChange={this.handleChange}>
-          <option value="buy">BUY</option>
-          <option value="sell">SELL</option>
-        </select>
-        <p>Quantity:</p>
-        <input name="qty" onChange={this.handleChange} />
-        <button
-          type="submit"
-          disabled={this.state.insufficentFunds}
-          onClick={this.handleSubmit}
+      <div id="buy-sell">
+        <b
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            justifySelf: 'flex-start',
+            alignSelf: 'flex-start',
+            postion: 'relative',
+            width: '83%',
+            margin: '5px',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            top: 0
+          }}
         >
-          CONFIRM
-        </button>
-        <p>{this.state.message}</p>
+          <p id="symbol">
+            {this.props.symbol} ${this.props.prices[this.props.symbol]
+              ? numberWithCommas(
+                  this.props.prices[this.props.symbol].toFixed(2)
+                )
+              : null}
+          </p>
+
+          {this.props.message ? <p>{this.props.message}</p> : null}
+        </b>
+        <div
+          id="trade_modal"
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            width: '90%',
+            height: '95%',
+            paddingLeft: '5vw',
+            paddingRight: '5vw'
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              width: '30%'
+            }}
+          >
+            {this.props.prices[this.props.symbol] ? (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'space-between',
+                  width: '100%',
+                  height: '60%',
+                  color: 'white'
+                }}
+              >
+                <div className="trade-info-text">
+                  <b>Total Value</b>
+                  <p style={{margin: '3% 12% 3% 12%'}}>
+                    ${numberWithCommas(
+                      (
+                        this.props.qty * this.props.prices[this.props.symbol]
+                      ).toFixed(2)
+                    )}
+                  </p>
+                </div>
+              </div>
+            ) : null}
+            <input
+              type="text"
+              onChange={this.handleChangeQuantity}
+              value={this.props.qty}
+              className="trade-input"
+              placeholder="Enter Quantity"
+            />
+          </div>
+          <div
+            id="trade-buttons"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '10px 0px 10px 0px',
+              height: '60%',
+              width: '30%'
+            }}
+          >
+            <button
+              disabled={buyDisabled}
+              className="trade-button"
+              onClick={this.handleSubmit}
+              style={{width: '100%'}}
+              name="buy"
+              type="submit"
+            >
+              BUY
+            </button>
+            <button
+              disabled={sellDisabled}
+              className="trade-button"
+              onClick={this.handleSubmit}
+              style={{width: '100%'}}
+              name="sell"
+              type="submit"
+            >
+              SELL
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
 }
+
 const mapStateToProps = state => {
   return {
+    room: state.room.currentRoom,
+    prices: state.liveFeed.prices,
+    symbol: state.liveFeed.symbol,
+    holdings: state.portfolio.holdings,
+    qty: state.liveFeed.quantity,
+    cash: state.portfolio.portfolio.Cash,
+    portfolioId: state.room.portfolio.id,
+    transactions: state.transaction.transactions,
     userId: state.user.currentUser,
-    roomId: state.room.currentRoom.id,
-    liveFeed: state.liveFeed,
-    portfolio: state.portfolio.portfolio
+    portfolio: state.portfolio.portfolio,
+    message: state.transaction.message
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    createTransaction: trade => dispatch(createTransaction(trade)),
-    fetchPortfolio: (roomId, userId) =>
+    setSymbol: symbol => dispatch(setSymbol(symbol)),
+    setQuantity: num => dispatch(setQuantity(num)),
+    fetchPortfolio: async (roomId, userId) =>
       dispatch(fetchPortfolio(roomId, userId)),
-    updatePortfolio: (roomId, userId, state) =>
-      dispatch(updatePortfolio(roomId, userId, state))
+    getTransactions: async portfolioId => {
+      await dispatch(getTransactions(portfolioId))
+    },
+    setHoldings: holdings => dispatch(setHoldings(holdings)),
+    createTransaction: transactionObj =>
+      dispatch(createTransaction(transactionObj)),
+    clearMessage: () => dispatch(clearMessage())
   }
 }
 

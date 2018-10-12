@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
-import moment from 'moment'
 import {connect} from 'react-redux'
 import {
   Charts,
-  LivePrices,
   Trade,
-  TradeModal,
-  Pie,
   Leaderboard,
-  Chat
+  Chat,
+  Tickers,
+  SelectRoom,
+  LiveTV,
+  Portfolio,
+  News
 } from '../'
 import {iex} from '../../socket.js'
 import {getHoldings} from './modals/utils'
@@ -28,7 +29,6 @@ import {
   fetchAllPortfolios
 } from '../../store/'
 import './style.scss'
-import YouTube from 'react-youtube'
 
 class Room extends Component {
   constructor() {
@@ -38,34 +38,30 @@ class Room extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.setIntervalFunc = this.setIntervalFunc.bind(this)
-    this.handleTrade = this.handleTrade.bind(this)
-    this.changeRoom = this.changeRoom.bind(this)
+    this.clearIntervalFromState = this.clearIntervalFromState.bind(this)
   }
 
   async setIntervalFunc() {
-    let symbol = this.props.symbol
-    let history = this.props.getHistory
-    let news = this.props.getNews
-    let roomId = this.props.room.id
-    let getPortfolios = this.props.fetchAllPortfolios
-    history(symbol)
-    news(symbol)
-    let callBack = function(ticker, room, func, func2, func3) {
+    const {symbol, roomId} = this.props
+    this.props.getHistory(symbol)
+    this.props.getNews(symbol)
+    const callBack = (ticker, room, func, func2, func3) => {
       func2(ticker)
       func(ticker)
       func3(room)
     }
-    let intervalId = setInterval(() => {
-      callBack(symbol, roomId, history, news, getPortfolios)
+    const intervalId = setInterval(() => {
+      callBack(
+        symbol,
+        roomId,
+        this.props.getHistory,
+        this.props.getNews,
+        this.props.fetchAllPortfolios
+      )
     }, 10000)
-
     await this.setState({
       intervalId: intervalId
     })
-  }
-
-  handleTrade() {
-    this.props.setTrade()
   }
 
   async handleChange(symbol) {
@@ -90,7 +86,7 @@ class Room extends Component {
       this.props.transactions
     )
     this.props.setHoldings(holdings)
-    this.setIntervalFunc()
+    await this.setIntervalFunc()
   }
 
   componentWillUnmount() {
@@ -100,275 +96,37 @@ class Room extends Component {
     clearInterval(this.state.intervalId)
   }
 
-  async changeRoom(e) {
-    const roomId = JSON.parse(e.target.value).id
-    await this.props.clearPrices()
-    await this.props.getRoomData(this.props.userId, roomId)
-    await this.props.setStyles(this.props.room.tickerQuery)
-    await this.props.fetchPortfolio(this.props.room.id, this.props.userId)
-    await this.props.getTransactions(this.props.portfolioForSockets.id)
-    await this.props.fetchMessages(this.props.room.id)
-    await this.props.fetchAllPortfolios(this.props.room.id)
-    clearInterval(this.state.intervalId)
+  async clearIntervalFromState() {
     await this.setState({
       intervalId: null
     })
-    let symbols = Object.keys(this.props.previousStyles).join(',')
-    iex.emit('subscribe', symbols)
-    symbols = symbols.split(',')
-    if (!this.state.intervalId) {
-      let symbol = symbols.length ? symbols[0] : ''
-      await this.props.setSymbol(symbol)
-    }
-    const holdings = getHoldings(
-      this.props.portfolioForHoldings,
-      this.props.transactions
-    )
-    this.props.setHoldings(holdings)
-    this.setIntervalFunc()
   }
+
   render() {
-    const opts = {
-      height: '100%',
-      width: '100%',
-      playerVars: {
-        // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
-    }
-    let totalPortfolioValue = 0
-    if (Object.keys(this.props.holdings).length) {
-      totalPortfolioValue = this.props.holdings.Cash / 100
-      Object.keys(this.props.holdings).forEach(symbol => {
-        if (symbol !== 'Cash') {
-          totalPortfolioValue +=
-            this.props.holdings[symbol] * this.props.prices[symbol]
-        }
-      })
-    }
-
-    const colors = [
-      '#00417B',
-      '#01A3E2',
-      '#018CC9',
-      '#0379B1',
-      '#016BA7',
-      '#004E89'
-    ]
-
-    const {holdings, prices} = this.props
-    const pieData = {children: [], style: {fillOpacity: 1}}
-
-    Object.keys(holdings).forEach((symbol, i) => {
-      if (!pieData.hasOwnProperty(symbol)) {
-        if (symbol === 'Cash') {
-          pieData.children.push({
-            name: symbol,
-            value: holdings[symbol],
-            hex: colors[i],
-            style: {fillOpacity: 1}
-          })
-        } else {
-          pieData.children.push({
-            name: symbol,
-            value: prices[symbol] * holdings[symbol],
-            hex: colors[i],
-            style: {fillOpacity: 1}
-          })
-        }
-      }
-    })
-
     return (
       <div id="view-container">
         <div id="top-bar">
-          <select id="room-drop-down" onChange={async e => this.changeRoom(e)}>
-            {this.props.rooms.map(room => {
-              if (room.active) {
-                return (
-                  <option
-                    key={room.id}
-                    value={JSON.stringify(room)}
-                    className="room-drop-down"
-                  >
-                    {room.name}
-                  </option>
-                )
-              }
-            })}
-          </select>
-          <div id="room-tickers">
-            {Object.keys(this.props.prices).map(symbol => {
-              let selected = {}
-              if (this.props.symbol === symbol) {
-                selected = {
-                  opacity: 1,
-                  fontWeight: 'bold',
-                  fontSize: '16px'
-                }
-              }
-              const {lastPrices, prices, previousStyles} = this.props
-              let color = previousStyles[symbol]
-              if (lastPrices[symbol]) {
-                if (prices[symbol] > lastPrices[symbol]) {
-                  color = '#1EC851'
-                  this.props.setStyle(symbol, color)
-                } else if (prices[symbol] < lastPrices[symbol]) {
-                  color = '#9a1f11'
-                  this.props.setStyle(symbol, color)
-                }
-              }
-              let style = {
-                ...selected,
-                backgroundColor: color
-              }
-              return (
-                <div
-                  className="room-ticker"
-                  key={symbol}
-                  style={style}
-                  onClick={() => this.handleChange(symbol)}
-                >
-                  <p>
-                    {symbol}: ${this.props.prices[symbol].toFixed(2)}
-                  </p>
-                </div>
-              )
-            })}
-          </div>
+          <SelectRoom
+            intervalId={this.state.intervalId}
+            setIntervalFunc={this.setIntervalFunc}
+            clearIntervalFromState={this.clearIntervalFromState}
+          />
+          <Tickers handleChange={this.handleChange} />
         </div>
         <div id="middle-bar">
           <div id="leader-board-tv">
             <Leaderboard />
-            <div id="tv">
-              <YouTube
-                videoId="Mc038uSZHJY"
-                //FdtQ2ZgLbEs al jazeera
-                opts={opts}
-                onReady={this._onReady}
-              />
-            </div>
+            <LiveTV />
           </div>
           <Charts />
-          {/* <div id="charts">
-            <div id="line-chart">
-              <p>LINE CHART</p>
-            </div>
-            <div id="bar-chart">
-              <p>BAR CHART</p>
-            </div>
-          </div> */}
           <div id="personal-board">
-            <div id="buy-sell">
-              <b
-                style={{
-                  justifySelf: 'flex-start',
-                  alignSelf: 'flex-start',
-                  postion: 'relative',
-                  margin: '5px',
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  top: 0
-                }}
-              >
-                <p id="symbol">
-                  {this.props.symbol} ${this.props.prices[this.props.symbol]
-                    ? this.props.prices[this.props.symbol].toFixed(2)
-                    : null}
-                </p>
-              </b>
-              <TradeModal />
-            </div>
-            <div id="portfolio">
-              {Object.keys(this.props.holdings).length ? (
-                <Pie id="pie" data={pieData} />
-              ) : (
-                <div>Loading</div>
-              )}
-              <div id="portfolio-text">
-                <div>
-                  <b>Portfolio Value: </b> ${totalPortfolioValue.toFixed(2)}
-                </div>
-                {Object.keys(this.props.holdings).length
-                  ? Object.keys(this.props.holdings).map(symbol => {
-                      if (symbol === 'Cash') {
-                        return (
-                          <div key={symbol}>
-                            <b>
-                              {symbol}: ${this.props.holdings[symbol] / 100}
-                            </b>
-                          </div>
-                        )
-                      } else {
-                        return (
-                          <div key={symbol}>
-                            <b>
-                              {symbol}: {this.props.holdings[symbol]} Shares
-                            </b>
-                          </div>
-                        )
-                      }
-                    })
-                  : null}
-              </div>
-            </div>
+            <Trade />
+            <Portfolio />
           </div>
         </div>
         <div id="bottom-bar">
-          <div id="chat">
-            <Chat />
-          </div>
-          <div id="news">
-            <div id="news-heading">
-              <b>Headline</b>
-              <b
-                style={{
-                  color: 'white',
-                  textAlign: 'center',
-                  paddingRight: '10px'
-                }}
-              >
-                Sentiment
-              </b>
-            </div>
-            {this.props.news.news.map((article, i) => {
-              const sentimentColor =
-                article.sentiment === 'POSITIVE'
-                  ? '#1EC851'
-                  : article.sentiment === 'NEGATIVE' ? ' #9a1f11' : '#656a6dcc'
-              return (
-                <div key={i} className="article">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={article.url}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {article.headline}
-                  </a>
-                  <a
-                    style={{
-                      backgroundColor: sentimentColor,
-                      display: 'flex',
-                      fontSize: '10px',
-                      width: '100px',
-                      textAlign: 'center',
-                      padding: '5px',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {article.sentiment}
-                  </a>
-                </div>
-              )
-            })}
-          </div>
+          <Chat />
+          <News />
         </div>
       </div>
     )
@@ -385,13 +143,15 @@ const mapStateToProps = state => {
     portfolioForSockets: state.room.portfolio,
     holdings: state.portfolio.holdings,
     transactions: state.transaction.transactions,
+    message: state.transaction.message,
     symbol: state.liveFeed.symbol,
     showTrade: state.room.trade,
     rooms: state.rooms.rooms,
     prices: state.liveFeed.prices,
     lastPrices: state.liveFeed.lastPrices,
     previousStyles: state.liveFeed.styles,
-    news: state.chart.news
+    news: state.chart.news,
+    roomId: state.room.currentRoom.id
   }
 }
 
