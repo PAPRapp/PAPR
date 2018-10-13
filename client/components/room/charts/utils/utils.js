@@ -4,7 +4,7 @@ export const dateChange = pointA => {
   const today = currentDay.getDay()
   const weekHour = currentDay.getHours()
   if(today === 6 || today === 0 || weekHour >= 20 || weekHour < 9) {
-    return pointA * 0.94
+    return pointA * 0.95
   } else {
     return pointA * 0.998
   }

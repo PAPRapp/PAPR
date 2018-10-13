@@ -7,6 +7,8 @@ import {
 } from 'react-vis'
 import {connect} from 'react-redux'
 import {fetchPortfolio} from '../store/reducers/portfolio'
+import {getHoldings} from '../'
+import {setHoldings} from '../store/'
 
 const numberWithCommas = n => {
   const parts = n.toString().split('.')
@@ -32,40 +34,40 @@ class SunBurst extends Component {
     this.highlightValue = this.highlightValue.bind(this)
   }
 
-  // componentDidMount() {
-  //   const {holdings, prices} = this.props
-  //   const data = {children: [], style: {fillOpacity: 1}}
-  //   const colors = [
-  //     '#00417B',
-  //     '#01A3E2',
-  //     '#018CC9',
-  //     '#0379B1',
-  //     '#016BA7',
-  //     '#004E89'
-  //   ]
-  //   if (Object.keys(holdings).length > 0) {
-  //     Object.keys(holdings).forEach((symbol, i) => {
-  //       if (!data.hasOwnProperty(symbol)) {
-  //         if (symbol === 'Cash') {
-  //           data.children.push({
-  //             name: symbol,
-  //             value: (holdings[symbol] / 100).toFixed(2),
-  //             hex: colors[i],
-  //             style: {fillOpacity: 1}
-  //           })
-  //         } else {
-  //           data.children.push({
-  //             name: symbol,
-  //             value: (prices[symbol] * holdings[symbol]).toFixed(2),
-  //             hex: colors[i],
-  //             style: {fillOpacity: 1}
-  //           })
-  //         }
-  //       }
-  //     })
-  //     this.getValue(data.children[0])
-  //   }
-  // }
+  componentDidMount() {
+    const {holdings, prices} = this.props
+    const data = {children: [], style: {fillOpacity: 1}}
+    const colors = [
+      '#00417B',
+      '#01A3E2',
+      '#018CC9',
+      '#0379B1',
+      '#016BA7',
+      '#004E89'
+    ]
+    if (Object.keys(holdings).length > 0) {
+      Object.keys(holdings).forEach((symbol, i) => {
+        if (!data.hasOwnProperty(symbol)) {
+          if (symbol === 'Cash') {
+            data.children.push({
+              name: symbol,
+              value: (holdings[symbol] / 100).toFixed(2),
+              hex: colors[i],
+              style: {fillOpacity: 1}
+            })
+          } else {
+            data.children.push({
+              name: symbol,
+              value: (prices[symbol] * holdings[symbol]).toFixed(2),
+              hex: colors[i],
+              style: {fillOpacity: 1}
+            })
+          }
+        }
+      })
+      this.getValue(data.children[0])
+    }
+  }
 
   getValue(value) {
     this.setState({
@@ -123,7 +125,7 @@ class SunBurst extends Component {
       return (
         <div id="pie">
           <FlexibleSunburst
-            width={300}
+            width={250}
             animation
             hideRootNode
             onValueMouseOver={this.getValue}
@@ -193,7 +195,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPortfolio: (roomId, userId) => dispatch(fetchPortfolio(roomId, userId))
+    fetchPortfolio: (roomId, userId) => dispatch(fetchPortfolio(roomId, userId)),
+    setHoldings: holdings => dispatch(setHoldings(holdings)),
   }
 }
 

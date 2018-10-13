@@ -33,7 +33,6 @@ export const fetchMessages = roomId => {
 
 export const postMessage = (roomId, userId, content) => {
   return async dispatch => {
-    console.log(content)
     const response = await axios.post(`/api/message/${roomId}/${userId}`, {
       content
     })
