@@ -35,7 +35,6 @@ const defaultHistory = {
 export const getNews = ticker => {
   return async dispatch => {
     try {
-      console.log('getting news')
       const {data} = await axios.get(`/api/news/${ticker}`)
       dispatch(gotNews(data))
     } catch (err) {

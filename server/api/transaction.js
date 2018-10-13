@@ -16,7 +16,6 @@ const checkIfTransactionValid = (holdings, transactionRequest) => {
     const sharesToSell = transactionRequest.qty
     const sharesOwned = holdings[transactionRequest.ticker]
     /*If the user owns 5 shares of company A and attemps to sell 6 shares of company B, canSell === false*/
-    console.log(sharesToSell, sharesOwned)
     const canSell =
       sharesToSell <= sharesOwned &&
       transactionRequest.qty > 0 &&
@@ -47,7 +46,6 @@ router.post('/', async (req, res, next) => {
         qty,
         price
       }).then(transaction => {
-        console.log(portfolioId)
         transaction.setPortfolio(portfolioId)
       })
 

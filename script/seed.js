@@ -15,7 +15,7 @@ async function seed() {
     await Room.create({name: 'Room #1', tickerQuery:['chk','amd','tsla','baba', 'mu'], expiration: new Date('October 10, 2018'), users:['1','2','3','4'], startingCash: 200000, roomowner: 'kevin@email.com'}),
     await Room.create({name: 'Room #2', tickerQuery:['twtr','crk','ppc','jd', 'teva'], expiration: new Date('October 10, 2018'), users:['1','2'], startingCash: 100000, roomowner: 'kevin@email.com'}),
     await Room.create({name: 'Room #3', tickerQuery:['jpm','intc','wmt','kmi', 'aapl'], expiration: new Date('October 10, 2018'), users:['1','2'], startingCash: 100000, roomowner: 'kevin@email.com'}),
-    await Room.create({name: 'Room #4', tickerQuery:['nvda','tsn','i','tndm', 'pf'], expiration: new Date('October 10, 2018'), users:['1','2'], startingCash: 100000, roomowner: 'kevin@email.com'}),
+    await Room.create({name: 'Room #4', tickerQuery:['nvda','tsn','ge','t', 'pf'], expiration: new Date('October 10, 2018'), users:['1','2'], startingCash: 100000, roomowner: 'kevin@email.com'}),
     await Portfolio.create({cash: 100000, userId: 1, roomId: 1}),
     await Portfolio.create({cash: 100000, userId: 1, roomId: 2}),
     await Portfolio.create({cash: 100000, userId: 1, roomId: 3}),

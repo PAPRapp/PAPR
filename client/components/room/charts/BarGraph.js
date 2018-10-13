@@ -2,12 +2,10 @@ import React, {Component} from 'react'
 import '../../../../node_modules/react-vis/dist/style.css'
 import {volumeDate, dynamicBar, maxVol} from './utils/utils'
 import {
-  XYPlot,
   XAxis,
   YAxis,
   VerticalBarSeries,
   VerticalBarSeriesCanvas,
-  DiscreteColorLegend,
   Hint,
   FlexibleXYPlot
 } from 'react-vis'
@@ -27,13 +25,13 @@ export default class BarGraph extends Component {
 
   getValue(value) {
     this.setState({
-      value
+      value,
     })
   }
 
   removeValue() {
     this.setState({
-      value: null
+      value: null,
     })
   }
   render() {
@@ -46,8 +44,8 @@ export default class BarGraph extends Component {
     const {vol} = high
 
     return (
-      <FlexibleXYPlot animation xType="ordinal" stackBy="y" yDomain={[0, vol]}>
-        <XAxis hideTicks />
+      <FlexibleXYPlot animation xType="ordinal" stackBy="y" yDomain={[0, vol]} >
+        <XAxis hideTicks animation={false} />
         <YAxis
           animation
           style={{
