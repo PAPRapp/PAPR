@@ -37,6 +37,7 @@ Technologies used to build this application include:
 * [Sequelize](http://docs.sequelizejs.com/) - Library used to create models and query database for relevant information
 * [FireBase](https://firebase.google.com/) -  Cloud database and service used for user authentication
 * [PostgresQL](https://www.postgresql.org/) -  Relational database used to store all data that is not realtime data
+* [Heroku](https://www.heroku.com/) - Deployment service used to host the PAPR application
 
 
 ## Authors
