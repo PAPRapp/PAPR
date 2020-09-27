@@ -23,6 +23,15 @@ To run locally on your machine, simply clone the repository, download postgresQL
 
 or simply visit https://papr-app.herokuapp.com/
 
+## Node Version Compatability
+
+Compatible with node versions 10 or below. If using brew to install node, make sure the following commands:
+
+```
+brew install node@10
+brew link node@10
+```
+
 ## Built With
 Technologies used to build this application include:
 * [React](https://reactjs.org/) - Front-end framework used to build components
