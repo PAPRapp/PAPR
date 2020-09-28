@@ -16,7 +16,7 @@ The IEX API has been changed at this time. We are working on patching this issue
 
 https://iextrading.com/developers/docs/
 
-![image](https://share.getcloudapp.com/5zuwWykz)
+<img src="https://share.getcloudapp.com/5zuwWykz">
 
 
 ## Getting Started
