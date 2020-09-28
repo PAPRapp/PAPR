@@ -11,6 +11,13 @@ Inside the rooms, live stock market data is used to render and update the bar ch
 
 Each students portfolio is updated in real time based on the current holdings. Their portfolio value is displayed in USD in a leader board in the room so that other students can check their rankings in real time against fellow peers associated with that room.
 
+## Update
+The IEX API has been changed at this time. We are working on patching this issue and will update the repository with the new Cloud IEX API.
+
+https://iextrading.com/developers/docs/
+
+![image](https://share.getcloudapp.com/5zuwWykz)
+
 
 ## Getting Started
 
@@ -25,11 +32,21 @@ or simply visit https://papr-app.herokuapp.com/
 
 ## Node Version Compatability
 
-Compatible with node versions 10 or below. If using brew to install node, make sure the following commands:
+Compatible with node versions 10 or below. If using brew to install node, make sure to run the following commands:
 
 ```
 brew install node@10
 brew link node@10
+```
+
+If you run into the following error message:
+```
+Warning: node@10 is keg-only and must be linked with --force
+```
+Run the following command:
+
+```
+brew link --overwrite --force node@10
 ```
 
 ## Built With
