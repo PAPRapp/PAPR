@@ -26,8 +26,6 @@ To run locally on your machine, simply clone the repository, download postgresQL
 
 ![image](../assets/npminstall.png?raw=true)
 
-or simply visit https://papr-app.herokuapp.com/
-
 ## Node Version Compatability
 
 Compatible with node versions 10 or below. If using brew to install node, make sure to run the following commands:
